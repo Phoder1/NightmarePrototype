@@ -58,7 +58,7 @@ public class MainCharacterControls : MonoBehaviour {
         //Physics.CheckSphere(GroundcheckTransform.position, GroundDistance, GroundMask)
         velocityY -= Gravity * Time.deltaTime;
         if (CharController.isGrounded) {
-            if (Input.GetKeyUp("space")) {
+            if (Input.GetKeyDown("space")) {
                 velocityY += JumpForce;
             }
             else {
