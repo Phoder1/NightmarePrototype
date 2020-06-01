@@ -1334,8 +1334,8 @@ MonoBehaviour:
   ShoulderMaxDegree: 60
   ShoulderMinDegree: -40
   MoveVelocity: 3
-  Gravity: 12
-  JumpForce: 10
+  Gravity: 19
+  JumpForce: 14
 --- !u!143 &1889888202
 CharacterController:
   m_ObjectHideFlags: 0
