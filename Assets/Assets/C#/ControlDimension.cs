@@ -27,7 +27,7 @@ namespace MoveTools {
     [System.Serializable]
     class MoveDimension {
         [SerializeField]
-        CharacterController Controller;
+        MainCharacterControls Controller;
         [SerializeField]
         float MaxSpeed;
         [SerializeField]
