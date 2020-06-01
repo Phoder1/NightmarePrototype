@@ -39,6 +39,7 @@ public class MainCharacterControls : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         CharController = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -47,7 +48,7 @@ public class MainCharacterControls : MonoBehaviour {
         Angle += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
         Angle = Mathf.Clamp(Angle, ShoulderMinDegree, ShoulderMaxDegree);
 
-        TempVelocity = MoveVelocity * Input.GetAxis("Horizontal") * Time.deltaTime;
+        TempVelocity = MoveVelocity * Input.GetAxis("Horizontal");
         if (TempVelocity < 0) {
             transform.localRotation = Quaternion.Euler(transform.localRotation.x, 180, transform.localRotation.z);
         }
@@ -65,8 +66,8 @@ public class MainCharacterControls : MonoBehaviour {
             }
             Debug.Log("Grounded!, Velocity: "+ velocityY);
         }
-        CharController.Move(Vector3.right * TempVelocity);
-        CharController.Move(Vector3.up * velocityY);
+        CharController.Move(Vector3.right * TempVelocity *Time.deltaTime);
+        CharController.Move(Vector3.up * velocityY *Time.deltaTime);
         ShoulderTransform.localRotation = Quaternion.Euler(ShoulderTransform.localRotation.eulerAngles.x, ShoulderTransform.localRotation.eulerAngles.y, Angle);
 
 

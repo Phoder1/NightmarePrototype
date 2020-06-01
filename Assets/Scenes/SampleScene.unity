@@ -1330,12 +1330,12 @@ MonoBehaviour:
   GroundMask:
     serializedVersion: 2
     m_Bits: 256
-  MouseSensetivity: 50
+  MouseSensetivity: 300
   ShoulderMaxDegree: 60
   ShoulderMinDegree: -40
   MoveVelocity: 3
-  Gravity: 0.17
-  JumpForce: 0.12
+  Gravity: 6
+  JumpForce: 8
 --- !u!143 &1889888202
 CharacterController:
   m_ObjectHideFlags: 0
