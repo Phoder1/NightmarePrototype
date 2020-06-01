@@ -23,7 +23,49 @@ namespace MoveTools {
         }
     }
 
+    
     [System.Serializable]
+    class MoveDimension {
+        [SerializeField]
+        CharacterController Controller;
+        [SerializeField]
+        float MaxSpeed;
+        [SerializeField]
+        float StartAcceleration;
+        [SerializeField]
+        float StopAcceleration;
+        [SerializeField]
+        float ResetGravity;
+
+        internal float Velocity;
+
+        internal void UpdateMovement(float Coefficient) {
+            if (Coefficient == 0 && Velocity != 0) {
+                if (Mathf.Sign(Velocity + -Mathf.Sign(Velocity) * StopAcceleration * Time.deltaTime) != Mathf.Sign(Velocity)) {
+                    Velocity = 0;
+                }
+                else {
+                    Velocity += -Mathf.Sign(Velocity) * StopAcceleration * Time.deltaTime;
+                }
+
+            }
+            else {
+                Velocity += Coefficient * Time.deltaTime *
+                ((Mathf.Sign(Coefficient) != Mathf.Sign(Velocity)) ? StopAcceleration : StartAcceleration);
+            }
+            if (MaxSpeed != 0) {
+                Velocity = Mathf.Clamp(Velocity, -MaxSpeed, MaxSpeed);
+            }
+
+        }
+
+        internal void Move(Vector3 Direction) {
+            //Controller.Move(Direction * Velocity * Time.deltaTime);
+        }
+        internal void ResetVelocity() {
+            Velocity = ResetGravity;
+        }
+    }
 
 
 
