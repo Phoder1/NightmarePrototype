@@ -54,6 +54,15 @@ public class MainCharacterControls : MonoBehaviour {
             playerAnimator.SetBool("Running", false);
         }
 
+        if(Input.GetAxis("Vertical") !=0)
+        {
+            playerAnimator.SetBool("IsJump", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("IsJump", false);
+        }
+
         Angle += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
         Angle = Mathf.Clamp(Angle, ShoulderMinDegree, ShoulderMaxDegree);
 

@@ -584,6 +584,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1290331487 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2512948590590571739, guid: ebf7de6467e1a904297006cde3bb60ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 2512948589702992260}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1809749392
 GameObject:
   m_ObjectHideFlags: 0
@@ -732,5 +738,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4415429836502935643, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_MaskAlphaCutoff
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8451810545968287708, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: flashlightTransform
+      value: 
+      objectReference: {fileID: 1290331487}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
