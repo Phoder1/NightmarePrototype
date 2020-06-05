@@ -64,7 +64,7 @@ public class MainCharacterControls : MonoBehaviour {
             else {
                 velocityY = -0.1f * Gravity;
             }
-            Debug.Log("Grounded!, Velocity: "+ velocityY);
+            //Debug.Log("Grounded!, Velocity: "+ velocityY);
         }
         CharController.Move(Vector3.right * TempVelocity *Time.deltaTime);
         CharController.Move(Vector3.up * velocityY *Time.deltaTime);
