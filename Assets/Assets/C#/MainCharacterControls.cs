@@ -36,14 +36,23 @@ public class MainCharacterControls : MonoBehaviour {
     float TempVelocity;
     float Angle;
 
+    Animator playerAnimator;
+
     // Start is called before the first frame update
     void Start() {
+        playerAnimator = GetComponent<Animator>();
         CharController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update() {
+        if(Input.GetAxis("Horizontal") != 0) {
+            playerAnimator.SetBool("Running", true);
+        }
+        else {
+            playerAnimator.SetBool("Running", false);
+        }
 
         Angle += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
         Angle = Mathf.Clamp(Angle, ShoulderMinDegree, ShoulderMaxDegree);

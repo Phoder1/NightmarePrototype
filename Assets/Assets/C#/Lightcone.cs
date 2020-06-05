@@ -21,7 +21,7 @@ public class Lightcone : MonoBehaviour {
     void Update() {
         if (rayHit = Physics2D.Raycast(flashlightTransform.position, transform.right, Mathf.Infinity, terrainLayer)) {
             Debug.Log("Found Terrain");
-            coneMask.alphaCutoff = 1f -(coneMask.bounds.size.x / rayHit.distance);
+            coneMask.alphaCutoff = coneMask.bounds.size.x / rayHit.distance;
         }
         else {
             coneMask.alphaCutoff = 0f;
@@ -32,6 +32,6 @@ public class Lightcone : MonoBehaviour {
         if(rayHit) {
             
         }
-        Gizmos.DrawLine(flashlightTransform.position, transform.right * coneMask.bounds.size.x);
+        Gizmos.DrawLine(flashlightTransform.position, transform.right * transform.localScale.x);
     }
 }
