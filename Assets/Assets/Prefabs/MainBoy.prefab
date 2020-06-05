@@ -363,6 +363,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2512948591208482836}
+  - component: {fileID: 1037282996255886128}
   m_Layer: 0
   m_Name: Shoulder
   m_TagString: Untagged
@@ -378,13 +379,32 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2512948591208482827}
   m_LocalRotation: {x: -0, y: -0, z: 0.0832279, w: 0.99653053}
-  m_LocalPosition: {x: 0.35, y: 0.06, z: 0}
+  m_LocalPosition: {x: 0.27, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2512948590783506662}
   m_Father: {fileID: 2512948591055976012}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 9.548}
+--- !u!95 &1037282996255886128
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512948591208482827}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0ec4a0df1aa5bb499f4b1f21705ceaa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2512948591339291613
 GameObject:
   m_ObjectHideFlags: 0
@@ -661,7 +681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coneMask: {fileID: 4415429836502935643}
-  flashlightTransform: {fileID: 0}
+  flashlightTransform: {fileID: 2512948590590571739}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 256

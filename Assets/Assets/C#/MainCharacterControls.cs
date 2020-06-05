@@ -47,21 +47,30 @@ public class MainCharacterControls : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if(Input.GetAxis("Horizontal") != 0) {
+        if (Input.GetAxis("Horizontal") != 0) {
             playerAnimator.SetBool("Running", true);
         }
         else {
             playerAnimator.SetBool("Running", false);
         }
-
-        if(Input.GetAxis("Vertical") !=0)
-        {
-            playerAnimator.SetBool("IsJump", true);
+        if (playerAnimator.GetBool("IsJump") && velocityY < 0) {
+            playerAnimator.SetBool("IsFalling",true);
+            Debug.Log ("Falling");
         }
-        else
-        {
+        else {
+            playerAnimator.SetBool("IsFalling", false);
+        }
+        if (CharController.isGrounded && playerAnimator.GetBool("IsJump")) {
             playerAnimator.SetBool("IsJump", false);
+            Debug.Log("Landed");
         }
+        if (Input.GetKey("space")) {
+            playerAnimator.SetBool("IsJump", true);
+            Debug.Log("Jumping");
+        }
+
+
+        
 
         Angle += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
         Angle = Mathf.Clamp(Angle, ShoulderMinDegree, ShoulderMaxDegree);
