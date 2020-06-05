@@ -40,7 +40,7 @@ public class MainCharacterControls : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        playerAnimator = GetComponent<Animator>();
+        playerAnimator = GetComponentInChildren<Animator>();
         CharController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
     }
