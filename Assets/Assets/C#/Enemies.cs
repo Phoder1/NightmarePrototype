@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Enemies : MonoBehaviour
 {
+    [SerializeField]
+    bool IsFlying;
+    [SerializeField]
+    Transform[] targets;
+
+
     // Start is called before the first frame update
     void Start()
     {
