@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemies : MonoBehaviour {
     enum States { Patrol, Chase, Stunned, Dead };
@@ -73,31 +72,25 @@ public class Enemies : MonoBehaviour {
     }
 
     private void Chase() {
-        float playerPosY = (IsFlying ? playerTransform.position.y : transform.position.y);
-        Vector3 playerPos = new Vector3(playerTransform.position.x, playerPosY, transform.position.z);
-         = Vector3.MoveTowards()
-            MoveTowards();
-
-
-
+        Vector3 playerPos = MoveTowards(playerTransform.position);
     }
 
-    private void MoveTowards(Vector3 target) {
-        
-    }
+
 
     private void Patrol() {
-        float targetPosY = (IsFlying ? targets[currentTarget].position.y : transform.position.y);
-        Vector3 targetPos = new Vector3(targets[currentTarget].position.x, targetPosY, transform.position.z);
-        Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-        if (transform.position.x - nextPos.x > 0) {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
-        }
-        else if (transform.position.x - nextPos.x < 0) {
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-        }
+        //float targetPosY = (IsFlying ? targets[currentTarget].position.y : transform.position.y);
+        //Vector3 targetPos = new Vector3(targets[currentTarget].position.x, targetPosY, transform.position.z);
+        //Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        //if (transform.position.x - nextPos.x > 0) {
+        //    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
+        //}
+        //else if (transform.position.x - nextPos.x < 0) {
+        //    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+        //}
 
-        transform.position = nextPos;
+        //transform.position = nextPos;
+
+        Vector3 targetPos = MoveTowards(targets[currentTarget].position);
 
         if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
             darkAnimator.SetBool("IsIdle", true);
@@ -119,6 +112,20 @@ public class Enemies : MonoBehaviour {
                 currentTarget = 0;
             }
         }
+    }
+
+    private Vector3 MoveTowards(Vector3 target) {
+        float targetPosY = (IsFlying ? target.y : transform.position.y);
+        Vector3 targetPos = new Vector3(target.x, targetPosY, transform.position.z);
+        Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        if (transform.position.x - nextPos.x > 0) {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
+        }
+        else if (transform.position.x - nextPos.x < 0) {
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
+        }
+        transform.position = nextPos;
+        return targetPos;
     }
 }
 
