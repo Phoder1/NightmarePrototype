@@ -252,7 +252,7 @@ MonoBehaviour:
     m_Bits: 256
   MouseSensetivity: 300
   ShoulderMaxDegree: 20
-  ShoulderMinDegree: -20
+  ShoulderMinDegree: -40
   MoveVelocity: 3
   Gravity: 19
   JumpForce: 13
@@ -269,8 +269,8 @@ CharacterController:
   serializedVersion: 2
   m_Height: 3.51
   m_Radius: 0.48
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_SlopeLimit: 15
+  m_StepOffset: 0.1
   m_SkinWidth: 0.25
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.24, z: 0}
