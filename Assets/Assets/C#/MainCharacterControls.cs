@@ -12,8 +12,6 @@ public class MainCharacterControls : MonoBehaviour {
     [SerializeField]
     LayerMask GroundMask;
 
-
-
     CharacterController CharController;
 
     [SerializeField]
@@ -37,6 +35,19 @@ public class MainCharacterControls : MonoBehaviour {
     float Angle;
 
     Animator playerAnimator;
+
+    public static MainCharacterControls mainCharacter;
+
+
+    private void Awake() {
+        if (mainCharacter != null && mainCharacter != this) {
+            Destroy(this.gameObject);
+        }
+        else {
+            mainCharacter = this;
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start() {

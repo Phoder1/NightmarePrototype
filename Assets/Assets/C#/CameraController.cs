@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField]
     Transform target;
     // Start is called before the first frame update
     void Start()
     {
-        
+        target = MainCharacterControls.mainCharacter.transform;
     }
 
     // Update is called once per frame
