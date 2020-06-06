@@ -14,14 +14,22 @@ public class Enemies : MonoBehaviour {
     [SerializeField]
     SpriteRenderer coloredRenderer;
     [SerializeField]
-    float idleTime = 1f;
+    float maxIdleTime = 1f;
     [SerializeField]
-    float speed;
+    float normalSpeed;
+    [SerializeField]
+    float stunTime = 3f;
+    [SerializeField]
+    float flashlightSpeedDecrease;
     [SerializeField]
     float detectionDistance;
+    [SerializeField]
+    LayerMask lightConeMask = 9;
 
+
+    bool isBeingLit;
     Transform playerTransform;
-
+    float actualSpeed;
     Animator darkAnimator;
     Animator coloredAnimator;
     Transform darkTransform;
@@ -31,7 +39,7 @@ public class Enemies : MonoBehaviour {
     Animator animator;
     const float MIN_TARGET_DISTANCE = 0.1f;
     States enemystate = States.Patrol;
-    float time = 0f;
+    float startIdleTime = 0f;
     bool isIdle = false;
     private void Awake() {
         darkAnimator = darkRenderer.GetComponent<Animator>();
@@ -41,7 +49,7 @@ public class Enemies : MonoBehaviour {
     }
     // Start is called before the first frame update
     void Start() {
-        
+        actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
     }
 
@@ -67,10 +75,15 @@ public class Enemies : MonoBehaviour {
         }
         else {
             enemystate = States.Patrol;
-        } 
+        }
+
+        if (!isBeingLit) {
+            actualSpeed = Mathf.Clamp(actualSpeed + flashlightSpeedDecrease, 0, normalSpeed);
+        }
     }
 
     private void Dead() {
+
     }
 
     private void Stunned() {
@@ -94,11 +107,11 @@ public class Enemies : MonoBehaviour {
             coloredAnimator.SetBool("IsIdle", true);
             darkAnimator.SetBool("IsWalking", false);
             coloredAnimator.SetBool("IsWalking", false);
-            time = Time.timeSinceLevelLoad;
+            startIdleTime = Time.timeSinceLevelLoad;
             isIdle = true;
 
         }
-        if (isIdle && Time.timeSinceLevelLoad >= time + idleTime) {
+        if (isIdle && Time.timeSinceLevelLoad >= startIdleTime + maxIdleTime) {
             darkAnimator.SetBool("IsWalking", true);
             coloredAnimator.SetBool("IsWalking", true);
             isIdle = false;
@@ -115,7 +128,7 @@ public class Enemies : MonoBehaviour {
 
         float targetPosY = (IsFlying ? target.y : transform.position.y);
         Vector3 targetPos = new Vector3(target.x, targetPosY, transform.position.z);
-        Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, normalSpeed * Time.deltaTime);
         if (transform.position.x - nextPos.x > 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
         }
@@ -133,9 +146,8 @@ public class Enemies : MonoBehaviour {
             coloredAnimator.SetBool("IsIdle", true);
             darkAnimator.SetBool("IsWalking", false);
             coloredAnimator.SetBool("IsWalking", false);
-            time = Time.timeSinceLevelLoad;
+            startIdleTime = Time.timeSinceLevelLoad;
             isIdle = true;
-
         }
 
         transform.position = new Vector3(
@@ -147,7 +159,22 @@ public class Enemies : MonoBehaviour {
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
-        
+        ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
+        collision.GetContacts(contacts);
+        for (int i = 0; i < collision.contactCount; i++) {
+            if(contacts[i].otherCollider.gameObject.layer == lightConeMask) {
+                actualSpeed = Mathf.Clamp(actualSpeed - flashlightSpeedDecrease, 0, normalSpeed);
+                if (!isBeingLit) {
+
+                    isBeingLit = true;
+                }
+                
+            }
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision) {
+        isBeingLit = false;
     }
 
     private void OnDrawGizmos() {
