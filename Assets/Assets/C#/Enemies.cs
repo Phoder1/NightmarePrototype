@@ -75,8 +75,8 @@ public class Enemies : MonoBehaviour {
     private void Chase() {
         float playerPosY = (IsFlying ? playerTransform.position.y : transform.position.y);
         Vector3 playerPos = new Vector3(playerTransform.position.x, playerPosY, transform.position.z);
-         = Vector3.MoveTowards()
-            MoveTowards();
+         //= Vector3.MoveTowards()
+         //   MoveTowards();
 
 
 
