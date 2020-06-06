@@ -10,9 +10,9 @@ public class Enemies : MonoBehaviour {
     [SerializeField]
     BoxCollider2D areaLimits;
     [SerializeField]
-    Transform darkTransform;
+    SpriteRenderer darkRenderer;
     [SerializeField]
-    Transform coloredTransform;
+    SpriteRenderer coloredRenderer;
     [SerializeField]
     float idleTime = 1f;
     [SerializeField]
@@ -24,8 +24,8 @@ public class Enemies : MonoBehaviour {
 
     Animator darkAnimator;
     Animator coloredAnimator;
-    SpriteRenderer darkRenderer;
-    SpriteRenderer coloredRenderer;
+    Transform darkTransform;
+    Transform coloredTransform;
 
     int currentTarget = 0;
     Animator animator;
@@ -33,10 +33,15 @@ public class Enemies : MonoBehaviour {
     States enemystate = States.Patrol;
     float time = 0f;
     bool isIdle = false;
+    private void Awake() {
+        darkAnimator = darkRenderer.GetComponent<Animator>();
+        coloredAnimator = coloredRenderer.GetComponent<Animator>();
+        darkTransform = darkRenderer.GetComponent<Transform>();
+        coloredTransform = coloredRenderer.GetComponent<Transform>();
+    }
     // Start is called before the first frame update
     void Start() {
-        darkAnimator = darkTransform.GetComponent<Animator>();
-        coloredAnimator = coloredTransform.GetComponent<Animator>();
+        
         playerTransform = MainCharacterControls.mainCharacter.transform;
     }
 
@@ -73,25 +78,19 @@ public class Enemies : MonoBehaviour {
 
     private void Chase() {
         Vector3 playerPos = MoveTowards(playerTransform.position);
+        if (Vector3.Distance(transform.position, playerPos) >= MIN_TARGET_DISTANCE) {
+            darkAnimator.SetBool("IsWalking", true);
+            coloredAnimator.SetBool("IsWalking", true);
+            isIdle = false;
+        }
+
+
     }
 
 
 
     private void Patrol() {
-        //float targetPosY = (IsFlying ? targets[currentTarget].position.y : transform.position.y);
-        //Vector3 targetPos = new Vector3(targets[currentTarget].position.x, targetPosY, transform.position.z);
-        //Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-        //if (transform.position.x - nextPos.x > 0) {
-        //    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
-        //}
-        //else if (transform.position.x - nextPos.x < 0) {
-        //    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
-        //}
-
-        //transform.position = nextPos;
-
         Vector3 targetPos = MoveTowards(targets[currentTarget].position);
-
         if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
             darkAnimator.SetBool("IsIdle", true);
             coloredAnimator.SetBool("IsIdle", true);
@@ -101,6 +100,10 @@ public class Enemies : MonoBehaviour {
             isIdle = true;
 
         }
+
+
+
+
 
 
         if (isIdle && Time.timeSinceLevelLoad >= time + idleTime) {
@@ -115,6 +118,9 @@ public class Enemies : MonoBehaviour {
     }
 
     private Vector3 MoveTowards(Vector3 target) {
+
+
+
         float targetPosY = (IsFlying ? target.y : transform.position.y);
         Vector3 targetPos = new Vector3(target.x, targetPosY, transform.position.z);
         Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
@@ -124,8 +130,33 @@ public class Enemies : MonoBehaviour {
         else if (transform.position.x - nextPos.x < 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
         }
-        transform.position = nextPos;
+        float minX = (areaLimits.transform.position.x + areaLimits.offset.x - areaLimits.bounds.extents.x) + (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
+        float maxX = (areaLimits.transform.position.x + areaLimits.offset.x + areaLimits.bounds.extents.x) - (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
+        float minY = (areaLimits.transform.position.y + areaLimits.offset.y - areaLimits.bounds.extents.y) + (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
+        float maxY = (areaLimits.transform.position.y + areaLimits.offset.y + areaLimits.bounds.extents.y) - (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
+
+
+        if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
+            darkAnimator.SetBool("IsIdle", true);
+            coloredAnimator.SetBool("IsIdle", true);
+            darkAnimator.SetBool("IsWalking", false);
+            coloredAnimator.SetBool("IsWalking", false);
+            time = Time.timeSinceLevelLoad;
+            isIdle = true;
+
+        }
+
+        transform.position = new Vector3(
+    Mathf.Clamp(nextPos.x, minX, maxX),
+    Mathf.Clamp(nextPos.y, minY, maxY),
+    transform.position.z);
+
         return targetPos;
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.DrawWireCube(transform.position, darkRenderer.bounds.size);
+        Gizmos.DrawWireCube(areaLimits.transform.position + (Vector3)areaLimits.offset, areaLimits.bounds.size);
     }
 }
 
