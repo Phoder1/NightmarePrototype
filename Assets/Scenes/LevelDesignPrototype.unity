@@ -820,6 +820,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -6.754
       objectReference: {fileID: 0}
+    - target: {fileID: 2512948591055976014, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_SlopeLimit
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512948591055976014, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_StepOffset
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
 --- !u!1 &655438298

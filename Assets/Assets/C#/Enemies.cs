@@ -67,13 +67,14 @@ public class Enemies : MonoBehaviour {
         }
         else {
             enemystate = States.Patrol;
-        }
+        } 
     }
 
     private void Dead() {
     }
 
     private void Stunned() {
+
     }
 
     private void Chase() {
@@ -86,9 +87,6 @@ public class Enemies : MonoBehaviour {
 
 
     }
-
-
-
     private void Patrol() {
         Vector3 targetPos = MoveTowards(targets[currentTarget].position);
         if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
@@ -100,12 +98,6 @@ public class Enemies : MonoBehaviour {
             isIdle = true;
 
         }
-
-
-
-
-
-
         if (isIdle && Time.timeSinceLevelLoad >= time + idleTime) {
             darkAnimator.SetBool("IsWalking", true);
             coloredAnimator.SetBool("IsWalking", true);
@@ -154,9 +146,14 @@ public class Enemies : MonoBehaviour {
         return targetPos;
     }
 
+    private void OnCollisionStay2D(Collision2D collision) {
+        
+    }
+
     private void OnDrawGizmos() {
         Gizmos.DrawWireCube(transform.position, darkRenderer.bounds.size);
         Gizmos.DrawWireCube(areaLimits.transform.position + (Vector3)areaLimits.offset, areaLimits.bounds.size);
+        Gizmos.DrawWireSphere(transform.position, detectionDistance);
     }
 }
 
