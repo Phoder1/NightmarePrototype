@@ -97,12 +97,13 @@ public class Enemies : MonoBehaviour {
     }
 
     private void Chase() {
-        Vector3 playerPos = MoveTowards(playerTransform.position);
-        if (Vector3.Distance(transform.position, playerPos) >= MIN_TARGET_DISTANCE) {
+        if (isIdle && Vector3.Distance(transform.position, playerTransform.position) >= MIN_TARGET_DISTANCE) {
             darkAnimator.SetBool("IsWalking", true);
             coloredAnimator.SetBool("IsWalking", true);
             isIdle = false;
         }
+        Vector3 playerPos = MoveTowards(playerTransform.position);
+
 
 
     }
@@ -143,7 +144,6 @@ public class Enemies : MonoBehaviour {
         float minY = (areaLimits.transform.position.y + areaLimits.offset.y - areaLimits.bounds.extents.y) + (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
         float maxY = (areaLimits.transform.position.y + areaLimits.offset.y + areaLimits.bounds.extents.y) - (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
         if ((Vector3.Distance(nextPos, targetPos) < MIN_TARGET_DISTANCE || (nextPos.x < minX || nextPos.x>maxX)) && !isIdle) {
-
             darkAnimator.SetBool("IsIdle", true);
             coloredAnimator.SetBool("IsIdle", true);
             darkAnimator.SetBool("IsWalking", false);
@@ -151,15 +151,15 @@ public class Enemies : MonoBehaviour {
             startIdleTime = Time.timeSinceLevelLoad;
             isIdle = true;
         }
-
-        nextPos = new Vector3(Mathf.Clamp(nextPos.x, minX, maxX), Mathf.Clamp(nextPos.y, minY, maxY), transform.position.z);
-
         if (transform.position.x - nextPos.x > 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
         }
         else if (transform.position.x - nextPos.x < 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
         }
+        nextPos = new Vector3(Mathf.Clamp(nextPos.x, minX, maxX), Mathf.Clamp(nextPos.y, minY, maxY), transform.position.z);
+
+
 
         Debug.Log("Magnitude: " + Vector3.Distance(transform.position, nextPos) + " ,Frame speed: " + normalSpeed * Time.deltaTime);
 
