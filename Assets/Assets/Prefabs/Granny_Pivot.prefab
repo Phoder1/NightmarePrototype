@@ -136,7 +136,7 @@ MonoBehaviour:
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 1073217232451045852}
   coloredRenderer: {fileID: 1073217234443045918}
-  whiteRenderer: {fileID: 0}
+  whiteRenderer: {fileID: 1897683372}
   normalSpeed: 3.2
   timeToStun: 3
   maxTimeStunned: 5

@@ -2,7 +2,7 @@
 using System;
 
 public class Enemies : MonoBehaviour {
-    enum States { Patrol, Chase, Stunned, Dead };
+    enum States { Patrol, Chase, Stunned, None};
 
     [Serializable]
     class Target {
@@ -54,11 +54,12 @@ public class Enemies : MonoBehaviour {
     States enemystate = States.Patrol;
     float startIdleTime = 0f;
     bool isIdle = false;
-    float timeStunned;
+    float timeWhenStunned;
 
     const float MIN_TARGET_DISTANCE = 0.1f;
-    const float MAX_ALPHA_WHITE_BLINK = 255f;
+    const float MAX_ALPHA_WHITE_BLINK = 1f;
     const float MIN_ALPHA_WHITE_BLINK = 0f;
+    const float BLINK_TIME = 2f;
 
     // Start is called before the first frame update
     void Start() {
@@ -89,28 +90,39 @@ public class Enemies : MonoBehaviour {
                 break;
             case States.Stunned:
                 Stunned();
+                if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit && litTime == 0f) {
+                    enemystate = States.None;
+                    LeanTween.alpha(darkRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
+                    LeanTween.alpha(coloredRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
+                }
                 break;
-            case States.Dead:
-                Dead();
+            case States.None:
+                None();
                 break;
         }
         lastPlayerPos = playerTransform.position;
-        
 
-        if (!isBeingLit) {
-            actualSpeed = Mathf.Clamp(actualSpeed + flashlightSpeedDecrease, 0, normalSpeed);
-        }
-        actualSpeed = Mathf.Clamp(actualSpeed + (isBeingLit ? -1 : 1) * flashlightSpeedDecrease *Time.deltaTime, 0, normalSpeed);
+        actualSpeed = Mathf.Clamp(actualSpeed + (isBeingLit ? -1 : 1) * flashlightSpeedDecrease * Time.deltaTime, 0, normalSpeed);
         litTime = Mathf.Clamp(litTime + Time.deltaTime * (isBeingLit ? 1 : -1), 0f, timeToStun);
         //Debug.Log(litTime);
-        if (litTime >= timeToStun) {
+        if (litTime >= timeToStun && enemystate != States.Stunned) {
             enemystate = States.Stunned;
+            timeWhenStunned = Time.timeSinceLevelLoad;
+            coloredRenderer.maskInteraction = SpriteMaskInteraction.None;
+            LeanTween.alpha(darkRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
+            
+
         }
+
 
     }
 
-    private void Dead() {
-
+    private void None() {
+        if (darkRenderer.color.a == MAX_ALPHA_WHITE_BLINK && enemystate != States.Stunned) {
+            enemystate = States.Patrol;
+            coloredRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            coloredRenderer.color = new Color(1f, 1f, 1f, 1f);
+        }
     }
 
     private void Stunned() {
@@ -124,9 +136,6 @@ public class Enemies : MonoBehaviour {
             isIdle = false;
         }
         Vector3 playerPos = MoveTowards(playerTransform.position);
-
-
-
     }
     private void Patrol() {
         Vector3 targetPos = MoveTowards(targets[currentTarget].targetsTransform.position);
