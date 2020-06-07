@@ -41,14 +41,12 @@ public class Enemies : MonoBehaviour {
     States enemystate = States.Patrol;
     float startIdleTime = 0f;
     bool isIdle = false;
-    private void Awake() {
+    // Start is called before the first frame update
+    void Start() {
         darkAnimator = darkRenderer.GetComponent<Animator>();
         coloredAnimator = coloredRenderer.GetComponent<Animator>();
         darkTransform = darkRenderer.GetComponent<Transform>();
         coloredTransform = coloredRenderer.GetComponent<Transform>();
-    }
-    // Start is called before the first frame update
-    void Start() {
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
     }

@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 5298812950600660265}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5547166, y: 0.5547166, z: 0.5547166}
   m_Children:
   - {fileID: 1073217233749935333}
   m_Father: {fileID: 0}
@@ -51,14 +51,15 @@ MonoBehaviour:
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 1073217232451045852}
   coloredRenderer: {fileID: 1073217234443045918}
+  enemyTransform: {fileID: 1073217233749935333}
   maxIdleTime: 1
-  normalSpeed: 0
+  normalSpeed: 4
   stunTime: 3
   flashlightSpeedDecrease: 0
   detectionDistance: 4.4
   lightConeMask:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 512
 --- !u!1001 &7014617673467454115
 PrefabInstance:
   m_ObjectHideFlags: 0
