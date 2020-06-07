@@ -34,7 +34,7 @@ public class Enemies : MonoBehaviour {
     Animator coloredAnimator;
     Transform darkTransform;
     Transform coloredTransform;
-
+    Vector3 lastPlayerPos;
     int currentTarget = 0;
     Animator animator;
     const float MIN_TARGET_DISTANCE = 0.1f;
@@ -49,6 +49,7 @@ public class Enemies : MonoBehaviour {
         coloredTransform = coloredRenderer.GetComponent<Transform>();
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
+        lastPlayerPos = playerTransform.position;
     }
 
     // Update is called once per frame
@@ -67,7 +68,7 @@ public class Enemies : MonoBehaviour {
                 Dead();
                 break;
         }
-
+        lastPlayerPos = playerTransform.position;
         if (Vector3.Distance(transform.position, playerTransform.position) <= detectionDistance) {
             enemystate = States.Chase;
         }
@@ -101,10 +102,15 @@ public class Enemies : MonoBehaviour {
     private void Patrol() {
         Vector3 targetPos = MoveTowards(targets[currentTarget].position);
         if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
-            darkAnimator.SetBool("IsIdle", true);
-            coloredAnimator.SetBool("IsIdle", true);
-            darkAnimator.SetBool("IsWalking", false);
-            coloredAnimator.SetBool("IsWalking", false);
+            Debug.Log(Vector3.Distance(transform.position, targetPos));
+            if(lastPlayerPos == playerTransform.position) {
+                darkAnimator.SetBool("IsWalking", false);
+                coloredAnimator.SetBool("IsWalking", false);
+            }
+            else {
+                darkAnimator.SetBool("IsWalking", true);
+                coloredAnimator.SetBool("IsWalking", true);
+            }
             startIdleTime = Time.timeSinceLevelLoad;
             isIdle = true;
 
