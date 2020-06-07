@@ -120,14 +120,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 5229215863700512979}
   coloredRenderer: {fileID: 5229215863700512979}
   maxIdleTime: 3
   normalSpeed: 3
-  stunTime: 3
+  stunTime: 0
   flashlightSpeedDecrease: 0
-  detectionDistance: 3
+  detectionDistance: 3.35
   lightConeMask:
     serializedVersion: 2
     m_Bits: 9
