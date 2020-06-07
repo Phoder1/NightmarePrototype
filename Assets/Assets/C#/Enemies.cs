@@ -155,7 +155,8 @@ public class Enemies : MonoBehaviour {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
         }
 
-        if ((Vector3.Distance(nextPos, targetPos) < MIN_TARGET_DISTANCE || nextPos.magnitude < normalSpeed * Time.deltaTime) && !isIdle) {
+        Debug.Log("Magnitude: " + Vector3.Distance(transform.position, nextPos) + " ,Frame speed: " + normalSpeed * Time.deltaTime);
+        if ((Vector3.Distance(nextPos, targetPos) < MIN_TARGET_DISTANCE || Vector3.Distance(transform.position, nextPos) < normalSpeed * Time.deltaTime) && !isIdle) {
             darkAnimator.SetBool("IsIdle", true);
             coloredAnimator.SetBool("IsIdle", true);
             darkAnimator.SetBool("IsWalking", false);
