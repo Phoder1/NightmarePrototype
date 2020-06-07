@@ -117,15 +117,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsFlying: 1
   targets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - targetsTransform: {fileID: 0}
+    maxIdleTime: 3
+  - targetsTransform: {fileID: 0}
+    maxIdleTime: 2
+  - targetsTransform: {fileID: 0}
+    maxIdleTime: 1
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 5229215863700512979}
   coloredRenderer: {fileID: 5229215863700512979}
-  maxIdleTime: 3
-  normalSpeed: 3
+  normalSpeed: 4
   stunTime: 0
   flashlightSpeedDecrease: 0
   detectionDistance: 3.35

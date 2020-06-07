@@ -1,20 +1,29 @@
 ﻿using UnityEngine;
+using System;
 
 public class Enemies : MonoBehaviour {
     enum States { Patrol, Chase, Stunned, Dead };
 
+    [Serializable]
+    class Target {
+        [SerializeField]
+        internal Transform targetsTransform;
+
+        [SerializeField]
+        internal float maxIdleTime;
+    }
+
+
     [SerializeField]
     bool IsFlying = false;
     [SerializeField]
-    Transform[] targets;
+    Target[] targets;
     [SerializeField]
     BoxCollider2D areaLimits;
     [SerializeField]
     SpriteRenderer darkRenderer;
     [SerializeField]
     SpriteRenderer coloredRenderer;
-    [SerializeField]
-    float maxIdleTime = 1f;
     [SerializeField]
     float normalSpeed;
     [SerializeField]
@@ -108,7 +117,7 @@ public class Enemies : MonoBehaviour {
 
     }
     private void Patrol() {
-        Vector3 targetPos = MoveTowards(targets[currentTarget].position);
+        Vector3 targetPos = MoveTowards(targets[currentTarget].targetsTransform.position);
         if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
             Debug.Log(Vector3.Distance(transform.position, targetPos));
             if (lastPlayerPos == playerTransform.position) {
@@ -123,7 +132,7 @@ public class Enemies : MonoBehaviour {
             isIdle = true;
 
         }
-        if (isIdle && Time.timeSinceLevelLoad >= startIdleTime + maxIdleTime) {
+        if (isIdle && Time.timeSinceLevelLoad >= startIdleTime + targets[currentTarget].maxIdleTime) {
             darkAnimator.SetBool("IsWalking", true);
             coloredAnimator.SetBool("IsWalking", true);
             isIdle = false;

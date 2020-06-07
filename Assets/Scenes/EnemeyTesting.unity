@@ -666,12 +666,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
         type: 3}
-      propertyPath: targets.Array.data[0]
+      propertyPath: targets.Array.data[0].targetsTransform
       value: 
       objectReference: {fileID: 1893686617}
     - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
         type: 3}
-      propertyPath: targets.Array.data[1]
+      propertyPath: targets.Array.data[1].targetsTransform
       value: 
       objectReference: {fileID: 861733428}
     - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
@@ -973,7 +973,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
       propertyPath: targets.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
       propertyPath: targets.Array.data[0]
@@ -998,6 +998,30 @@ PrefabInstance:
     - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
       propertyPath: normalSpeed
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
+      propertyPath: targets.Array.data[0].targetsTransform
+      value: 
+      objectReference: {fileID: 2097686430}
+    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
+      propertyPath: targets.Array.data[1].targetsTransform
+      value: 
+      objectReference: {fileID: 138619762}
+    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
+      propertyPath: targets.Array.data[2].targetsTransform
+      value: 
+      objectReference: {fileID: 1836190759}
+    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
+      propertyPath: targets.Array.data[0].maxIdleTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
+      propertyPath: targets.Array.data[1].maxIdleTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
+      propertyPath: targets.Array.data[2].maxIdleTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5229215863700512976, guid: a46d71a13ab180945a19d554f8c9dab1,
         type: 3}
