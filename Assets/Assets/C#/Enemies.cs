@@ -83,7 +83,7 @@ public class Enemies : MonoBehaviour {
         actualSpeed = Mathf.Clamp(actualSpeed + (isBeingLit ? -1 : 1) * flashlightSpeedDecrease, 0, normalSpeed);
         litTime += Mathf.Clamp(Time.deltaTime * (isBeingLit ? 1 : -1), 0f, stunTime);
         if (litTime >= stunTime) {
-            enemystate = States.Stunned;
+            //enemystate = States.Stunned;
         }
 
     }
@@ -146,7 +146,7 @@ public class Enemies : MonoBehaviour {
         float minY = (areaLimits.transform.position.y + areaLimits.offset.y - areaLimits.bounds.extents.y) + (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
         float maxY = (areaLimits.transform.position.y + areaLimits.offset.y + areaLimits.bounds.extents.y) - (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
 
-        nextPos = new Vector3(Mathf.Clamp(nextPos.x, minX, maxX), Mathf.Clamp(nextPos.y, minY, maxY), nextPos.z);
+        nextPos = new Vector3(Mathf.Clamp(nextPos.x, minX, maxX), Mathf.Clamp(nextPos.y, minY, maxY), transform.position.z);
 
         if (transform.position.x - nextPos.x > 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
@@ -155,7 +155,7 @@ public class Enemies : MonoBehaviour {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
         }
 
-        if ((Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE || nextPos.magnitude < normalSpeed * Time.deltaTime) && !isIdle) {
+        if ((Vector3.Distance(nextPos, targetPos) < MIN_TARGET_DISTANCE || nextPos.magnitude < normalSpeed * Time.deltaTime) && !isIdle) {
             darkAnimator.SetBool("IsIdle", true);
             coloredAnimator.SetBool("IsIdle", true);
             darkAnimator.SetBool("IsWalking", false);
