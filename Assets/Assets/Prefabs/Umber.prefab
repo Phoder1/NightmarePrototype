@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5229215863700512979}
   - component: {fileID: 5229215863700512978}
   - component: {fileID: 63239887}
+  - component: {fileID: 5229215862734504368}
   m_Layer: 0
   m_Name: Umber
   m_TagString: Untagged
@@ -122,6 +123,38 @@ MonoBehaviour:
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 5229215863700512979}
   coloredRenderer: {fileID: 5229215863700512979}
-  idleTime: 4
-  speed: 5
+  enemyTransform: {fileID: 5229215863700512976}
+  maxIdleTime: 1
+  normalSpeed: 0
+  stunTime: 3
+  flashlightSpeedDecrease: 0
   detectionDistance: 0
+  lightConeMask:
+    serializedVersion: 2
+    m_Bits: 9
+--- !u!61 &5229215862734504368
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5229215863700512981}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.28182364, y: -0.06264639}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8.71, y: 10.17}
+    newSize: {x: 8.71, y: 10.17}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5.641262, y: 8.16529}
+  m_EdgeRadius: 0
