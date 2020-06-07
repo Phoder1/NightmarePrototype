@@ -68,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1256705155
-  m_SortingLayer: -1
+  m_SortingLayer: -2
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 07fcc2fae2b872a43bdb5fd1b0793455, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 2
   m_SpriteSortPoint: 0
 --- !u!1 &5298812950600660265
 GameObject:
@@ -234,7 +234,7 @@ PrefabInstance:
     - target: {fileID: 8051372874318638781, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
@@ -319,7 +319,7 @@ PrefabInstance:
     - target: {fileID: 8051372875479182207, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1103147669, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a, type: 3}
