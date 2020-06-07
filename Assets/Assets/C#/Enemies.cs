@@ -134,9 +134,6 @@ public class Enemies : MonoBehaviour {
     }
 
     private Vector3 MoveTowards(Vector3 target) {
-
-
-
         float targetPosY = (IsFlying ? target.y : transform.position.y);
         Vector3 targetPos = new Vector3(target.x, targetPosY, transform.position.z);
         Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, normalSpeed * Time.deltaTime);
@@ -145,6 +142,15 @@ public class Enemies : MonoBehaviour {
         float maxX = (areaLimits.transform.position.x + areaLimits.offset.x + areaLimits.bounds.extents.x) - (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
         float minY = (areaLimits.transform.position.y + areaLimits.offset.y - areaLimits.bounds.extents.y) + (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
         float maxY = (areaLimits.transform.position.y + areaLimits.offset.y + areaLimits.bounds.extents.y) - (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
+        if ((Vector3.Distance(nextPos, targetPos) < MIN_TARGET_DISTANCE || (nextPos.x < minX || nextPos.x>maxX)) && !isIdle) {
+
+            darkAnimator.SetBool("IsIdle", true);
+            coloredAnimator.SetBool("IsIdle", true);
+            darkAnimator.SetBool("IsWalking", false);
+            coloredAnimator.SetBool("IsWalking", false);
+            startIdleTime = Time.timeSinceLevelLoad;
+            isIdle = true;
+        }
 
         nextPos = new Vector3(Mathf.Clamp(nextPos.x, minX, maxX), Mathf.Clamp(nextPos.y, minY, maxY), transform.position.z);
 
@@ -156,14 +162,7 @@ public class Enemies : MonoBehaviour {
         }
 
         Debug.Log("Magnitude: " + Vector3.Distance(transform.position, nextPos) + " ,Frame speed: " + normalSpeed * Time.deltaTime);
-        if ((Vector3.Distance(nextPos, targetPos) < MIN_TARGET_DISTANCE || Vector3.Distance(transform.position, nextPos) < normalSpeed * Time.deltaTime) && !isIdle) {
-            darkAnimator.SetBool("IsIdle", true);
-            coloredAnimator.SetBool("IsIdle", true);
-            darkAnimator.SetBool("IsWalking", false);
-            coloredAnimator.SetBool("IsWalking", false);
-            startIdleTime = Time.timeSinceLevelLoad;
-            isIdle = true;
-        }
+
 
         transform.position = nextPos;
 
