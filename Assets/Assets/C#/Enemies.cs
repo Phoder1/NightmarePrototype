@@ -28,13 +28,14 @@ public class Enemies : MonoBehaviour {
 
 
     bool isBeingLit;
+    float litTime;
     Transform playerTransform;
     float actualSpeed;
     Animator darkAnimator;
     Animator coloredAnimator;
     Transform darkTransform;
     Transform coloredTransform;
-
+    Vector3 lastPlayerPos;
     int currentTarget = 0;
     Animator animator;
     const float MIN_TARGET_DISTANCE = 0.1f;
@@ -49,6 +50,7 @@ public class Enemies : MonoBehaviour {
         coloredTransform = coloredRenderer.GetComponent<Transform>();
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
+        lastPlayerPos = playerTransform.position;
     }
 
     // Update is called once per frame
@@ -67,7 +69,7 @@ public class Enemies : MonoBehaviour {
                 Dead();
                 break;
         }
-
+        lastPlayerPos = playerTransform.position;
         if (Vector3.Distance(transform.position, playerTransform.position) <= detectionDistance) {
             enemystate = States.Chase;
         }
@@ -78,6 +80,12 @@ public class Enemies : MonoBehaviour {
         if (!isBeingLit) {
             actualSpeed = Mathf.Clamp(actualSpeed + flashlightSpeedDecrease, 0, normalSpeed);
         }
+        actualSpeed = Mathf.Clamp(actualSpeed + (isBeingLit ? -1 : 1) * flashlightSpeedDecrease, 0, normalSpeed);
+        litTime += Mathf.Clamp(Time.deltaTime * (isBeingLit ? 1 : -1), 0f, stunTime);
+        if (litTime >= stunTime) {
+            enemystate = States.Stunned;
+        }
+
     }
 
     private void Dead() {
@@ -101,10 +109,15 @@ public class Enemies : MonoBehaviour {
     private void Patrol() {
         Vector3 targetPos = MoveTowards(targets[currentTarget].position);
         if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
-            darkAnimator.SetBool("IsIdle", true);
-            coloredAnimator.SetBool("IsIdle", true);
-            darkAnimator.SetBool("IsWalking", false);
-            coloredAnimator.SetBool("IsWalking", false);
+            Debug.Log(Vector3.Distance(transform.position, targetPos));
+            if (lastPlayerPos == playerTransform.position) {
+                darkAnimator.SetBool("IsWalking", false);
+                coloredAnimator.SetBool("IsWalking", false);
+            }
+            else {
+                darkAnimator.SetBool("IsWalking", true);
+                coloredAnimator.SetBool("IsWalking", true);
+            }
             startIdleTime = Time.timeSinceLevelLoad;
             isIdle = true;
 
@@ -127,19 +140,22 @@ public class Enemies : MonoBehaviour {
         float targetPosY = (IsFlying ? target.y : transform.position.y);
         Vector3 targetPos = new Vector3(target.x, targetPosY, transform.position.z);
         Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, normalSpeed * Time.deltaTime);
+
+        float minX = (areaLimits.transform.position.x + areaLimits.offset.x - areaLimits.bounds.extents.x) + (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
+        float maxX = (areaLimits.transform.position.x + areaLimits.offset.x + areaLimits.bounds.extents.x) - (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
+        float minY = (areaLimits.transform.position.y + areaLimits.offset.y - areaLimits.bounds.extents.y) + (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
+        float maxY = (areaLimits.transform.position.y + areaLimits.offset.y + areaLimits.bounds.extents.y) - (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
+
+        nextPos = new Vector3(Mathf.Clamp(nextPos.x, minX, maxX), Mathf.Clamp(nextPos.y, minY, maxY), nextPos.z);
+
         if (transform.position.x - nextPos.x > 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
         }
         else if (transform.position.x - nextPos.x < 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
         }
-        float minX = (areaLimits.transform.position.x + areaLimits.offset.x - areaLimits.bounds.extents.x) + (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
-        float maxX = (areaLimits.transform.position.x + areaLimits.offset.x + areaLimits.bounds.extents.x) - (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
-        float minY = (areaLimits.transform.position.y + areaLimits.offset.y - areaLimits.bounds.extents.y) + (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
-        float maxY = (areaLimits.transform.position.y + areaLimits.offset.y + areaLimits.bounds.extents.y) - (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
 
-
-        if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
+        if ((Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE || nextPos.magnitude < normalSpeed * Time.deltaTime) && !isIdle) {
             darkAnimator.SetBool("IsIdle", true);
             coloredAnimator.SetBool("IsIdle", true);
             darkAnimator.SetBool("IsWalking", false);
@@ -148,25 +164,19 @@ public class Enemies : MonoBehaviour {
             isIdle = true;
         }
 
-        transform.position = new Vector3(
-    Mathf.Clamp(nextPos.x, minX, maxX),
-    Mathf.Clamp(nextPos.y, minY, maxY),
-    transform.position.z);
+        transform.position = nextPos;
 
         return targetPos;
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
+        Debug.Log("Is lit?: " + isBeingLit.ToString());
         ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
         collision.GetContacts(contacts);
         for (int i = 0; i < collision.contactCount; i++) {
-            if(contacts[i].otherCollider.gameObject.layer == lightConeMask) {
-                actualSpeed = Mathf.Clamp(actualSpeed - flashlightSpeedDecrease, 0, normalSpeed);
-                if (!isBeingLit) {
+            if (contacts[i].otherCollider.gameObject.layer == lightConeMask) {
+                isBeingLit = true;
 
-                    isBeingLit = true;
-                }
-                
             }
         }
     }
