@@ -56,12 +56,10 @@ MonoBehaviour:
   darkRenderer: {fileID: 1073217232451045852}
   coloredRenderer: {fileID: 1073217234443045918}
   normalSpeed: 3.2
-  stunTime: 0
+  stunTime: 3
   flashlightSpeedDecrease: 0
   detectionDistance: 4.4
-  lightConeMask:
-    serializedVersion: 2
-    m_Bits: 512
+  lightMaskCollider: {fileID: 0}
 --- !u!50 &805129155
 Rigidbody2D:
   serializedVersion: 4
@@ -72,7 +70,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 5298812950600660265}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -81,7 +79,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &805129154
 BoxCollider2D:

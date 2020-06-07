@@ -25,19 +25,23 @@ public class Enemies : MonoBehaviour {
     [SerializeField]
     SpriteRenderer coloredRenderer;
     [SerializeField]
+    SpriteRenderer whiteRenderer;
+    [SerializeField]
     float normalSpeed;
     [SerializeField]
-    float stunTime = 3f;
+    float timeToStun = 3f;
+    [SerializeField]
+    float maxTimeStunned = 5f;
     [SerializeField]
     float flashlightSpeedDecrease;
     [SerializeField]
     float detectionDistance;
     [SerializeField]
-    LayerMask lightConeMask = 9;
+    Collider2D lightMaskCollider;
 
 
     bool isBeingLit;
-    float litTime;
+    float litTime = 0f;
     Transform playerTransform;
     float actualSpeed;
     Animator darkAnimator;
@@ -47,10 +51,15 @@ public class Enemies : MonoBehaviour {
     Vector3 lastPlayerPos;
     int currentTarget = 0;
     Animator animator;
-    const float MIN_TARGET_DISTANCE = 0.1f;
     States enemystate = States.Patrol;
     float startIdleTime = 0f;
     bool isIdle = false;
+    float timeStunned;
+
+    const float MIN_TARGET_DISTANCE = 0.1f;
+    const float MAX_ALPHA_WHITE_BLINK = 255f;
+    const float MIN_ALPHA_WHITE_BLINK = 0f;
+
     // Start is called before the first frame update
     void Start() {
         darkAnimator = darkRenderer.GetComponent<Animator>();
@@ -64,12 +73,19 @@ public class Enemies : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        Debug.Log("State: " + enemystate.ToString());
         switch (enemystate) {
             case States.Patrol:
                 Patrol();
+                if (Vector3.Distance(transform.position, playerTransform.position) <= detectionDistance) {
+                    enemystate = States.Chase;
+                }
                 break;
             case States.Chase:
                 Chase();
+                if (Vector3.Distance(transform.position, playerTransform.position) > detectionDistance) {
+                    enemystate = States.Patrol;
+                }
                 break;
             case States.Stunned:
                 Stunned();
@@ -79,20 +95,16 @@ public class Enemies : MonoBehaviour {
                 break;
         }
         lastPlayerPos = playerTransform.position;
-        if (Vector3.Distance(transform.position, playerTransform.position) <= detectionDistance) {
-            enemystate = States.Chase;
-        }
-        else {
-            enemystate = States.Patrol;
-        }
+        
 
         if (!isBeingLit) {
             actualSpeed = Mathf.Clamp(actualSpeed + flashlightSpeedDecrease, 0, normalSpeed);
         }
-        actualSpeed = Mathf.Clamp(actualSpeed + (isBeingLit ? -1 : 1) * flashlightSpeedDecrease, 0, normalSpeed);
-        litTime += Mathf.Clamp(Time.deltaTime * (isBeingLit ? 1 : -1), 0f, stunTime);
-        if (litTime >= stunTime) {
-            //enemystate = States.Stunned;
+        actualSpeed = Mathf.Clamp(actualSpeed + (isBeingLit ? -1 : 1) * flashlightSpeedDecrease *Time.deltaTime, 0, normalSpeed);
+        litTime = Mathf.Clamp(litTime + Time.deltaTime * (isBeingLit ? 1 : -1), 0f, timeToStun);
+        //Debug.Log(litTime);
+        if (litTime >= timeToStun) {
+            enemystate = States.Stunned;
         }
 
     }
@@ -170,7 +182,7 @@ public class Enemies : MonoBehaviour {
 
 
 
-        Debug.Log("Magnitude: " + Vector3.Distance(transform.position, nextPos) + " ,Frame speed: " + normalSpeed * Time.deltaTime);
+        //Debug.Log("Magnitude: " + Vector3.Distance(transform.position, nextPos) + " ,Frame speed: " + normalSpeed * Time.deltaTime);
 
 
         transform.position = nextPos;
@@ -183,7 +195,7 @@ public class Enemies : MonoBehaviour {
         ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
         collision.GetContacts(contacts);
         for (int i = 0; i < collision.contactCount; i++) {
-            if (contacts[i].otherCollider.gameObject.layer == lightConeMask) {
+            if (contacts[i].collider == lightMaskCollider) {
                 isBeingLit = true;
 
             }

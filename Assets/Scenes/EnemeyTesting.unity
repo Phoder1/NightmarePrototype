@@ -679,6 +679,11 @@ PrefabInstance:
       propertyPath: areaLimits
       value: 
       objectReference: {fileID: 1951538020}
+    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
+        type: 3}
+      propertyPath: lightMaskCollider
+      value: 
+      objectReference: {fileID: 2512948589702992262}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f, type: 3}
 --- !u!1 &1836190758
@@ -943,7 +948,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -958,12 +963,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.4266366, y: 0.92520106}
-      - {x: -1.6492857, y: 0.01877466}
-      - {x: -1.6282051, y: -0.041606955}
-      - {x: 1.4891038, y: -0.92465556}
-      - {x: 1.6401058, y: -0.9350628}
-      - {x: 1.646812, y: 0.9264958}
+    - - {x: 1.4690523, y: 0.9333573}
+      - {x: -1.719327, y: -0.0036962384}
+      - {x: 1.5166823, y: -0.93627787}
+      - {x: 1.6410851, y: -0.9200788}
+      - {x: 1.6387382, y: 0.922522}
 --- !u!1001 &5229215862734504366
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -971,34 +975,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: targets.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: targets.Array.data[0]
-      value: 
-      objectReference: {fileID: 2097686430}
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: targets.Array.data[1]
-      value: 
-      objectReference: {fileID: 138619762}
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: targets.Array.data[2]
-      value: 
-      objectReference: {fileID: 1836190759}
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: areaLimits
-      value: 
-      objectReference: {fileID: 1447199546}
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: enemyTransform
-      value: 
-      objectReference: {fileID: 5229215862734504372}
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: normalSpeed
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
       propertyPath: targets.Array.data[0].targetsTransform
       value: 
@@ -1012,17 +988,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1836190759}
     - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: targets.Array.data[0].maxIdleTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: targets.Array.data[1].maxIdleTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 63239887, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
-      propertyPath: targets.Array.data[2].maxIdleTime
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: areaLimits
+      value: 
+      objectReference: {fileID: 1447199546}
     - target: {fileID: 5229215863700512976, guid: a46d71a13ab180945a19d554f8c9dab1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1085,9 +1053,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a46d71a13ab180945a19d554f8c9dab1, type: 3}
---- !u!4 &5229215862734504372 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5229215863700512976, guid: a46d71a13ab180945a19d554f8c9dab1,
-    type: 3}
-  m_PrefabInstance: {fileID: 5229215862734504366}
-  m_PrefabAsset: {fileID: 0}

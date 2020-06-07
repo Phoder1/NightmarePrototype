@@ -127,12 +127,10 @@ MonoBehaviour:
   darkRenderer: {fileID: 5229215863700512979}
   coloredRenderer: {fileID: 5229215863700512979}
   normalSpeed: 4
-  stunTime: 0
+  stunTime: 3
   flashlightSpeedDecrease: 0
   detectionDistance: 3.35
-  lightConeMask:
-    serializedVersion: 2
-    m_Bits: 9
+  lightMaskCollider: {fileID: 0}
 --- !u!61 &5229215862734504368
 BoxCollider2D:
   m_ObjectHideFlags: 0
