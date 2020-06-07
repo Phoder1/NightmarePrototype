@@ -123,12 +123,11 @@ MonoBehaviour:
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 5229215863700512979}
   coloredRenderer: {fileID: 5229215863700512979}
-  enemyTransform: {fileID: 5229215863700512976}
   maxIdleTime: 1
-  normalSpeed: 0
+  normalSpeed: 4
   stunTime: 3
   flashlightSpeedDecrease: 0
-  detectionDistance: 0
+  detectionDistance: 3
   lightConeMask:
     serializedVersion: 2
     m_Bits: 9
