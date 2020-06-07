@@ -255,7 +255,7 @@ MonoBehaviour:
   ShoulderMinDegree: -40
   MoveVelocity: 3
   Gravity: 19
-  JumpForce: 13
+  JumpForce: 10
 --- !u!143 &2512948591055976014
 CharacterController:
   m_ObjectHideFlags: 0
@@ -516,7 +516,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7267547370940750204}
   - component: {fileID: 4415429836502935643}
-  m_Layer: 0
+  - component: {fileID: 2512948589702992262}
+  m_Layer: 9
   m_Name: Cone Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -586,6 +587,36 @@ SpriteMask:
   m_BackSortingOrder: 0
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
+--- !u!60 &2512948589702992262
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4031956567427752515}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.4690523, y: 0.9333573}
+      - {x: -1.719327, y: -0.0036962384}
+      - {x: 1.5166823, y: -0.93627787}
+      - {x: 1.6410851, y: -0.9200788}
+      - {x: 1.6387382, y: 0.922522}
 --- !u!1 &7121341988969359760
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +644,7 @@ Transform:
   m_GameObject: {fileID: 7121341988969359760}
   m_LocalRotation: {x: -0, y: -0, z: 0.23072773, w: 0.9730184}
   m_LocalPosition: {x: 17.94, y: 8.969998, z: 3.1078944}
-  m_LocalScale: {x: 12.474164, y: 6.8212976, z: 0.190067}
+  m_LocalScale: {x: 12.474164, y: 3.92, z: 0.190067}
   m_Children: []
   m_Father: {fileID: 2512948589516347207}
   m_RootOrder: 0
