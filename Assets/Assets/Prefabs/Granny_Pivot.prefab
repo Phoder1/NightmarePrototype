@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1433483361841006241}
+  - component: {fileID: 6088668976848944290}
   m_Layer: 0
   m_Name: Granny_Pivot
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -31,6 +32,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6088668976848944290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5298812950600660265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e61a5be6c6eb9a4380b8e6b04b5db5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsFlying: 0
+  targets:
+  - {fileID: 0}
+  - {fileID: 0}
+  areaLimits: {fileID: 0}
+  darkRenderer: {fileID: 1073217232451045852}
+  coloredRenderer: {fileID: 1073217234443045918}
+  maxIdleTime: 1
+  normalSpeed: 0
+  stunTime: 3
+  flashlightSpeedDecrease: 0
+  detectionDistance: 4.4
+  lightConeMask:
+    serializedVersion: 2
+    m_Bits: 9
 --- !u!1001 &7014617673467454115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -65,32 +93,32 @@ PrefabInstance:
     - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.8999996
+      value: 1.17
       objectReference: {fileID: 0}
     - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.98
+      value: 0.81
       objectReference: {fileID: 0}
     - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.782747
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
@@ -117,16 +145,44 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8051372874692978247, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
       propertyPath: m_Name
       value: Granny
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1103147669, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a, type: 3}
 --- !u!4 &1073217233749935333 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8051372874692978246, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7014617673467454115}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1073217234443045918 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8051372874318638781, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7014617673467454115}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1073217232451045852 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8051372875479182207, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
     type: 3}
   m_PrefabInstance: {fileID: 7014617673467454115}
   m_PrefabAsset: {fileID: 0}
