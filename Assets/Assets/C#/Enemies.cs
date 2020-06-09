@@ -30,10 +30,7 @@ public class Enemies : MonoBehaviour {
     SpriteRenderer whiteRenderer;
     [SerializeField]
     SpriteRenderer coloredStunnedRenderer;
-    [SerializeField]
     Material darkMaterial;
-    [SerializeField]
-    float flashIntensity = 0f;
     [SerializeField]
     float normalSpeed;
     [SerializeField]
@@ -46,7 +43,8 @@ public class Enemies : MonoBehaviour {
     float detectionDistance;
     [SerializeField]
     Collider2D lightMaskCollider;
-
+    [SerializeField]
+    float animationTime = 0f;
 
     bool isBeingLit;
     float litTime = 0f;
@@ -63,6 +61,7 @@ public class Enemies : MonoBehaviour {
     float startIdleTime = 0f;
     bool isIdle = false;
     float timeWhenStunned;
+    
 
     const float MIN_TARGET_DISTANCE = 0.1f;
     const float MAX_ALPHA_WHITE_BLINK = 0.8f;
@@ -76,6 +75,7 @@ public class Enemies : MonoBehaviour {
         coloredAnimator = coloredRenderer.GetComponent<Animator>();
         darkTransform = darkRenderer.GetComponent<Transform>();
         coloredTransform = coloredRenderer.GetComponent<Transform>();
+        darkMaterial = darkRenderer.material;
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
         lastPlayerPos = playerTransform.position;
@@ -83,10 +83,11 @@ public class Enemies : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        darkMaterial.SetFloat("FlashIntensity", flashIntensity);
+        
         StateMachine();
         UpdateStun();
         lastPlayerPos = playerTransform.position;
+        darkMaterial.SetFloat("DissolveIntensity", animationTime);
     }
 
     private void UpdateStun() {
@@ -103,13 +104,7 @@ public class Enemies : MonoBehaviour {
             enemystate = States.Stunned;
             timeWhenStunned = Time.timeSinceLevelLoad;
             //coloredRenderer.maskInteraction = SpriteMaskInteraction.None;
-            LeanTween.alpha(darkRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
-            LeanTween.alpha(coloredStunnedRenderer.gameObject, 1f, BLINK_TIME).setEaseInSine();
-            LeanTween.alpha(whiteRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME / 2).setEaseInQuad().setOnComplete(whiteFade);
         }
-    }
-    void whiteFade() {
-        LeanTween.alpha(whiteRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME / 2);
     }
 
     private void StateMachine() {
@@ -129,25 +124,19 @@ public class Enemies : MonoBehaviour {
             case States.Stunned:
                 Stunned();
                 if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit && litTime == 0f) {
-                    enemystate = States.None;
+                    enemystate = States.Patrol;
                     //LeanTween.alpha(darkRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
                     //LeanTween.alpha(coloredRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
                 }
                 break;
             case States.None:
-                None();
+                
                 break;
         }
     }
 
-    private void None() {
-        if (darkRenderer.color.a == MAX_ALPHA_WHITE_BLINK && enemystate != States.Stunned) {
-            enemystate = States.Patrol;
-        }
-    }
-
     private void Stunned() {
-
+        animationTime += Time.deltaTime*0.3f;
     }
 
     private void Chase() {
