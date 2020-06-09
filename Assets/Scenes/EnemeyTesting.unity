@@ -696,6 +696,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 242661201, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1073217232451045852, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
         type: 3}
       propertyPath: m_Enabled
@@ -791,6 +795,11 @@ PrefabInstance:
       propertyPath: lightMaskCollider
       value: 
       objectReference: {fileID: 763082984}
+    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
+        type: 3}
+      propertyPath: animationTime
+      value: 0.03
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f, type: 3}
 --- !u!1 &1836190758
