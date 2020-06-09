@@ -8,6 +8,8 @@ public class CameraController : MonoBehaviour
     float maxlevelX = Mathf.Infinity;
     [SerializeField]
     float maxlevelY = Mathf.Infinity;
+    [SerializeField]
+    float speed;
     Transform playerTransform;
     // Start is called before the first frame update
     void Start()
@@ -20,6 +22,7 @@ public class CameraController : MonoBehaviour
     {
         float posX = Mathf.Clamp(playerTransform.position.x, 0, maxlevelX);
         float posY = Mathf.Clamp(playerTransform.position.y, 0, maxlevelY);
-        transform.position = new Vector3 ( posX, posY, transform.position.z);
+
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(posX, posY, transform.position.z), speed * Time.deltaTime);
     }
 }

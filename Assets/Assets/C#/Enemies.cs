@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public class Enemies : MonoBehaviour {
     enum States { Patrol, Chase, Stunned, None};
@@ -26,6 +28,12 @@ public class Enemies : MonoBehaviour {
     SpriteRenderer coloredRenderer;
     [SerializeField]
     SpriteRenderer whiteRenderer;
+    [SerializeField]
+    SpriteRenderer coloredStunnedRenderer;
+    [SerializeField]
+    Material darkMaterial;
+    [SerializeField]
+    float flashIntensity = 0f;
     [SerializeField]
     float normalSpeed;
     [SerializeField]
@@ -57,9 +65,10 @@ public class Enemies : MonoBehaviour {
     float timeWhenStunned;
 
     const float MIN_TARGET_DISTANCE = 0.1f;
-    const float MAX_ALPHA_WHITE_BLINK = 1f;
+    const float MAX_ALPHA_WHITE_BLINK = 0.8f;
     const float MIN_ALPHA_WHITE_BLINK = 0f;
     const float BLINK_TIME = 2f;
+    const float MIN_WALKINGSPEED_RATIO = 0.2f;
 
     // Start is called before the first frame update
     void Start() {
@@ -74,7 +83,36 @@ public class Enemies : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log("State: " + enemystate.ToString());
+        darkMaterial.SetFloat("FlashIntensity", flashIntensity);
+        StateMachine();
+        UpdateStun();
+        lastPlayerPos = playerTransform.position;
+    }
+
+    private void UpdateStun() {
+        actualSpeed = Mathf.Clamp(actualSpeed + (isBeingLit ? -1 : 1) * flashlightSpeedDecrease * Time.deltaTime, 0, normalSpeed);
+        if (actualSpeed <= MIN_WALKINGSPEED_RATIO * normalSpeed) {
+            darkAnimator.SetBool("IsWalking", false);
+            coloredAnimator.SetBool("IsWalking", false);
+        }
+        litTime = Mathf.Clamp(litTime + Time.deltaTime * (isBeingLit ? 1 : -1), 0f, timeToStun);
+        //Debug.Log(litTime);
+        if (litTime >= timeToStun && enemystate != States.Stunned) {
+            darkAnimator.SetBool("IsWalking", false);
+            coloredAnimator.SetBool("IsWalking", false);
+            enemystate = States.Stunned;
+            timeWhenStunned = Time.timeSinceLevelLoad;
+            //coloredRenderer.maskInteraction = SpriteMaskInteraction.None;
+            LeanTween.alpha(darkRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
+            LeanTween.alpha(coloredStunnedRenderer.gameObject, 1f, BLINK_TIME).setEaseInSine();
+            LeanTween.alpha(whiteRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME / 2).setEaseInQuad().setOnComplete(whiteFade);
+        }
+    }
+    void whiteFade() {
+        LeanTween.alpha(whiteRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME / 2);
+    }
+
+    private void StateMachine() {
         switch (enemystate) {
             case States.Patrol:
                 Patrol();
@@ -92,36 +130,19 @@ public class Enemies : MonoBehaviour {
                 Stunned();
                 if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit && litTime == 0f) {
                     enemystate = States.None;
-                    LeanTween.alpha(darkRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
-                    LeanTween.alpha(coloredRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
+                    //LeanTween.alpha(darkRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
+                    //LeanTween.alpha(coloredRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
                 }
                 break;
             case States.None:
                 None();
                 break;
         }
-        lastPlayerPos = playerTransform.position;
-
-        actualSpeed = Mathf.Clamp(actualSpeed + (isBeingLit ? -1 : 1) * flashlightSpeedDecrease * Time.deltaTime, 0, normalSpeed);
-        litTime = Mathf.Clamp(litTime + Time.deltaTime * (isBeingLit ? 1 : -1), 0f, timeToStun);
-        //Debug.Log(litTime);
-        if (litTime >= timeToStun && enemystate != States.Stunned) {
-            enemystate = States.Stunned;
-            timeWhenStunned = Time.timeSinceLevelLoad;
-            coloredRenderer.maskInteraction = SpriteMaskInteraction.None;
-            LeanTween.alpha(darkRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
-            
-
-        }
-
-
     }
 
     private void None() {
         if (darkRenderer.color.a == MAX_ALPHA_WHITE_BLINK && enemystate != States.Stunned) {
             enemystate = States.Patrol;
-            coloredRenderer.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
-            coloredRenderer.color = new Color(1f, 1f, 1f, 1f);
         }
     }
 
@@ -140,7 +161,7 @@ public class Enemies : MonoBehaviour {
     private void Patrol() {
         Vector3 targetPos = MoveTowards(targets[currentTarget].targetsTransform.position);
         if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
-            Debug.Log(Vector3.Distance(transform.position, targetPos));
+            //Debug.Log(Vector3.Distance(transform.position, targetPos));
             if (lastPlayerPos == playerTransform.position) {
                 darkAnimator.SetBool("IsWalking", false);
                 coloredAnimator.SetBool("IsWalking", false);
@@ -165,9 +186,10 @@ public class Enemies : MonoBehaviour {
     }
 
     private Vector3 MoveTowards(Vector3 target) {
+        darkAnimator.speed = actualSpeed / normalSpeed;
         float targetPosY = (IsFlying ? target.y : transform.position.y);
         Vector3 targetPos = new Vector3(target.x, targetPosY, transform.position.z);
-        Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, normalSpeed * Time.deltaTime);
+        Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, actualSpeed * Time.deltaTime);
 
         float minX = (areaLimits.transform.position.x + areaLimits.offset.x - areaLimits.bounds.extents.x) + (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
         float maxX = (areaLimits.transform.position.x + areaLimits.offset.x + areaLimits.bounds.extents.x) - (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
@@ -200,7 +222,7 @@ public class Enemies : MonoBehaviour {
     }
 
     private void OnCollisionStay2D(Collision2D collision) {
-        Debug.Log("Is lit?: " + isBeingLit.ToString());
+        //Debug.Log("Is lit?: " + isBeingLit.ToString());
         ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
         collision.GetContacts(contacts);
         for (int i = 0; i < collision.contactCount; i++) {
