@@ -76,6 +76,7 @@ public class Enemies : MonoBehaviour {
         darkMaterial = darkRenderer.material;
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
+        Debug.Log(playerTransform);
         nextPosition = transform.position;
     }
 

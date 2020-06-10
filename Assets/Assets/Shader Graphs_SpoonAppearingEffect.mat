@@ -10,7 +10,7 @@ Material:
   m_Name: Shader Graphs_SpoonAppearingEffect
   m_Shader: {fileID: -6465566751694194690, guid: eabdd174425454740af12974d0857545,
     type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -25,10 +25,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 7ccee010114ab4c4e9c693a3c379b9a9, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0143b4e88a14b5d4b9c1890d24acdf46, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_711D2B55_Out_0:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - DissolveIntensity: 0
     - Respawn: 0
+    - SpoonEffectTime: 0
     m_Colors: []

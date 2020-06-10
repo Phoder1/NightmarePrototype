@@ -90,6 +90,9 @@ public class MainCharacterControls : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void FixedUpdate() {
+        Movement();
+    }
     // Update is called once per frame
     void Update() {
         UpdateVariables();
@@ -123,9 +126,7 @@ public class MainCharacterControls : MonoBehaviour {
         }
     }
 
-    private void FixedUpdate() {
-        Movement();
-    }
+    
 
     private void Statemachine() {
         switch (playerCurrentState) {
