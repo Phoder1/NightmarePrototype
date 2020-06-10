@@ -406,12 +406,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8268daaa62e04604abb831bac77330b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShoulderTransform: {fileID: 2512948591208482836}
-  GroundcheckTransform: {fileID: 2512948591166364253}
-  GroundDistance: 0.22
-  GroundLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
+  refrences:
+    ShoulderTransform: {fileID: 2512948591208482836}
+    FlashlightTransform: {fileID: 2512948590590571739}
+    SpoonTransform: {fileID: 787235862}
+    GroundLayerMask:
+      serializedVersion: 2
+      m_Bits: 256
   MouseSensetivity: 300
   ShoulderMaxDegree: 20
   ShoulderMinDegree: -40

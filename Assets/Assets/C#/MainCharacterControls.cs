@@ -1,18 +1,29 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MainCharacterControls : MonoBehaviour {
 
 
 
     //General Serialized Variables
+
+    //refrences:
+    [Serializable]
+    class Refrences {
+        [SerializeField]
+        internal Transform ShoulderTransform;
+        [SerializeField]
+        internal Transform FlashlightTransform;
+        [SerializeField]
+        internal Transform SpoonTransform;
+        [SerializeField]
+        internal LayerMask GroundLayerMask;
+
+    }
     [SerializeField]
-    Transform ShoulderTransform;
-    [SerializeField]
-    Transform GroundcheckTransform;
-    [SerializeField]
-    float GroundDistance;
-    [SerializeField]
-    LayerMask GroundLayerMask;
+    Refrences refrences;
+
+
 
     [SerializeField]
     float MouseSensetivity;
@@ -47,10 +58,10 @@ public class MainCharacterControls : MonoBehaviour {
 
 
     //State machine
-    enum PlayerStates { Idle, Moving, Jump, Falling, Attack, Flashlight, None };
+    enum PlayerStates { Idle, Moving, Jump, Falling, Flashlight, None };
     enum HandStates { Spoon, Flashlight, None};
-    HandStates handCurrentState = HandStates.Flashlight;
-    HandStates handLastState = HandStates.None;
+    bool isFlashlight;
+    bool isAttacking;
     PlayerStates playerCurrentState = PlayerStates.Idle;
     PlayerStates playerLastState = PlayerStates.None;
 
@@ -81,9 +92,31 @@ public class MainCharacterControls : MonoBehaviour {
     void Update() {
         UpdateVariables();
         Statemachine();
+        AttackCheck();
         FlashlightControl();
         UpdateAnimator();
         Debug.Log(playerCurrentState);
+    }
+
+    private void AttackCheck() {
+        if (playerCurrentState == PlayerStates.Idle || playerCurrentState == PlayerStates.Idle) {
+            if (Input.GetMouseButton(0)) {
+                //Switch + Hit with spoon
+                isFlashlight = false;
+                isAttacking = true;
+            }
+            else if (Input.GetMouseButton(1)) {
+                isFlashlight = true;
+                isAttacking = true;
+            }
+            if (isAttacking) {
+
+            }
+
+        }
+
+
+
     }
 
     private void FixedUpdate() {
@@ -116,7 +149,6 @@ public class MainCharacterControls : MonoBehaviour {
 
 
                 //State update
-                Idle();
 
 
                 break;
@@ -187,23 +219,6 @@ public class MainCharacterControls : MonoBehaviour {
                 }
 
                 //State update
-
-
-
-                break;
-
-            /////////////////////////////////////////////////////////////
-            case PlayerStates.Attack:
-                //State enter action
-                if (playerCurrentState != playerLastState) {
-
-                    playerLastState = playerCurrentState;
-                }
-
-                //State end condition
-
-                //State update
-
 
 
 
@@ -295,21 +310,17 @@ public class MainCharacterControls : MonoBehaviour {
 
     }
 
-    private void Idle() {
-
-    }
-
     private void UpdateVariables() {
     }
 
     private void FlashlightControl() {
         flashlightAngle += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
         flashlightAngle = Mathf.Clamp(flashlightAngle, ShoulderMinDegree, ShoulderMaxDegree);
-        ShoulderTransform.localRotation = Quaternion.Euler(ShoulderTransform.localRotation.eulerAngles.x, ShoulderTransform.localRotation.eulerAngles.y, flashlightAngle);
+        refrences.ShoulderTransform.localRotation = Quaternion.Euler(refrences.ShoulderTransform.localRotation.eulerAngles.x, refrences.ShoulderTransform.localRotation.eulerAngles.y, flashlightAngle);
     }
 
     bool Isgrounded() {
-        RaycastHit2D groundRay = Physics2D.Raycast(playerCollider.bounds.center - Vector3.up * playerCollider.bounds.extents.y, Vector3.down, groundDetectionDistance, GroundLayerMask);
+        RaycastHit2D groundRay = Physics2D.Raycast(playerCollider.bounds.center - Vector3.up * playerCollider.bounds.extents.y, Vector3.down, groundDetectionDistance, refrences.GroundLayerMask);
         Debug.Log("Grounded: " + (groundRay.collider != null).ToString());
         return groundRay.collider != null;
     }
