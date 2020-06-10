@@ -52,7 +52,7 @@ public class MainCharacterControls : MonoBehaviour {
     //Movement variables
     float velocityY = 0f;
     float velocityX = 0f;
-    float flashlightAngle;
+    float shoulderDegree;
     GameObject[] Platforms;
     GameObject[] Obstacles;
 
@@ -64,6 +64,8 @@ public class MainCharacterControls : MonoBehaviour {
     bool isAttacking;
     PlayerStates playerCurrentState = PlayerStates.Idle;
     PlayerStates playerLastState = PlayerStates.None;
+
+    const float SHOULDER_RETURN_SPEED = 5f;
 
 
 
@@ -93,7 +95,7 @@ public class MainCharacterControls : MonoBehaviour {
         UpdateVariables();
         Statemachine();
         AttackCheck();
-        FlashlightControl();
+        
         UpdateAnimator();
         //Debug.Log(playerCurrentState);
     }
@@ -109,15 +111,16 @@ public class MainCharacterControls : MonoBehaviour {
                 isFlashlight = true;
                 isAttacking = true;
             }
-            if (isAttacking) {
+        }
+        else if (isFlashlight){
 
-            }
-        }else {
+            shoulderDegree += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
+            shoulderDegree = Mathf.Clamp(shoulderDegree, ShoulderMinDegree, ShoulderMaxDegree);
+            refrences.ShoulderTransform.localRotation = Quaternion.Euler(refrences.ShoulderTransform.localRotation.eulerAngles.x, refrences.ShoulderTransform.localRotation.eulerAngles.y, shoulderDegree);
+        }
+        else {
 
         }
-
-
-
     }
 
     private void FixedUpdate() {
@@ -318,11 +321,7 @@ public class MainCharacterControls : MonoBehaviour {
     private void UpdateVariables() {
     }
 
-    private void FlashlightControl() {
-        flashlightAngle += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
-        flashlightAngle = Mathf.Clamp(flashlightAngle, ShoulderMinDegree, ShoulderMaxDegree);
-        refrences.ShoulderTransform.localRotation = Quaternion.Euler(refrences.ShoulderTransform.localRotation.eulerAngles.x, refrences.ShoulderTransform.localRotation.eulerAngles.y, flashlightAngle);
-    }
+
 
     bool Isgrounded() {
         RaycastHit2D groundRay = Physics2D.Raycast(playerCollider.bounds.center - Vector3.up * playerCollider.bounds.extents.y, Vector3.down, groundDetectionDistance, refrences.GroundLayerMask);
