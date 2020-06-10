@@ -37,7 +37,7 @@ public class Enemies : MonoBehaviour {
     float flashlightSpeedDecrease;
     [SerializeField]
     float detectionDistance;
-    [SerializeField]
+
     Collider2D lightMaskCollider;
 
 
@@ -72,6 +72,7 @@ public class Enemies : MonoBehaviour {
         coloredAnimator = coloredRenderer.GetComponent<Animator>();
         darkTransform = darkRenderer.GetComponent<Transform>();
         coloredTransform = coloredRenderer.GetComponent<Transform>();
+        lightMaskCollider = GameObject.FindGameObjectWithTag("LightconeMask").GetComponent<Collider2D>();
         darkMaterial = darkRenderer.material;
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
