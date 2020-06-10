@@ -158,9 +158,9 @@ MonoBehaviour:
   - targetsTransform: {fileID: 0}
     maxIdleTime: 1
   areaLimits: {fileID: 0}
-  darkRenderer: {fileID: 0}
+  darkRenderer: {fileID: 1159805486865494040}
   coloredRenderer: {fileID: 7038266948199967479}
-  coloredStunnedRenderer: {fileID: 0}
+  coloredStunnedRenderer: {fileID: 846503446720376522}
   normalSpeed: 3
   timeToStun: 3
   maxTimeStunned: 5
@@ -341,7 +341,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8920196690253846342}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.044, y: 0.148, z: 0}
   m_LocalScale: {x: 0.2706876, y: 0.2706876, z: 0.2706876}
   m_Children: []
   m_Father: {fileID: 3564074200777950417}
