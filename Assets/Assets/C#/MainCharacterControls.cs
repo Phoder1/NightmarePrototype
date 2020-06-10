@@ -249,7 +249,7 @@ public class MainCharacterControls : MonoBehaviour {
             Collider2D platformCollider = Platforms[i].GetComponent<Collider2D>();
             //Debug.Log("Player min: " + playerMinCorner.y + " , Next pos: " + playerMinCorner.y + movement.y + " ,Platform height: " + platformCollider.bounds.max.y);
             if (velocityY <= 0f 
-                && playerMinCorner.y >= platformCollider.bounds.max.y - 0.2f
+                && playerMinCorner.y >= platformCollider.bounds.max.y - 0.1f
                 && playerMinCorner.y + movement.y <= platformCollider.bounds.max.y
                 && playerMinCorner.x < platformCollider.bounds.max.x
                 && playerMaxCorner.x > platformCollider.bounds.min.x) {
@@ -262,7 +262,7 @@ public class MainCharacterControls : MonoBehaviour {
             Collider2D obstacleCollider = Obstacles[i].GetComponent<Collider2D>();
 
             //Up
-            if (playerMinCorner.y >= obstacleCollider.bounds.max.y - 0.2f
+            if (playerMinCorner.y >= obstacleCollider.bounds.max.y - 0.1f
                 && playerMinCorner.y + movement.y <= obstacleCollider.bounds.max.y
                 && playerMinCorner.x < obstacleCollider.bounds.max.x
                 && playerMaxCorner.x > obstacleCollider.bounds.min.x) {
@@ -272,7 +272,7 @@ public class MainCharacterControls : MonoBehaviour {
                 velocityY = 0f;
             }
             //Down
-            if (playerMaxCorner.y <= obstacleCollider.bounds.min.y + 0.2f
+            if (playerMaxCorner.y <= obstacleCollider.bounds.min.y + 0.1f
                 && playerMaxCorner.y + movement.y >= obstacleCollider.bounds.min.y
                 && playerMinCorner.x < obstacleCollider.bounds.max.x
                 && playerMaxCorner.x > obstacleCollider.bounds.min.x) {
@@ -282,7 +282,7 @@ public class MainCharacterControls : MonoBehaviour {
                 velocityY = 0f;
             }
             //Right
-            if (playerMinCorner.x >= obstacleCollider.bounds.max.x - 0.2f
+            if (playerMinCorner.x >= obstacleCollider.bounds.max.x - 0.1f
                 && playerMinCorner.x + movement.x <= obstacleCollider.bounds.max.x
                 && playerMinCorner.y < obstacleCollider.bounds.max.y
                 && playerMaxCorner.y > obstacleCollider.bounds.min.y) {
@@ -292,7 +292,7 @@ public class MainCharacterControls : MonoBehaviour {
                 velocityX = 0f;
             }
             //Left
-            if (playerMaxCorner.x <= obstacleCollider.bounds.min.x + 0.2f
+            if (playerMaxCorner.x <= obstacleCollider.bounds.min.x + 0.1f
                 && playerMaxCorner.x + movement.x >= obstacleCollider.bounds.min.x
                 && playerMinCorner.y < obstacleCollider.bounds.max.y
                 && playerMaxCorner.y > obstacleCollider.bounds.min.y) {
