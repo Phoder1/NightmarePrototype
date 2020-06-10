@@ -152,11 +152,10 @@ MonoBehaviour:
   - targetsTransform: {fileID: 0}
     maxIdleTime: 2
   - targetsTransform: {fileID: 0}
-    maxIdleTime: 3.5
+    maxIdleTime: 1.5
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 1073217232451045852}
   coloredRenderer: {fileID: 1073217234443045918}
-  whiteRenderer: {fileID: 0}
   coloredStunnedRenderer: {fileID: 242661201}
   normalSpeed: 3.2
   timeToStun: 3
@@ -164,7 +163,6 @@ MonoBehaviour:
   flashlightSpeedDecrease: 1
   detectionDistance: 4.4
   lightMaskCollider: {fileID: 0}
-  animationTime: 0
 --- !u!50 &805129155
 Rigidbody2D:
   serializedVersion: 4
@@ -242,6 +240,10 @@ PrefabInstance:
     - target: {fileID: 1103147669, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a, type: 3}
       propertyPath: detectionDistance
       value: 4.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1103147670, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a, type: 3}
+      propertyPath: m_Controller
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8051372874318638781, guid: 32bcfa56b0b17994fa3a9fd2ebe7018a,
         type: 3}
