@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class Enemies : MonoBehaviour {
-    enum States { Patrol, Chase, Stunned, Transition };
+    enum States { Patrol, Chase, Stunned, Transition, None };
 
     [Serializable]
     class Target {
@@ -25,8 +25,6 @@ public class Enemies : MonoBehaviour {
     [SerializeField]
     SpriteRenderer coloredRenderer;
     [SerializeField]
-    SpriteRenderer whiteRenderer;
-    [SerializeField]
     SpriteRenderer coloredStunnedRenderer;
     Material darkMaterial;
     [SerializeField]
@@ -41,9 +39,9 @@ public class Enemies : MonoBehaviour {
     float detectionDistance;
     [SerializeField]
     Collider2D lightMaskCollider;
-    [SerializeField]
-    float animationTime = 0f;
 
+
+    float animationTime = 0f;
     bool isBeingLit;
     float litTime = 0f;
     Transform playerTransform;
@@ -53,11 +51,12 @@ public class Enemies : MonoBehaviour {
     Transform darkTransform;
     Transform coloredTransform;
     Vector3 lastPlayerPos;
+    Vector3 nextPosition;
     int currentTarget = 0;
     Animator animator;
-    States lastState = States.Transition;
+    States lastState = States.None;
     States currentState = States.Patrol;
-    States nextState = States.Patrol;
+    States nextState = States.None;
     float startIdleTime = 0f;
     bool isIdle = false;
     float timeWhenStunned;
@@ -76,16 +75,13 @@ public class Enemies : MonoBehaviour {
         darkMaterial = darkRenderer.material;
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
-        lastPlayerPos = playerTransform.position;
+        nextPosition = transform.position;
     }
 
     // Update is called once per frame
     void Update() {
-
-        StateMachine();
         UpdateStun();
-        lastPlayerPos = playerTransform.position;
-
+        StateMachine();
     }
 
     private void UpdateShader() {
@@ -107,14 +103,10 @@ public class Enemies : MonoBehaviour {
             coloredAnimator.SetBool("IsWalking", false);
         }
         litTime = Mathf.Clamp(litTime + Time.deltaTime * (isBeingLit ? 1 : -1), 0f, timeToStun);
-        //Debug.Log(litTime);
+
         if (litTime >= timeToStun && currentState != States.Stunned && currentState != States.Transition) {
-            darkAnimator.SetBool("IsWalking", false);
-            coloredAnimator.SetBool("IsWalking", false);
             currentState = States.Transition;
             nextState = States.Stunned;
-            
-            //coloredRenderer.maskInteraction = SpriteMaskInteraction.None;
             LeanTween.alpha(coloredStunnedRenderer.gameObject, 1f, BLINK_TIME).setEaseInCirc().setOnComplete(SwitchState);
         }
     }
@@ -122,18 +114,32 @@ public class Enemies : MonoBehaviour {
     private void StateMachine() {
         switch (currentState) {
             case States.Patrol:
+                if (currentState != lastState) {
+                    isIdle = false;
+
+                    lastState = currentState;
+                }
                 Patrol();
                 if (Vector3.Distance(transform.position, playerTransform.position) <= detectionDistance) {
                     currentState = States.Chase;
                 }
                 break;
             case States.Chase:
+                if (currentState != lastState) {
+
+                    lastState = currentState;
+                }
                 Chase();
                 if (Vector3.Distance(transform.position, playerTransform.position) > detectionDistance) {
                     currentState = States.Patrol;
                 }
                 break;
             case States.Stunned:
+                if (currentState != lastState) {
+
+
+                    lastState = currentState;
+                }
                 Stunned();
                 if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit && litTime == 0f) {
                     //LeanTween.alpha(darkRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
@@ -143,7 +149,14 @@ public class Enemies : MonoBehaviour {
                     LeanTween.alpha(coloredStunnedRenderer.gameObject, 0f, BLINK_TIME).setEaseOutCirc().setOnComplete(SwitchState);
                 }
                 break;
+
             case States.Transition:
+                if (currentState != lastState) {
+                    darkAnimator.SetBool("IsWalking", false);
+                    coloredAnimator.SetBool("IsWalking", false);
+
+                    lastState = currentState;
+                }
                 UpdateShader();
                 break;
         }
@@ -154,32 +167,23 @@ public class Enemies : MonoBehaviour {
     }
 
     private void Chase() {
-        if (isIdle && Vector3.Distance(transform.position, playerTransform.position) >= MIN_TARGET_DISTANCE) {
-            darkAnimator.SetBool("IsWalking", true);
-            coloredAnimator.SetBool("IsWalking", true);
+        Vector3 nextChasePosition = MoveTowards(playerTransform.position);
+        if ((nextChasePosition - transform.position).magnitude != 0f && isIdle) {
             isIdle = false;
         }
-        Vector3 playerPos = MoveTowards(playerTransform.position);
+
     }
     private void Patrol() {
         Vector3 targetPos = MoveTowards(targets[currentTarget].targetsTransform.position);
-        if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
-            //Debug.Log(Vector3.Distance(transform.position, targetPos));
-            if (lastPlayerPos == playerTransform.position) {
-                darkAnimator.SetBool("IsWalking", false);
-                coloredAnimator.SetBool("IsWalking", false);
-            }
-            else {
-                darkAnimator.SetBool("IsWalking", true);
-                coloredAnimator.SetBool("IsWalking", true);
-            }
-            startIdleTime = Time.timeSinceLevelLoad;
-            isIdle = true;
+        //if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
+        //    //Debug.Log(Vector3.Distance(transform.position, targetPos));
+        //    darkAnimator.SetBool("IsWalking", false);
+        //    coloredAnimator.SetBool("IsWalking", false);
+        //    /startIdleTime = Time.timeSinceLevelLoad;
+        //    isIdle = true;
 
-        }
+        //}
         if (isIdle && Time.timeSinceLevelLoad >= startIdleTime + targets[currentTarget].maxIdleTime) {
-            darkAnimator.SetBool("IsWalking", true);
-            coloredAnimator.SetBool("IsWalking", true);
             isIdle = false;
             currentTarget++;
             if (currentTarget >= targets.Length) {
@@ -192,27 +196,37 @@ public class Enemies : MonoBehaviour {
         darkAnimator.speed = actualSpeed / normalSpeed;
         float targetPosY = (IsFlying ? target.y : transform.position.y);
         Vector3 targetPos = new Vector3(target.x, targetPosY, transform.position.z);
+        Vector2 minPoint = areaLimits.bounds.min + darkRenderer.bounds.extents;
+        Vector3 maxPoint = areaLimits.bounds.max - darkRenderer.bounds.extents;
         Vector3 nextPos = Vector3.MoveTowards(transform.position, targetPos, actualSpeed * Time.deltaTime);
 
-        float minX = (areaLimits.transform.position.x + areaLimits.offset.x - areaLimits.bounds.extents.x) + (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
-        float maxX = (areaLimits.transform.position.x + areaLimits.offset.x + areaLimits.bounds.extents.x) - (darkRenderer.bounds.extents.x >= coloredRenderer.bounds.extents.x ? darkRenderer.bounds.extents.x : coloredRenderer.bounds.extents.x);
-        float minY = (areaLimits.transform.position.y + areaLimits.offset.y - areaLimits.bounds.extents.y) + (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
-        float maxY = (areaLimits.transform.position.y + areaLimits.offset.y + areaLimits.bounds.extents.y) - (darkRenderer.bounds.extents.y >= coloredRenderer.bounds.extents.y ? darkRenderer.bounds.extents.y : coloredRenderer.bounds.extents.y);
-        if ((Vector3.Distance(nextPos, targetPos) < MIN_TARGET_DISTANCE || (nextPos.x < minX || nextPos.x > maxX)) && !isIdle) {
-            darkAnimator.SetBool("IsIdle", true);
-            coloredAnimator.SetBool("IsIdle", true);
-            darkAnimator.SetBool("IsWalking", false);
-            coloredAnimator.SetBool("IsWalking", false);
-            startIdleTime = Time.timeSinceLevelLoad;
-            isIdle = true;
-        }
         if (transform.position.x - nextPos.x > 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 180f, transform.rotation.eulerAngles.z);
         }
         else if (transform.position.x - nextPos.x < 0) {
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0f, transform.rotation.eulerAngles.z);
         }
-        nextPos = new Vector3(Mathf.Clamp(nextPos.x, minX, maxX), Mathf.Clamp(nextPos.y, minY, maxY), transform.position.z);
+
+        nextPos = new Vector3(Mathf.Clamp(nextPos.x, minPoint.x, maxPoint.x), Mathf.Clamp(nextPos.y, minPoint.y, maxPoint.y), transform.position.z);
+
+        Debug.Log(transform.position + " => " + nextPos + " , " + (nextPos - transform.position).magnitude + " , " + transform.name);
+        Debug.Log("Is idle: " + isIdle.ToString() + " ,start idle time: " + startIdleTime);
+
+        if ((nextPos - transform.position).magnitude == 0f && !isIdle) {
+            darkAnimator.SetBool("IsWalking", false);
+            coloredAnimator.SetBool("IsWalking", false);
+            startIdleTime = Time.timeSinceLevelLoad;
+            isIdle = true;
+        }
+        else if(!isIdle){
+            darkAnimator.SetBool("IsWalking", true);
+            coloredAnimator.SetBool("IsWalking", true);
+        }
+        else {
+            darkAnimator.SetBool("IsWalking", false);
+            coloredAnimator.SetBool("IsWalking", false);
+        }
+        
 
 
 
@@ -221,7 +235,7 @@ public class Enemies : MonoBehaviour {
 
         transform.position = nextPos;
 
-        return targetPos;
+        return nextPos;
     }
 
     void SwitchState() {

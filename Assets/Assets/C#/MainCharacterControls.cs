@@ -95,7 +95,7 @@ public class MainCharacterControls : MonoBehaviour {
         AttackCheck();
         FlashlightControl();
         UpdateAnimator();
-        Debug.Log(playerCurrentState);
+        //Debug.Log(playerCurrentState);
     }
 
     private void AttackCheck() {
@@ -192,7 +192,7 @@ public class MainCharacterControls : MonoBehaviour {
 
                 if (Isgrounded() && velocityY <= 0f) {
                     playerCurrentState = PlayerStates.Idle;
-                    Debug.Log("Landed");
+                    //Debug.Log("Landed");
                 }
                 else if (velocityY < 0) {
                     playerCurrentState = PlayerStates.Falling;
@@ -243,13 +243,13 @@ public class MainCharacterControls : MonoBehaviour {
         Vector2 playerMaxCorner = playerCollider.bounds.max;
         Vector2 playerMinCorner = playerCollider.bounds.min;
         Debug.DrawRay(playerMinCorner, Vector3.right * playerCollider.bounds.size.x, Color.red, Time.deltaTime);
-        Debug.Log(playerRenderer.bounds.extents.x);
+        //Debug.Log(playerRenderer.bounds.extents.x);
 
         for (int i = 0; i < Platforms.Length; i++) {
             Collider2D platformCollider = Platforms[i].GetComponent<Collider2D>();
             //Debug.Log("Player min: " + playerMinCorner.y + " , Next pos: " + playerMinCorner.y + movement.y + " ,Platform height: " + platformCollider.bounds.max.y);
-            if (velocityY <= 0f 
-                && playerMinCorner.y >= platformCollider.bounds.max.y - 0.1f
+            if (velocityY <= 0f && (Mathf.Approximately(playerMinCorner.y, platformCollider.bounds.max.y)
+                || playerMinCorner.y >= platformCollider.bounds.max.y)
                 && playerMinCorner.y + movement.y <= platformCollider.bounds.max.y
                 && playerMinCorner.x < platformCollider.bounds.max.x
                 && playerMaxCorner.x > platformCollider.bounds.min.x) {
@@ -262,43 +262,47 @@ public class MainCharacterControls : MonoBehaviour {
             Collider2D obstacleCollider = Obstacles[i].GetComponent<Collider2D>();
 
             //Up
-            if (playerMinCorner.y >= obstacleCollider.bounds.max.y - 0.1f
+            if ((Mathf.Approximately(playerMinCorner.y, obstacleCollider.bounds.max.y) 
+                || playerMinCorner.y >= obstacleCollider.bounds.max.y)
                 && playerMinCorner.y + movement.y <= obstacleCollider.bounds.max.y
                 && playerMinCorner.x < obstacleCollider.bounds.max.x
                 && playerMaxCorner.x > obstacleCollider.bounds.min.x) {
 
                 movement.y = obstacleCollider.bounds.max.y - playerMinCorner.y;
-                Debug.Log("Up!");
+                //Debug.Log("Up!");
                 velocityY = 0f;
             }
             //Down
-            if (playerMaxCorner.y <= obstacleCollider.bounds.min.y + 0.1f
+            if ((Mathf.Approximately(playerMaxCorner.y, obstacleCollider.bounds.min.y) 
+                || playerMaxCorner.y <= obstacleCollider.bounds.min.y)
                 && playerMaxCorner.y + movement.y >= obstacleCollider.bounds.min.y
                 && playerMinCorner.x < obstacleCollider.bounds.max.x
                 && playerMaxCorner.x > obstacleCollider.bounds.min.x) {
 
                 movement.y = obstacleCollider.bounds.min.y - playerMaxCorner.y;
-                Debug.Log("Down!");
+                //Debug.Log("Down!");
                 velocityY = 0f;
             }
             //Right
-            if (playerMinCorner.x >= obstacleCollider.bounds.max.x - 0.1f
+            if ((Mathf.Approximately(playerMinCorner.x, obstacleCollider.bounds.max.x) 
+                || playerMinCorner.x >= obstacleCollider.bounds.max.x)
                 && playerMinCorner.x + movement.x <= obstacleCollider.bounds.max.x
                 && playerMinCorner.y < obstacleCollider.bounds.max.y
                 && playerMaxCorner.y > obstacleCollider.bounds.min.y) {
 
                 movement.x = obstacleCollider.bounds.max.x - playerMinCorner.x;
-                Debug.Log("Right!");
+                //Debug.Log("Right!");
                 velocityX = 0f;
             }
             //Left
-            if (playerMaxCorner.x <= obstacleCollider.bounds.min.x + 0.1f
+            if ((Mathf.Approximately(playerMaxCorner.x, obstacleCollider.bounds.min.x) 
+                || playerMaxCorner.x <= obstacleCollider.bounds.min.x)
                 && playerMaxCorner.x + movement.x >= obstacleCollider.bounds.min.x
                 && playerMinCorner.y < obstacleCollider.bounds.max.y
                 && playerMaxCorner.y > obstacleCollider.bounds.min.y) {
 
                 movement.x = obstacleCollider.bounds.min.x - playerMaxCorner.x;
-                Debug.Log("Left!");
+                //Debug.Log("Left!");
                 velocityX = 0f;
             }
 
@@ -321,7 +325,7 @@ public class MainCharacterControls : MonoBehaviour {
 
     bool Isgrounded() {
         RaycastHit2D groundRay = Physics2D.Raycast(playerCollider.bounds.center - Vector3.up * playerCollider.bounds.extents.y, Vector3.down, groundDetectionDistance, refrences.GroundLayerMask);
-        Debug.Log("Grounded: " + (groundRay.collider != null).ToString());
+        //Debug.Log("Grounded: " + (groundRay.collider != null).ToString());
         return groundRay.collider != null;
     }
     void UpdateAnimator() {
