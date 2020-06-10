@@ -1306,6 +1306,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -6.754
       objectReference: {fileID: 0}
+    - target: {fileID: 2512948591208482836, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.026259474
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512948591208482836, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9996552
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512948591208482836, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -3.009
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031956567427752515, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_TagString
+      value: LightconeMask
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
 --- !u!1 &655438298
@@ -2668,11 +2688,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1046652122}
     m_Modifications:
-    - target: {fileID: 1073217234443045918, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
-        type: 3}
-      propertyPath: m_MaskInteraction
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 1433483361841006241, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2753,6 +2768,11 @@ PrefabInstance:
       propertyPath: lightMaskCollider
       value: 
       objectReference: {fileID: 1856884595}
+    - target: {fileID: 7014617672423100469, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: aeffdbebf1e247a41923ea4ec202973a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f, type: 3}
 --- !u!1 &922160857

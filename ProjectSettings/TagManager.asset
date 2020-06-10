@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Platforms
   - Obstacles
+  - LightconeMask
   layers:
   - Default
   - TransparentFX
