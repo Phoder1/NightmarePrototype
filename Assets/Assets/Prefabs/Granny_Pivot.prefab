@@ -387,7 +387,7 @@ MonoBehaviour:
   - targetsTransform: {fileID: 0}
     maxIdleTime: 2
   - targetsTransform: {fileID: 0}
-    maxIdleTime: 3.5
+    maxIdleTime: 1.5
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 1073217232451045852}
   coloredRenderer: {fileID: 1073217234443045918}
