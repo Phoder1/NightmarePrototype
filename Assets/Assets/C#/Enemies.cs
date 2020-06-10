@@ -175,14 +175,6 @@ public class Enemies : MonoBehaviour {
     }
     private void Patrol() {
         Vector3 targetPos = MoveTowards(targets[currentTarget].targetsTransform.position);
-        //if (Vector3.Distance(transform.position, targetPos) < MIN_TARGET_DISTANCE && !isIdle) {
-        //    //Debug.Log(Vector3.Distance(transform.position, targetPos));
-        //    darkAnimator.SetBool("IsWalking", false);
-        //    coloredAnimator.SetBool("IsWalking", false);
-        //    /startIdleTime = Time.timeSinceLevelLoad;
-        //    isIdle = true;
-
-        //}
         if (isIdle && Time.timeSinceLevelLoad >= startIdleTime + targets[currentTarget].maxIdleTime) {
             isIdle = false;
             currentTarget++;

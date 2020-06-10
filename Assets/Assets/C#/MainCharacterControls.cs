@@ -99,7 +99,7 @@ public class MainCharacterControls : MonoBehaviour {
     }
 
     private void AttackCheck() {
-        if (playerCurrentState == PlayerStates.Idle || playerCurrentState == PlayerStates.Idle) {
+        if (!isAttacking) {
             if (Input.GetMouseButton(0)) {
                 //Switch + Hit with spoon
                 isFlashlight = false;
@@ -112,6 +112,7 @@ public class MainCharacterControls : MonoBehaviour {
             if (isAttacking) {
 
             }
+        }else {
 
         }
 
