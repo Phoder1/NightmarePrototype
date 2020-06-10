@@ -104,6 +104,7 @@ public class Enemies : MonoBehaviour {
             enemystate = States.Stunned;
             timeWhenStunned = Time.timeSinceLevelLoad;
             //coloredRenderer.maskInteraction = SpriteMaskInteraction.None;
+            LeanTween.alpha(coloredStunnedRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
         }
     }
 
@@ -126,7 +127,7 @@ public class Enemies : MonoBehaviour {
                 if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit && litTime == 0f) {
                     enemystate = States.Patrol;
                     //LeanTween.alpha(darkRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
-                    //LeanTween.alpha(coloredRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
+                    LeanTween.alpha(coloredStunnedRenderer.gameObject, MIN_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
                 }
                 break;
             case States.None:
@@ -136,7 +137,7 @@ public class Enemies : MonoBehaviour {
     }
 
     private void Stunned() {
-        animationTime += Time.deltaTime*0.3f;
+        animationTime += Time.deltaTime/BLINK_TIME;
     }
 
     private void Chase() {
