@@ -151,6 +151,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &217314070 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 787235861, guid: ebf7de6467e1a904297006cde3bb60ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 594377076}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &217314072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217314070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1e1ff8cdc0ac74ab1e2b7bfb43f228, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectTime: 0
 --- !u!1 &240689599
 GameObject:
   m_ObjectHideFlags: 0
@@ -349,6 +368,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 787235863, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7f9867cfe726de0468d5d1be4eb0c989, type: 2}
     - target: {fileID: 2512948589516347206, guid: ebf7de6467e1a904297006cde3bb60ef,
         type: 3}
       propertyPath: m_IsActive
@@ -1089,6 +1112,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7618861954589667421, guid: 02b970980f6761c41a1d26572cd97f96,
+        type: 3}
+      propertyPath: near clip plane
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7618861954589667422, guid: 02b970980f6761c41a1d26572cd97f96,
         type: 3}
       propertyPath: m_Name
