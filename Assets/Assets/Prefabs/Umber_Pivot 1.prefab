@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e61a5be6c6eb9a4380b8e6b04b5db5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsFlying: 0
+  IsFlying: 1
   targets:
   - targetsTransform: {fileID: 0}
     maxIdleTime: 2
