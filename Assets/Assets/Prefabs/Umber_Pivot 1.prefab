@@ -164,7 +164,7 @@ MonoBehaviour:
   normalSpeed: 3
   timeToStun: 3
   maxTimeStunned: 5
-  flashlightSpeedDecrease: 0
+  flashlightSpeedDecrease: 1.5
   detectionDistance: 3.47
 --- !u!50 &3564074200777950418
 Rigidbody2D:
