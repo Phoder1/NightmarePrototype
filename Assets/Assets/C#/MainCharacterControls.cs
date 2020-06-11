@@ -74,6 +74,7 @@ public class MainCharacterControls : MonoBehaviour {
     HandStates nextAttackState = HandStates.None;
     bool flashlightOn;
     float timeSinceFlashlightOn = 0f;
+    float flashlightChargeTime = 5f;
 
 
     const float SHOULDER_RETURN_SPEED = 5f;
@@ -130,17 +131,28 @@ public class MainCharacterControls : MonoBehaviour {
 
                     lastAttackState = currentAttackState;
                 }
+                if(flashlightChargeTime > 0f) {
+                    if (Input.GetMouseButton(0) && !flashlightOn) {
+                        flashlightOn = true;
+                        timeSinceFlashlightOn = Time.timeSinceLevelLoad;
 
-                if (Input.GetMouseButton(0) && !flashlightOn) {
-                    flashlightOn = true;
-                    timeSinceFlashlightOn = Time.timeSinceLevelLoad;
-
+                    }
+                    else if (Input.GetMouseButtonDown(0)) {
+                        flashlightOn = true;
+                        timeSinceFlashlightOn = Mathf.Min(timeSinceFlashlightOn + minFlashlightOnTime * 0.3f, Time.timeSinceLevelLoad);
+                    }
+                    else if (Input.GetMouseButton(0)) {
+                        flashlightOn = true;
+                    }
+                    else if (flashlightOn && Time.timeSinceLevelLoad >= timeSinceFlashlightOn + minFlashlightOnTime) {
+                        flashlightOn = false;
+                    }
                 }
-                else if (Input.GetMouseButton(0)) {
-                    flashlightOn = true;
-                }
-                else if (flashlightOn && Time.timeSinceLevelLoad >= timeSinceFlashlightOn + minFlashlightOnTime) {
+                else {
                     flashlightOn = false;
+                }
+                if (flashlightOn) {
+                    flashlightChargeTime = Mathf.Max(flashlightChargeTime - Time.deltaTime, 0f);
                 }
                 refrences.lightCone.SetActive(flashlightOn);
                 shoulderDegree += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
