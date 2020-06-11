@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() {
+    void FixedUpdate() {
         float posX = Mathf.Clamp(playerTransform.position.x, 0, maxlevelX);
         float posY = Mathf.Clamp(playerTransform.position.y, 0, maxlevelY);
         
