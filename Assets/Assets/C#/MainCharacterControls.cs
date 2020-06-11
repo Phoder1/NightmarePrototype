@@ -17,6 +17,8 @@ public class MainCharacterControls : MonoBehaviour {
         [SerializeField]
         internal GameObject lightCone;
         [SerializeField]
+        internal SpriteRenderer lightconeSprite;
+        [SerializeField]
         internal Transform SpoonTransform;
         [SerializeField]
         internal LayerMask GroundLayerMask;
@@ -47,6 +49,8 @@ public class MainCharacterControls : MonoBehaviour {
 
     [SerializeField]
     float minFlashlightOnTime = 1f;
+    [SerializeField]
+    float maxFlashlightChargeTime = 5f;
 
     //General Variables
     Animator playerAnimator;
@@ -74,7 +78,7 @@ public class MainCharacterControls : MonoBehaviour {
     HandStates nextAttackState = HandStates.None;
     bool flashlightOn;
     float timeSinceFlashlightOn = 0f;
-    float flashlightChargeTime = 5f;
+    float currentFlashlightChargeTime;
 
 
     const float SHOULDER_RETURN_SPEED = 5f;
@@ -100,6 +104,7 @@ public class MainCharacterControls : MonoBehaviour {
         playerRenderer = GetComponentInChildren<SpriteRenderer>();
         playerCollider = GetComponentInChildren<Collider2D>();
         Cursor.lockState = CursorLockMode.Locked;
+        currentFlashlightChargeTime = maxFlashlightChargeTime;
     }
 
     private void FixedUpdate() {
@@ -131,7 +136,7 @@ public class MainCharacterControls : MonoBehaviour {
 
                     lastAttackState = currentAttackState;
                 }
-                if(flashlightChargeTime > 0f) {
+                if(currentFlashlightChargeTime > 0f) {
                     if (Input.GetMouseButton(0) && !flashlightOn) {
                         flashlightOn = true;
                         timeSinceFlashlightOn = Time.timeSinceLevelLoad;
@@ -152,8 +157,9 @@ public class MainCharacterControls : MonoBehaviour {
                     flashlightOn = false;
                 }
                 if (flashlightOn) {
-                    flashlightChargeTime = Mathf.Max(flashlightChargeTime - Time.deltaTime, 0f);
+                    currentFlashlightChargeTime = Mathf.Max(currentFlashlightChargeTime - Time.deltaTime, 0f);
                 }
+                refrences.lightconeSprite.material.SetFloat("BatteryLife", currentFlashlightChargeTime / maxFlashlightChargeTime);
                 refrences.lightCone.SetActive(flashlightOn);
                 shoulderDegree += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
                 shoulderDegree = Mathf.Clamp(shoulderDegree, ShoulderMinDegree, ShoulderMaxDegree);
