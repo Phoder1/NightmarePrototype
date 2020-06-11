@@ -15,6 +15,8 @@ public class MainCharacterControls : MonoBehaviour {
         [SerializeField]
         internal Transform FlashlightTransform;
         [SerializeField]
+        internal GameObject lightCone;
+        [SerializeField]
         internal Transform SpoonTransform;
         [SerializeField]
         internal LayerMask GroundLayerMask;
@@ -43,6 +45,9 @@ public class MainCharacterControls : MonoBehaviour {
     [SerializeField]
     float JumpForce = 0f;
 
+    [SerializeField]
+    float minFlashlightOnTime = 1f;
+
     //General Variables
     Animator playerAnimator;
     SpriteRenderer playerRenderer;
@@ -59,11 +64,17 @@ public class MainCharacterControls : MonoBehaviour {
 
     //State machine
     enum PlayerStates { Idle, Moving, Jump, Falling, Flashlight, None };
-    enum HandStates { Spoon, Flashlight, None};
-    bool isFlashlight;
-    bool isAttacking;
     PlayerStates playerCurrentState = PlayerStates.Idle;
     PlayerStates playerLastState = PlayerStates.None;
+
+
+    enum HandStates { Spoon, Flashlight, Transition, None};
+    HandStates lastAttackState = HandStates.None;
+    HandStates currentAttackState = HandStates.Flashlight;
+    HandStates nextAttackState = HandStates.None;
+    bool flashlightOn;
+    float timeSinceFlashlightOn = 0f;
+
 
     const float SHOULDER_RETURN_SPEED = 5f;
 
@@ -104,25 +115,47 @@ public class MainCharacterControls : MonoBehaviour {
     }
 
     private void AttackCheck() {
-        if (!isAttacking) {
-            if (Input.GetMouseButton(0)) {
-                //Switch + Hit with spoon
-                isFlashlight = false;
-                isAttacking = true;
-            }
-            else if (Input.GetMouseButton(1)) {
-                isFlashlight = true;
-                isAttacking = true;
-            }
-        }
-        else if (isFlashlight){
+        switch (currentAttackState) {
+            case HandStates.Spoon:
+                if (currentAttackState != lastAttackState) {
 
-            shoulderDegree += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
-            shoulderDegree = Mathf.Clamp(shoulderDegree, ShoulderMinDegree, ShoulderMaxDegree);
-            refrences.ShoulderTransform.localRotation = Quaternion.Euler(refrences.ShoulderTransform.localRotation.eulerAngles.x, refrences.ShoulderTransform.localRotation.eulerAngles.y, shoulderDegree);
-        }
-        else {
+                    lastAttackState = currentAttackState;
+                }
 
+
+
+                break;
+            case HandStates.Flashlight:
+                if (currentAttackState != lastAttackState) {
+
+                    lastAttackState = currentAttackState;
+                }
+
+                if (Input.GetMouseButton(0) && !flashlightOn) {
+                    flashlightOn = true;
+                    timeSinceFlashlightOn = Time.timeSinceLevelLoad;
+
+                }
+                else if (Input.GetMouseButton(0)) {
+                    flashlightOn = true;
+                }
+                else if (flashlightOn && Time.timeSinceLevelLoad >= timeSinceFlashlightOn + minFlashlightOnTime) {
+                    flashlightOn = false;
+                }
+                refrences.lightCone.SetActive(flashlightOn);
+                shoulderDegree += Input.GetAxisRaw("Mouse Y") * MouseSensetivity * Time.deltaTime;
+                shoulderDegree = Mathf.Clamp(shoulderDegree, ShoulderMinDegree, ShoulderMaxDegree);
+                refrences.ShoulderTransform.localRotation = Quaternion.Euler(refrences.ShoulderTransform.localRotation.eulerAngles.x, refrences.ShoulderTransform.localRotation.eulerAngles.y, shoulderDegree);
+
+                break;
+            case HandStates.Transition:
+                if (currentAttackState != lastAttackState) {
+
+                    lastAttackState = currentAttackState;
+                }
+                break;
+            case HandStates.None:
+                break;
         }
     }
 
@@ -325,9 +358,10 @@ public class MainCharacterControls : MonoBehaviour {
 
 
     bool Isgrounded() {
-        RaycastHit2D groundRay = Physics2D.Raycast(playerCollider.bounds.center - Vector3.up * playerCollider.bounds.extents.y, Vector3.down, groundDetectionDistance, refrences.GroundLayerMask);
+        RaycastHit2D minGroundRay = Physics2D.Raycast(playerCollider.bounds.min, Vector3.down, groundDetectionDistance, refrences.GroundLayerMask);
+        RaycastHit2D maxGroundRay = Physics2D.Raycast(playerCollider.bounds.min + Vector3.right * playerCollider.bounds.size.x, Vector3.down, groundDetectionDistance, refrences.GroundLayerMask);
         //Debug.Log("Grounded: " + (groundRay.collider != null).ToString());
-        return groundRay.collider != null;
+        return minGroundRay.collider != null || maxGroundRay.centroid != null;
     }
     void UpdateAnimator() {
         playerAnimator.SetBool("Running", playerCurrentState == PlayerStates.Moving);

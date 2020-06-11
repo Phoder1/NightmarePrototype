@@ -166,7 +166,6 @@ MonoBehaviour:
   maxTimeStunned: 5
   flashlightSpeedDecrease: 0
   detectionDistance: 3.47
-  lightMaskCollider: {fileID: 0}
 --- !u!50 &3564074200777950418
 Rigidbody2D:
   serializedVersion: 4
@@ -240,7 +239,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6739393795778466278}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.044, y: 0.148, z: 0}
+  m_LocalPosition: {x: -0.041, y: 0.138, z: 0}
   m_LocalScale: {x: 0.2706876, y: 0.2706876, z: 0.2706876}
   m_Children: []
   m_Father: {fileID: 3564074200777950417}
@@ -287,7 +286,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 108b3173dcfb7dc47a7f367ed14bff3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 7.01, y: 9.17}
@@ -341,7 +340,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8920196690253846342}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.044, y: 0.148, z: 0}
+  m_LocalPosition: {x: -0.04100004, y: 0.13799977, z: 0}
   m_LocalScale: {x: 0.2706876, y: 0.2706876, z: 0.2706876}
   m_Children: []
   m_Father: {fileID: 3564074200777950417}
@@ -388,7 +387,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 108b3173dcfb7dc47a7f367ed14bff3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 7.01, y: 9.17}
