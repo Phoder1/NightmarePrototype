@@ -950,6 +950,23 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 175702c230e69194cbd88dd917d5c273, type: 2}
+    - target: {fileID: 1552594165, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552594166, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.7102494
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552594167, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 955a69a26e2f4f64183a9bf542ef45d6,
+        type: 3}
+    - target: {fileID: 1552594167, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2512948590590571738, guid: ebf7de6467e1a904297006cde3bb60ef,
         type: 3}
       propertyPath: m_IsActive
@@ -963,7 +980,7 @@ PrefabInstance:
     - target: {fileID: 2512948591055976012, guid: ebf7de6467e1a904297006cde3bb60ef,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.61
+      value: -19.53
       objectReference: {fileID: 0}
     - target: {fileID: 2512948591055976012, guid: ebf7de6467e1a904297006cde3bb60ef,
         type: 3}
@@ -1039,6 +1056,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: LightconeMask
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031956567427752515, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415429836502935643, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 955a69a26e2f4f64183a9bf542ef45d6,
+        type: 3}
+    - target: {fileID: 4415429836502935643, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_MaskAlphaCutoff
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
@@ -1761,7 +1794,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 863530335}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.17, z: 0}
+  m_LocalPosition: {x: 0.057, y: -0.17, z: 0}
   m_LocalScale: {x: 0.5811064, y: 1.0079982, z: 2.2814784}
   m_Children: []
   m_Father: {fileID: 1822554477}
