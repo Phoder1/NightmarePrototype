@@ -135,6 +135,9 @@ public class MainCharacterControls : MonoBehaviour {
                     flashlightOn = true;
                     timeSinceFlashlightOn = Time.timeSinceLevelLoad;
 
+                }else if (Input.GetMouseButtonDown(0)) {
+                    flashlightOn = true;
+                    timeSinceFlashlightOn = Mathf.Min(timeSinceFlashlightOn + minFlashlightOnTime * 0.3f, Time.timeSinceLevelLoad);
                 }
                 else if (Input.GetMouseButton(0)) {
                     flashlightOn = true;
