@@ -6,10 +6,11 @@ public class PlatformBounds : MonoBehaviour {
     Collider2D collider;
     // Start is called before the first frame update
     void Start() {
-        collider = GetComponent<Collider2D>();
+        
     }
 
     private void OnDrawGizmos() {
+        collider = GetComponent<Collider2D>();
         Gizmos.DrawWireCube(collider.bounds.center, collider.bounds.size);
     }
 }
