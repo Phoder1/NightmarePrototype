@@ -96,7 +96,7 @@ public class MainCharacterControls : MonoBehaviour {
 
     const float spoonTransitionTime = 0.5f;
     const float SHOULDER_RETURN_SPEED = 5f;
-    const float GROUNDCHECK_RATIO = 0.01f;
+    const float GROUNDCHECK_RATIO = 0.06f;
     const float FALL_ANIMATION_SPEED = 0.5f;
 
 

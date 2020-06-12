@@ -44,6 +44,12 @@ public class Enemies : MonoBehaviour {
 
     Collider2D lightMaskCollider;
 
+    //State machine
+    States lastState = States.None;
+    States currentState = States.Patrol;
+    States nextState = States.None;
+
+
 
     float animationTime = 0f;
     bool isBeingLit;
@@ -55,21 +61,12 @@ public class Enemies : MonoBehaviour {
     float actualSpeed;
     Animator darkAnimator;
     Animator coloredAnimator;
-    Transform darkTransform;
-    Transform coloredTransform;
-    Vector3 lastPlayerPos;
-    Vector3 nextPosition;
     int currentTarget = 0;
-    Animator animator;
-    States lastState = States.None;
-    States currentState = States.Patrol;
-    States nextState = States.None;
     float startIdleTime = 0f;
     bool isIdle = false;
     float timeWhenStunned;
 
     const float ATTACK_EXTRA_RANGE = 0.5f;
-    const float MIN_TARGET_DISTANCE = 0.1f;
     const float BLINK_TIME = 2f;
     const float MIN_WALKINGSPEED_RATIO = 0.2f;
 
@@ -77,13 +74,10 @@ public class Enemies : MonoBehaviour {
     void Start() {
         darkAnimator = darkRenderer.GetComponent<Animator>();
         coloredAnimator = coloredRenderer.GetComponent<Animator>();
-        darkTransform = darkRenderer.GetComponent<Transform>();
-        coloredTransform = coloredRenderer.GetComponent<Transform>();
         lightMaskCollider = GameObject.FindGameObjectWithTag("LightconeMask").GetComponent<Collider2D>();
         darkMaterial = darkRenderer.material;
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
-        nextPosition = transform.position;
         life = numOfLives;
     }
 
@@ -190,6 +184,8 @@ public class Enemies : MonoBehaviour {
                 break;
             case States.Attack:
                 if (currentState != lastState) {
+
+
 
                     lastState = currentState;
                 }
