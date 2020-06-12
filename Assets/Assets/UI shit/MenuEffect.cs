@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuEffect : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class MenuEffect : MonoBehaviour
     private float nextActionTime = 1f;
     private float blinkTimeStart;
     [SerializeField]
-    private float Duration = 0.2f;
+    private float Duration = 6f;
     [SerializeField]
     private float period = 2.5f;
     private int IsBlink = 0;
@@ -18,12 +19,19 @@ public class MenuEffect : MonoBehaviour
     int BlinksCount = 2;
     Color color1;
     Color color2;
+    bool blinkToggle = false;
+    float animationTime;
+    Material material;
+    
 
     private void Start()
     {
         Renderer = GetComponent<CanvasRenderer>();
         color1 = new Color(1f, 1f, 1f, 0f);
         color2 = new Color(1f, 1f, 1f, 1f);
+        material = gameObject.GetComponent<Image>().material;
+        material.SetFloat("Respawn", 1f);
+        material.SetFloat("DissolveIntensity", 0f);
     }
 
     void Update()
@@ -32,23 +40,30 @@ public class MenuEffect : MonoBehaviour
         {
             if (Time.time > nextActionTime)
             {
-
                 IsBlink++;
                 blinkTimeStart = Time.time;
-                Renderer.SetColor(color1);
+                
+                //Renderer.SetColor(color1);
             }
         }
         else
         {
-            if(Time.time>blinkTimeStart+Duration)
+            Debug.Log(Time.time - blinkTimeStart + Duration <= Duration / 2);
+            if (Time.time - blinkTimeStart <= Duration / 2) {
+                animationTime = Mathf.Clamp(animationTime + (Time.deltaTime / (Duration / 2)), 0f, 1f);
+            }
+            else {
+                animationTime = Mathf.Clamp(animationTime - (Time.deltaTime / (Duration / 2)), 0f, 1f);
+            }
+            material.SetFloat("DissolveIntensity", animationTime);
+            if (Time.time>=blinkTimeStart+Duration)
             {
-                IsBlink++;
-                if(IsBlink >= BlinksCount)
-                {
-                    IsBlink = 0;
-                }
+                IsBlink = 0;
                 nextActionTime = Time.time + period;
-                Renderer.SetColor(color2);
+                material.SetFloat("DissolveIntensity", 0f);
+
+
+                //Renderer.SetColor(color2);
             }
         }
     }

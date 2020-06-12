@@ -2332,7 +2332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 7f9867cfe726de0468d5d1be4eb0c989, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -2368,7 +2368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60a4de0d8b0d9345b5e6fff66bc61d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 0.2
+  Duration: 6
   period: 2.5
   BlinksCount: 99
 --- !u!1 &2120947924
