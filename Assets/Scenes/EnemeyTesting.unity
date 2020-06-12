@@ -332,6 +332,16 @@ PrefabInstance:
       propertyPath: targets.Array.data[1].targetsTransform
       value: 
       objectReference: {fileID: 861733428}
+    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
+        type: 3}
+      propertyPath: attackRange
+      value: 2.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
+        type: 3}
+      propertyPath: distanceToAttack
+      value: 2.07
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f, type: 3}
 --- !u!1001 &369026167
@@ -511,6 +521,11 @@ PrefabInstance:
       propertyPath: minFlashlightOnTime
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 2512948591055976013, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: attackDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebf7de6467e1a904297006cde3bb60ef, type: 3}
 --- !u!1001 &613577565
@@ -599,6 +614,11 @@ PrefabInstance:
         type: 3}
       propertyPath: flashlightSpeedDecrease
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564074200777950419, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
+        type: 3}
+      propertyPath: maxTimeStunned
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3564074200777950422, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
         type: 3}
@@ -1577,10 +1597,12 @@ MonoBehaviour:
   coloredRenderer: {fileID: 666288015812599389}
   coloredStunnedRenderer: {fileID: 566314497172874514}
   normalSpeed: 3.2
+  numOfLives: 3
   timeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1
   detectionDistance: 4.4
+  distanceToAttack: 0
 --- !u!95 &7386775933411418289
 Animator:
   serializedVersion: 3

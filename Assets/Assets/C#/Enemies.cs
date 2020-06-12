@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class Enemies : MonoBehaviour {
-    enum States { Patrol, Chase, Stunned, Transition, None };
+    enum States { Patrol, Chase, Stunned, Transition, Attack, None };
 
     [Serializable]
     class Target {
@@ -30,6 +30,8 @@ public class Enemies : MonoBehaviour {
     [SerializeField]
     float normalSpeed;
     [SerializeField]
+    int numOfLives = 3;
+    [SerializeField]
     float timeToStun = 3f;
     [SerializeField]
     float maxTimeStunned = 5f;
@@ -37,6 +39,8 @@ public class Enemies : MonoBehaviour {
     float flashlightSpeedDecrease;
     [SerializeField]
     float detectionDistance;
+    [SerializeField]
+    float distanceToAttack;
 
     Collider2D lightMaskCollider;
 
@@ -44,6 +48,8 @@ public class Enemies : MonoBehaviour {
     float animationTime = 0f;
     bool isBeingLit;
     bool wasHit = false;
+    bool isStillBeingHit = false;
+    int life;
     float litTime = 0f;
     Transform playerTransform;
     float actualSpeed;
@@ -62,7 +68,7 @@ public class Enemies : MonoBehaviour {
     bool isIdle = false;
     float timeWhenStunned;
 
-
+    const float ATTACK_EXTRA_RANGE = 0.5f;
     const float MIN_TARGET_DISTANCE = 0.1f;
     const float BLINK_TIME = 2f;
     const float MIN_WALKINGSPEED_RATIO = 0.2f;
@@ -78,6 +84,7 @@ public class Enemies : MonoBehaviour {
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
         nextPosition = transform.position;
+        life = numOfLives;
     }
 
     // Update is called once per frame
@@ -86,14 +93,12 @@ public class Enemies : MonoBehaviour {
         StateMachine();
     }
 
-    private void UpdateShader() {
+    private void UpdateEffect() {
         if(nextState == States.Stunned) {
-            darkMaterial.SetFloat("Respawn", 0f);
-            animationTime = Mathf.Clamp(animationTime + Time.deltaTime / BLINK_TIME, 0f, 1f);
+            animationTime = Mathf.Clamp(animationTime + (Time.deltaTime / BLINK_TIME), 0f, 1f);
         }
         else {
-            darkMaterial.SetFloat("Respawn", 1f);
-            animationTime = Mathf.Clamp(animationTime - Time.deltaTime / BLINK_TIME, 0f, 1f);
+            animationTime = Mathf.Clamp(animationTime - (Time.deltaTime / BLINK_TIME), 0f, 1f);
         }
         darkMaterial.SetFloat("DissolveIntensity", animationTime);
     }
@@ -109,16 +114,20 @@ public class Enemies : MonoBehaviour {
         if (litTime >= timeToStun && currentState != States.Stunned && currentState != States.Transition) {
             currentState = States.Transition;
             nextState = States.Stunned;
-            LeanTween.alpha(coloredStunnedRenderer.gameObject, 1f, BLINK_TIME).setEaseInCirc();
+            
         }
     }
 
     private void StateMachine() {
-        if (wasHit) {
-            
-            currentState = States.Transition;
-            nextState = States.Stunned;
+        if (wasHit && !isStillBeingHit) {
+            life--;
+            if (life == 0) {
+                currentState = States.Transition;
+                nextState = States.Stunned;
+            }
+
             wasHit = false;
+
         }
         switch (currentState) {
             case States.Patrol:
@@ -144,17 +153,15 @@ public class Enemies : MonoBehaviour {
                 break;
             case States.Stunned:
                 if (currentState != lastState) {
-
+                    timeWhenStunned = Time.timeSinceLevelLoad;
 
                     lastState = currentState;
                 }
                 Stunned();
-                if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit && litTime == 0f) {
-                    //LeanTween.alpha(darkRenderer.gameObject, MAX_ALPHA_WHITE_BLINK, BLINK_TIME).setEaseInSine();
+                if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit) {
                     currentState = States.Transition;
                     nextState = States.Patrol;
-                    darkMaterial.SetFloat("Respawn", 1f);
-                    LeanTween.alpha(coloredStunnedRenderer.gameObject, 0f, BLINK_TIME).setEaseOutCirc();
+                    life = numOfLives;
                 }
                 break;
 
@@ -162,13 +169,31 @@ public class Enemies : MonoBehaviour {
                 if (currentState != lastState) {
                     darkAnimator.SetBool("IsWalking", false);
                     coloredAnimator.SetBool("IsWalking", false);
+                    if (nextState == States.Stunned) {
+                        darkMaterial.SetFloat("Respawn", 0f);
+                        LeanTween.alpha(coloredStunnedRenderer.gameObject, 1f, BLINK_TIME).setEaseInCirc();
+                    }
+                    else {
+                        darkMaterial.SetFloat("Respawn", 1f);
+                        LeanTween.alpha(coloredStunnedRenderer.gameObject, 0f, BLINK_TIME).setEaseOutCirc();
+                    }
 
                     lastState = currentState;
                 }
-                UpdateShader();
-                if(animationTime == 1f || animationTime ==  0f) {
+                UpdateEffect();
+                if (animationTime == 1f || animationTime == 0f) {
                     currentState = nextState;
                 }
+                break;
+            case States.Attack:
+                if (currentState != lastState) {
+
+                    lastState = currentState;
+                }
+
+
+                break;
+            case States.None:
                 break;
         }
     }
@@ -251,6 +276,7 @@ public class Enemies : MonoBehaviour {
             }
             if(contacts[i].collider.tag == "Spoon") {
                 wasHit = true;
+                isStillBeingHit = true;
                 Debug.Log(wasHit);
             }
         }
@@ -258,12 +284,19 @@ public class Enemies : MonoBehaviour {
 
     private void OnCollisionExit2D(Collision2D collision) {
         isBeingLit = false;
+        isStillBeingHit = false;
     }
 
     private void OnDrawGizmos() {
+
         Gizmos.DrawWireCube(transform.position, darkRenderer.bounds.size);
         Gizmos.DrawWireCube(areaLimits.transform.position + (Vector3)areaLimits.offset, areaLimits.bounds.size);
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionDistance);
+        Gizmos.color = Color.red;   
+        Gizmos.DrawWireSphere(transform.position, distanceToAttack);
+        Gizmos.DrawWireSphere(transform.position + transform.right* distanceToAttack/2, distanceToAttack/2 + ATTACK_EXTRA_RANGE);
+
     }
 }
 
