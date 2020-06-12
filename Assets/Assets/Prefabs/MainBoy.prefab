@@ -501,7 +501,7 @@ MonoBehaviour:
   Gravity: 30
   groundDetectionDistance: 0.2
   JumpForce: 15
-  minFlashlightOnTime: 0.5
+  minFlashlightOnTime: 0.25
   maxFlashlightChargeTime: 10
 --- !u!212 &2512948591055976015
 SpriteRenderer:
