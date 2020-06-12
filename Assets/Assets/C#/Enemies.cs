@@ -149,7 +149,10 @@ public class Enemies : MonoBehaviour {
                 Chase();
                 if (Vector3.Distance(transform.position, playerTransform.position) > detectionDistance) {
                     currentState = States.Patrol;
+                }else if(Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
+                    currentState = States.Attack;
                 }
+
                 break;
             case States.Stunned:
                 if (currentState != lastState) {

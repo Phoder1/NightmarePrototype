@@ -26,6 +26,10 @@ public class MainCharacterControls : MonoBehaviour {
         internal Animator SpoonPivotAnimator;
         [SerializeField]
         internal LayerMask GroundLayerMask;
+        [SerializeField]
+        internal Collider2D PlayerCollider;
+        [SerializeField]
+        internal Transform PlayerPivot;
 
     }
     [SerializeField]
@@ -46,8 +50,8 @@ public class MainCharacterControls : MonoBehaviour {
 
     [SerializeField]
     float Gravity;
-    [SerializeField]
-    float groundDetectionDistance;
+    
+    const float GROUND_DETECTION_DISTANCE=0.1f;
     [SerializeField]
     float JumpForce = 0f;
 
@@ -62,7 +66,6 @@ public class MainCharacterControls : MonoBehaviour {
     //General Variables
     Animator playerAnimator;
     SpriteRenderer playerRenderer;
-    Collider2D playerCollider;
     SpriteRenderer spoonRenderer;
     Collider2D spoonCollider;
     Animator spoonAnimator;
@@ -93,6 +96,8 @@ public class MainCharacterControls : MonoBehaviour {
 
     const float spoonTransitionTime = 0.5f;
     const float SHOULDER_RETURN_SPEED = 5f;
+    const float GROUNDCHECK_RATIO = 0.01f;
+    const float FALL_ANIMATION_SPEED = 0.5f;
 
 
 
@@ -113,7 +118,6 @@ public class MainCharacterControls : MonoBehaviour {
         Platforms = GameObject.FindGameObjectsWithTag("Platforms");
         Obstacles = GameObject.FindGameObjectsWithTag("Obstacles");
         playerRenderer = GetComponentInChildren<SpriteRenderer>();
-        playerCollider = GetComponentInChildren<Collider2D>();
         Cursor.lockState = CursorLockMode.Locked;
         currentFlashlightChargeTime = maxFlashlightChargeTime;
         spoonRenderer = refrences.Spoon.GetComponent<SpriteRenderer>();
@@ -176,10 +180,6 @@ public class MainCharacterControls : MonoBehaviour {
                         timeSinceFlashlightOn = Time.timeSinceLevelLoad;
 
                     }
-                    //else if (Input.GetMouseButtonDown(0)) {
-                    //    flashlightOn = true;
-                    //    timeSinceFlashlightOn = Mathf.Min(timeSinceFlashlightOn + minFlashlightOnTime * 0.3f, Time.timeSinceLevelLoad);
-                    //}
                     else if (Input.GetMouseButton(0)) {
                         flashlightOn = true;
                     }
@@ -321,6 +321,7 @@ public class MainCharacterControls : MonoBehaviour {
 
                 //State end condition
                 if (Isgrounded()) {
+                    
                     playerCurrentState = PlayerStates.Idle;
                 }
 
@@ -337,18 +338,18 @@ public class MainCharacterControls : MonoBehaviour {
 
         velocityX = MoveVelocity * Input.GetAxis("Horizontal");
         if (velocityX < 0) {
-            transform.localRotation = Quaternion.Euler(transform.localRotation.x, 180, transform.localRotation.z);
+            refrences.PlayerPivot.localRotation = Quaternion.Euler(transform.localRotation.x, 180, transform.localRotation.z);
         }
         else if (velocityX > 0) {
-            transform.localRotation = Quaternion.Euler(transform.localRotation.x, 0, transform.localRotation.z);
+            refrences.PlayerPivot.localRotation = Quaternion.Euler(transform.localRotation.x, 0, transform.localRotation.z);
         }
         if (!Isgrounded()) {
             velocityY -= Gravity * Time.deltaTime;
         }
         Vector3 movement = (Vector3.up * velocityY * Time.deltaTime) + (Vector3.right * velocityX * Time.deltaTime);
-        Vector2 playerMaxCorner = playerCollider.bounds.max;
-        Vector2 playerMinCorner = playerCollider.bounds.min;
-        Debug.DrawRay(playerMinCorner, Vector3.right * playerCollider.bounds.size.x, Color.red, Time.deltaTime);
+        Vector2 playerMaxCorner = refrences.PlayerCollider.bounds.max;
+        Vector2 playerMinCorner = refrences.PlayerCollider.bounds.min;
+        Debug.DrawRay(playerMinCorner, Vector3.right * refrences.PlayerCollider.bounds.size.x, Color.red, Time.deltaTime);
         //Debug.Log(playerRenderer.bounds.extents.x);
 
         for (int i = 0; i < Platforms.Length; i++) {
@@ -361,6 +362,9 @@ public class MainCharacterControls : MonoBehaviour {
                 && playerMaxCorner.x > platformCollider.bounds.min.x) {
 
                 movement.y = platformCollider.bounds.max.y - playerMinCorner.y;
+                if(velocityY <= -FALL_ANIMATION_SPEED) {
+                    playerAnimator.SetTrigger("Landing");
+                }
                 velocityY = 0f;
             }
         }
@@ -426,11 +430,13 @@ public class MainCharacterControls : MonoBehaviour {
 
 
     bool Isgrounded() {
-        RaycastHit2D minGroundRay = Physics2D.Raycast(playerCollider.bounds.min, Vector3.down, groundDetectionDistance, refrences.GroundLayerMask);
-        RaycastHit2D maxGroundRay = Physics2D.Raycast(playerCollider.bounds.min + Vector3.right * playerCollider.bounds.size.x, Vector3.down, groundDetectionDistance, refrences.GroundLayerMask);
-        //Debug.DrawRay(playerCollider.bounds.min, Vector3.down * groundDetectionDistance);
-        //Debug.DrawRay(playerCollider.bounds.min + Vector3.right * playerCollider.bounds.size.x, Vector3.down * groundDetectionDistance);
-        //Debug.Log("Checking ground!" + (minGroundRay.collider != null || maxGroundRay.centroid != null).ToString());
+        Vector3 minPoint = refrences.PlayerCollider.bounds.min + Vector3.right * GROUNDCHECK_RATIO * refrences.PlayerCollider.bounds.size.x;
+        Vector3 maxPoint = refrences.PlayerCollider.bounds.min + Vector3.right * refrences.PlayerCollider.bounds.size.x - Vector3.right * (GROUNDCHECK_RATIO * refrences.PlayerCollider.bounds.size.x);
+        RaycastHit2D minGroundRay = Physics2D.Raycast(minPoint, Vector3.down, GROUND_DETECTION_DISTANCE, refrences.GroundLayerMask);
+        RaycastHit2D maxGroundRay = Physics2D.Raycast(maxPoint, Vector3.down, GROUND_DETECTION_DISTANCE, refrences.GroundLayerMask);
+        Debug.DrawRay(maxPoint , Vector3.down * GROUND_DETECTION_DISTANCE);
+        Debug.DrawRay(minPoint, Vector3.down * GROUND_DETECTION_DISTANCE);
+        Debug.Log("Checking ground!" + (minGroundRay.collider != null || maxGroundRay.centroid != null).ToString());
         return minGroundRay.collider != null || maxGroundRay.collider != null;
 
     }
@@ -442,7 +448,7 @@ public class MainCharacterControls : MonoBehaviour {
 
     private void OnDrawGizmos() {
         spoonCollider = refrences.Spoon.GetComponent<Collider2D>();
-        Gizmos.DrawRay(transform.position, Vector3.down * groundDetectionDistance);
+        Gizmos.DrawRay(transform.position, Vector3.down * GROUND_DETECTION_DISTANCE);
         Gizmos.DrawWireCube(spoonCollider.bounds.center, spoonCollider.bounds.size);
     }
 }
