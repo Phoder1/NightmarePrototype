@@ -41,7 +41,7 @@ public class MenuEffect : MonoBehaviour
             if (Time.time > nextActionTime)
             {
                 IsBlink++;
-                blinkTimeStart = Time.time;
+                blinkTimeStart = Time.time + Random.Range(0f, 1f); ;
                 
                 //Renderer.SetColor(color1);
             }
@@ -59,7 +59,7 @@ public class MenuEffect : MonoBehaviour
             if (Time.time>=blinkTimeStart+Duration)
             {
                 IsBlink = 0;
-                nextActionTime = Time.time + period;
+                nextActionTime = Time.time + period + Random.Range(0f,1.5f);
                 material.SetFloat("DissolveIntensity", 0f);
 
 
