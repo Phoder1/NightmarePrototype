@@ -13,6 +13,8 @@ public class MainCharacterControls : MonoBehaviour {
         [SerializeField]
         internal Transform ShoulderTransform;
         [SerializeField]
+        internal Animator ShoulderAnimator;
+        [SerializeField]
         internal GameObject Flashlight;
         [SerializeField]
         internal GameObject lightCone;
@@ -81,7 +83,6 @@ public class MainCharacterControls : MonoBehaviour {
     float currentFlashlightChargeTime;
     float spoonEffectTime;
 
-    Animator shoulderAnimator;
     const float spoonTransitionTime = 0.5f;
     const float SHOULDER_RETURN_SPEED = 5f;
 
@@ -107,7 +108,6 @@ public class MainCharacterControls : MonoBehaviour {
         playerCollider = GetComponentInChildren<Collider2D>();
         Cursor.lockState = CursorLockMode.Locked;
         currentFlashlightChargeTime = maxFlashlightChargeTime;
-        shoulderAnimator = refrences.ShoulderTransform.GetComponent<Animator>();
     }
 
     private void FixedUpdate() {
@@ -128,17 +128,16 @@ public class MainCharacterControls : MonoBehaviour {
         switch (currentAttackState) {
             case HandStates.Spoon:
                 if (currentAttackState != lastAttackState) {
-                    refrences.ShoulderTransform.rotation = Quaternion.Euler(0f, 0f, 14.114f);
                     lastAttackState = currentAttackState;
                 }
                 if (Input.GetMouseButtonDown(0)) {
-                    shoulderAnimator.SetTrigger("Attacking");
+                    refrences.ShoulderAnimator.SetTrigger("Attacking");
                 }   
 
 
 
 
-                if (Input.mouseScrollDelta.y != 0f && !shoulderAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) {
+                if (Input.mouseScrollDelta.y != 0f && !refrences.ShoulderAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) {
                     currentAttackState = HandStates.Transition;
                     nextAttackState = HandStates.Flashlight;
                 }
@@ -191,6 +190,7 @@ public class MainCharacterControls : MonoBehaviour {
                 if (currentAttackState != lastAttackState) {
                     if (lastAttackState == HandStates.Flashlight) {
                         refrences.Flashlight.SetActive(false);
+                        refrences.ShoulderTransform.rotation = Quaternion.Euler(0f, 0f, 14.114f);
                     }
 
                     lastAttackState = currentAttackState;
