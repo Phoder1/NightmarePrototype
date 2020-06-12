@@ -76,6 +76,7 @@ public class Enemies : MonoBehaviour {
         coloredAnimator = coloredRenderer.GetComponent<Animator>();
         lightMaskCollider = GameObject.FindGameObjectWithTag("LightconeMask").GetComponent<Collider2D>();
         darkMaterial = darkRenderer.material;
+        darkMaterial.SetFloat("DissolveIntensity", 0f);
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
         life = numOfLives;

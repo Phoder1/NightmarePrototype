@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -2786,7 +2786,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 5f7d4c3a7089d9f43835f088bfb3e580, type: 2}
     - target: {fileID: 243185189135405173, guid: 134a764603763cf4fbe09320dd876a37,
         type: 3}
       propertyPath: m_MaskInteraction
@@ -2821,17 +2821,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 5f7d4c3a7089d9f43835f088bfb3e580, type: 2}
     - target: {fileID: 243185189526434008, guid: 134a764603763cf4fbe09320dd876a37,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 5f7d4c3a7089d9f43835f088bfb3e580, type: 2}
     - target: {fileID: 243185189834386955, guid: 134a764603763cf4fbe09320dd876a37,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 5f7d4c3a7089d9f43835f088bfb3e580, type: 2}
     - target: {fileID: 243185189973541302, guid: 134a764603763cf4fbe09320dd876a37,
         type: 3}
       propertyPath: m_MaskInteraction
@@ -2856,7 +2856,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 5f7d4c3a7089d9f43835f088bfb3e580, type: 2}
     - target: {fileID: 243185190302165970, guid: 134a764603763cf4fbe09320dd876a37,
         type: 3}
       propertyPath: m_Name
@@ -2931,7 +2931,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 5f7d4c3a7089d9f43835f088bfb3e580, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 134a764603763cf4fbe09320dd876a37, type: 3}
 --- !u!4 &812750677 stripped
