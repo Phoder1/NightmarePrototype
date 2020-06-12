@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2053861994322867166}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 35.083057, y: -1.7806515, z: 1.2172527}
   m_LocalScale: {x: 0.5547166, y: 0.5547166, z: 0.5547166}
   m_Children:
@@ -49,9 +49,9 @@ MonoBehaviour:
   IsFlying: 0
   targets:
   - targetsTransform: {fileID: 0}
-    maxIdleTime: 3
+    maxIdleTime: 2
   - targetsTransform: {fileID: 0}
-    maxIdleTime: 3
+    maxIdleTime: 1.5
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 6624011877419716395}
   coloredRenderer: {fileID: 6624011875435580137}
@@ -235,7 +235,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6624011875435580151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.58, y: -1.085, z: 0}
+  m_LocalPosition: {x: -1.2, y: -1.085, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6624011876101423634}
