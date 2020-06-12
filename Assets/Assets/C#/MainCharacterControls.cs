@@ -52,6 +52,9 @@ public class MainCharacterControls : MonoBehaviour {
     float JumpForce = 0f;
 
     [SerializeField]
+    float attackDuration = 1f;
+
+    [SerializeField]
     float minFlashlightOnTime = 1f;
     [SerializeField]
     float maxFlashlightChargeTime = 5f;
@@ -117,6 +120,8 @@ public class MainCharacterControls : MonoBehaviour {
         spoonCollider = refrences.Spoon.GetComponent<Collider2D>();
         spoonAnimator = refrences.SpoonPivotAnimator;
         spoonCollider.enabled = false;
+        spoonAnimator.speed = 1 / attackDuration;
+        refrences.ShoulderAnimator.speed = 1 / attackDuration;
     }
 
     private void FixedUpdate() {
