@@ -210,7 +210,7 @@ public class MainCharacterControls : MonoBehaviour {
                 if (currentAttackState != lastAttackState) {
                     if (lastAttackState == HandStates.Flashlight) {
                         refrences.Flashlight.SetActive(false);
-                        refrences.ShoulderTransform.rotation = Quaternion.Euler(0f, 0f, 14.114f);
+                        refrences.ShoulderTransform.localRotation = Quaternion.Euler(0f, 0f, 14.114f);
                     }
 
                     lastAttackState = currentAttackState;
