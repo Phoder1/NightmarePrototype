@@ -21,7 +21,9 @@ public class MainCharacterControls : MonoBehaviour {
         [SerializeField]
         internal SpriteRenderer lightconeSprite;
         [SerializeField]
-        internal SpriteRenderer SpoonRenderer;
+        internal GameObject Spoon;
+        [SerializeField]
+        internal Animator SpoonPivotAnimator;
         [SerializeField]
         internal LayerMask GroundLayerMask;
 
@@ -58,6 +60,9 @@ public class MainCharacterControls : MonoBehaviour {
     Animator playerAnimator;
     SpriteRenderer playerRenderer;
     Collider2D playerCollider;
+    SpriteRenderer spoonRenderer;
+    Collider2D spoonCollider;
+    Animator spoonAnimator;
     public static MainCharacterControls mainCharacter;
 
     //Movement variables
@@ -108,6 +113,10 @@ public class MainCharacterControls : MonoBehaviour {
         playerCollider = GetComponentInChildren<Collider2D>();
         Cursor.lockState = CursorLockMode.Locked;
         currentFlashlightChargeTime = maxFlashlightChargeTime;
+        spoonRenderer = refrences.Spoon.GetComponent<SpriteRenderer>();
+        spoonCollider = refrences.Spoon.GetComponent<Collider2D>();
+        spoonAnimator = refrences.SpoonPivotAnimator;
+        spoonCollider.enabled = false;
     }
 
     private void FixedUpdate() {
@@ -120,7 +129,7 @@ public class MainCharacterControls : MonoBehaviour {
         AttackCheck();
 
         UpdateAnimator();
-        Debug.Log("Player state: " + playerCurrentState + " ,Attack state: " + currentAttackState);
+        //Debug.Log("Player state: " + playerCurrentState + " ,Attack state: " + currentAttackState);
 
     }
 
@@ -130,17 +139,23 @@ public class MainCharacterControls : MonoBehaviour {
                 if (currentAttackState != lastAttackState) {
                     lastAttackState = currentAttackState;
                 }
+
+
+
+
+                if (!refrences.ShoulderAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) {
+                    spoonCollider.enabled = false;
+                    if (Input.mouseScrollDelta.y != 0f) {
+                        currentAttackState = HandStates.Transition;
+                        nextAttackState = HandStates.Flashlight;
+                    }
+                }
                 if (Input.GetMouseButtonDown(0)) {
                     refrences.ShoulderAnimator.SetTrigger("Attacking");
-                }   
-
-
-
-
-                if (Input.mouseScrollDelta.y != 0f && !refrences.ShoulderAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) {
-                    currentAttackState = HandStates.Transition;
-                    nextAttackState = HandStates.Flashlight;
+                    spoonAnimator.SetTrigger("Attacking");
+                    spoonCollider.enabled = true;
                 }
+
 
                 break;
             case HandStates.Flashlight:
@@ -196,7 +211,7 @@ public class MainCharacterControls : MonoBehaviour {
                     lastAttackState = currentAttackState;
                 }
                 spoonEffectTime = Mathf.Clamp(spoonEffectTime + (nextAttackState == HandStates.Spoon ? Time.deltaTime/spoonTransitionTime : -Time.deltaTime/spoonTransitionTime), 0f, 1f);
-                refrences.SpoonRenderer.material.SetFloat("SpoonEffectTime", spoonEffectTime);
+                spoonRenderer.material.SetFloat("SpoonEffectTime", spoonEffectTime);
 
                 if (spoonEffectTime == 1f || spoonEffectTime == 0f) {
                     currentAttackState = nextAttackState;
@@ -421,6 +436,8 @@ public class MainCharacterControls : MonoBehaviour {
     }
 
     private void OnDrawGizmos() {
+        spoonCollider = refrences.Spoon.GetComponent<Collider2D>();
         Gizmos.DrawRay(transform.position, Vector3.down * groundDetectionDistance);
+        Gizmos.DrawWireCube(spoonCollider.bounds.center, spoonCollider.bounds.size);
     }
 }

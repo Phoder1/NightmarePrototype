@@ -43,6 +43,7 @@ public class Enemies : MonoBehaviour {
 
     float animationTime = 0f;
     bool isBeingLit;
+    bool wasHit = false;
     float litTime = 0f;
     Transform playerTransform;
     float actualSpeed;
@@ -76,7 +77,6 @@ public class Enemies : MonoBehaviour {
         darkMaterial = darkRenderer.material;
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
-        Debug.Log(playerTransform);
         nextPosition = transform.position;
     }
 
@@ -109,11 +109,17 @@ public class Enemies : MonoBehaviour {
         if (litTime >= timeToStun && currentState != States.Stunned && currentState != States.Transition) {
             currentState = States.Transition;
             nextState = States.Stunned;
-            LeanTween.alpha(coloredStunnedRenderer.gameObject, 1f, BLINK_TIME).setEaseInCirc().setOnComplete(SwitchState);
+            LeanTween.alpha(coloredStunnedRenderer.gameObject, 1f, BLINK_TIME).setEaseInCirc();
         }
     }
 
     private void StateMachine() {
+        if (wasHit) {
+            
+            currentState = States.Transition;
+            nextState = States.Stunned;
+            wasHit = false;
+        }
         switch (currentState) {
             case States.Patrol:
                 if (currentState != lastState) {
@@ -148,7 +154,7 @@ public class Enemies : MonoBehaviour {
                     currentState = States.Transition;
                     nextState = States.Patrol;
                     darkMaterial.SetFloat("Respawn", 1f);
-                    LeanTween.alpha(coloredStunnedRenderer.gameObject, 0f, BLINK_TIME).setEaseOutCirc().setOnComplete(SwitchState);
+                    LeanTween.alpha(coloredStunnedRenderer.gameObject, 0f, BLINK_TIME).setEaseOutCirc();
                 }
                 break;
 
@@ -160,6 +166,9 @@ public class Enemies : MonoBehaviour {
                     lastState = currentState;
                 }
                 UpdateShader();
+                if(animationTime == 1f || animationTime ==  0f) {
+                    currentState = nextState;
+                }
                 break;
         }
     }
@@ -232,10 +241,6 @@ public class Enemies : MonoBehaviour {
         return nextPos;
     }
 
-    void SwitchState() {
-        currentState = nextState;
-    }
-
     private void OnCollisionStay2D(Collision2D collision) {
         //Debug.Log("Is lit?: " + isBeingLit.ToString());
         ContactPoint2D[] contacts = new ContactPoint2D[collision.contactCount];
@@ -243,7 +248,10 @@ public class Enemies : MonoBehaviour {
         for (int i = 0; i < collision.contactCount; i++) {
             if (contacts[i].collider == lightMaskCollider) {
                 isBeingLit = true;
-
+            }
+            if(contacts[i].collider.tag == "Spoon") {
+                wasHit = true;
+                Debug.Log(wasHit);
             }
         }
     }

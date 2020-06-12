@@ -7,6 +7,7 @@ TagManager:
   - Platforms
   - Obstacles
   - LightconeMask
+  - Spoon
   layers:
   - Default
   - TransparentFX
