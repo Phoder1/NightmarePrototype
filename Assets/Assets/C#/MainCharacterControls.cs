@@ -136,7 +136,6 @@ public class MainCharacterControls : MonoBehaviour {
         UpdateVariables();
         Statemachine();
         AttackCheck();
-
         UpdateAnimator();
         //Debug.Log("Player state: " + playerCurrentState + " ,Attack state: " + currentAttackState);
 
@@ -242,7 +241,7 @@ public class MainCharacterControls : MonoBehaviour {
 
                 //State end condition
                 if (Isgrounded()) {
-                    if (Input.GetKeyDown("space") && Input.GetAxis("Vertical") != -1) {
+                    if (Input.GetKeyDown("space") && Input.GetAxis("Vertical") != -1f) {
                         playerCurrentState = PlayerStates.Jump;
                     }
                     else if (Input.GetAxis("Horizontal") != 0) {
@@ -269,7 +268,7 @@ public class MainCharacterControls : MonoBehaviour {
 
                 //State end condition
                 if (Isgrounded()) {
-                    if (Input.GetKeyDown("space") && Input.GetAxis("Vertical") != -1) {
+                    if (Input.GetKeyDown("space") && Input.GetAxis("Vertical") != -1f) {
                         playerCurrentState = PlayerStates.Jump;
                     }
                     else if (Input.GetAxis("Horizontal") == 0) {
@@ -343,9 +342,8 @@ public class MainCharacterControls : MonoBehaviour {
         else if (velocityX > 0) {
             refrences.PlayerPivot.localRotation = Quaternion.Euler(transform.localRotation.x, 0, transform.localRotation.z);
         }
-        if (!Isgrounded()) {
             velocityY -= Gravity * Time.deltaTime;
-        }
+        
         Vector3 movement = (Vector3.up * velocityY * Time.deltaTime) + (Vector3.right * velocityX * Time.deltaTime);
         Vector2 playerMaxCorner = refrences.PlayerCollider.bounds.max;
         Vector2 playerMinCorner = refrences.PlayerCollider.bounds.min;
@@ -359,12 +357,11 @@ public class MainCharacterControls : MonoBehaviour {
                 || playerMinCorner.y >= platformCollider.bounds.max.y)
                 && playerMinCorner.y + movement.y <= platformCollider.bounds.max.y
                 && playerMinCorner.x < platformCollider.bounds.max.x
-                && playerMaxCorner.x > platformCollider.bounds.min.x) {
+                && playerMaxCorner.x > platformCollider.bounds.min.x
+                &&!(Input.GetAxis("Vertical") == -1f && Input.GetKey("space"))) {
+
 
                 movement.y = platformCollider.bounds.max.y - playerMinCorner.y;
-                if(velocityY <= -FALL_ANIMATION_SPEED) {
-                    playerAnimator.SetTrigger("Landing");
-                }
                 velocityY = 0f;
             }
         }
