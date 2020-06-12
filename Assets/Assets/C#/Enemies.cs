@@ -203,8 +203,8 @@ public class Enemies : MonoBehaviour {
 
         nextPos = new Vector3(Mathf.Clamp(nextPos.x, minPoint.x, maxPoint.x), Mathf.Clamp(nextPos.y, minPoint.y, maxPoint.y), transform.position.z);
 
-        Debug.Log(transform.position + " => " + nextPos + " , " + (nextPos - transform.position).magnitude + " , " + transform.name);
-        Debug.Log("Is idle: " + isIdle.ToString() + " ,start idle time: " + startIdleTime);
+        //Debug.Log(transform.position + " => " + nextPos + " , " + (nextPos - transform.position).magnitude + " , " + transform.name);
+        //Debug.Log("Is idle: " + isIdle.ToString() + " ,start idle time: " + startIdleTime);
 
         if ((nextPos - transform.position).magnitude == 0f && !isIdle) {
             darkAnimator.SetBool("IsWalking", false);

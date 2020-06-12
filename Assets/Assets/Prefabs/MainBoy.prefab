@@ -10,14 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 787235862}
   - component: {fileID: 787235863}
-  - component: {fileID: 217314072}
   m_Layer: 0
   m_Name: Spoon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &787235862
 Transform:
   m_ObjectHideFlags: 0
@@ -25,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787235861}
-  m_LocalRotation: {x: -0, y: -0, z: -0.17154647, w: 0.985176}
-  m_LocalPosition: {x: 1.3908317, y: 1.0268812, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.26760408, w: 0.963529}
+  m_LocalPosition: {x: 1.66, y: 0.83, z: 0}
   m_LocalScale: {x: 1.2525258, y: 1.2525258, z: 1.2525258}
   m_Children: []
   m_Father: {fileID: 2512948590783506662}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -31.044}
 --- !u!212 &787235863
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -82,19 +81,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &217314072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 787235861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d1e1ff8cdc0ac74ab1e2b7bfb43f228, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effectTime: 0
 --- !u!1 &1552594165
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,10 +408,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refrences:
     ShoulderTransform: {fileID: 2512948591208482836}
-    FlashlightTransform: {fileID: 2512948590590571739}
+    Flashlight: {fileID: 2512948590590571738}
     lightCone: {fileID: 2512948589516347206}
     lightconeSprite: {fileID: 1552594167}
-    SpoonTransform: {fileID: 787235862}
+    SpoonRenderer: {fileID: 787235863}
     GroundLayerMask:
       serializedVersion: 2
       m_Bits: 256
@@ -542,14 +528,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2512948591208482827}
-  m_LocalRotation: {x: -0, y: -0, z: -0.11013403, w: 0.9939168}
+  m_LocalRotation: {x: 0, y: 0, z: 0.12285669, w: 0.9924244}
   m_LocalPosition: {x: 0.27, y: 0.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2512948590783506662}
   m_Father: {fileID: 2512948591055976012}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -12.646001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 14.114}
 --- !u!95 &1037282996255886128
 Animator:
   serializedVersion: 3

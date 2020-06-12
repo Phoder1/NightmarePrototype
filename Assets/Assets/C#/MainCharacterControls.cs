@@ -13,13 +13,13 @@ public class MainCharacterControls : MonoBehaviour {
         [SerializeField]
         internal Transform ShoulderTransform;
         [SerializeField]
-        internal Transform FlashlightTransform;
+        internal GameObject Flashlight;
         [SerializeField]
         internal GameObject lightCone;
         [SerializeField]
         internal SpriteRenderer lightconeSprite;
         [SerializeField]
-        internal Transform SpoonTransform;
+        internal SpriteRenderer SpoonRenderer;
         [SerializeField]
         internal LayerMask GroundLayerMask;
 
@@ -79,8 +79,10 @@ public class MainCharacterControls : MonoBehaviour {
     bool flashlightOn;
     float timeSinceFlashlightOn = 0f;
     float currentFlashlightChargeTime;
+    float spoonEffectTime;
 
-
+    Animator shoulderAnimator;
+    const float spoonTransitionTime = 0.5f;
     const float SHOULDER_RETURN_SPEED = 5f;
 
 
@@ -105,6 +107,7 @@ public class MainCharacterControls : MonoBehaviour {
         playerCollider = GetComponentInChildren<Collider2D>();
         Cursor.lockState = CursorLockMode.Locked;
         currentFlashlightChargeTime = maxFlashlightChargeTime;
+        shoulderAnimator = refrences.ShoulderTransform.GetComponent<Animator>();
     }
 
     private void FixedUpdate() {
@@ -117,22 +120,34 @@ public class MainCharacterControls : MonoBehaviour {
         AttackCheck();
 
         UpdateAnimator();
-        Debug.Log(playerCurrentState);
+        Debug.Log("Player state: " + playerCurrentState + " ,Attack state: " + currentAttackState);
+
     }
 
     private void AttackCheck() {
         switch (currentAttackState) {
             case HandStates.Spoon:
                 if (currentAttackState != lastAttackState) {
-
+                    refrences.ShoulderTransform.rotation = Quaternion.Euler(0f, 0f, 14.114f);
                     lastAttackState = currentAttackState;
                 }
+                if (Input.GetMouseButtonDown(0)) {
+                    shoulderAnimator.SetTrigger("Attacking");
+                }   
 
 
+
+
+                if (Input.mouseScrollDelta.y != 0f && !shoulderAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")) {
+                    currentAttackState = HandStates.Transition;
+                    nextAttackState = HandStates.Flashlight;
+                }
 
                 break;
             case HandStates.Flashlight:
                 if (currentAttackState != lastAttackState) {
+                    refrences.Flashlight.SetActive(true);
+
 
                     lastAttackState = currentAttackState;
                 }
@@ -165,11 +180,26 @@ public class MainCharacterControls : MonoBehaviour {
                 shoulderDegree = Mathf.Clamp(shoulderDegree, ShoulderMinDegree, ShoulderMaxDegree);
                 refrences.ShoulderTransform.localRotation = Quaternion.Euler(refrences.ShoulderTransform.localRotation.eulerAngles.x, refrences.ShoulderTransform.localRotation.eulerAngles.y, shoulderDegree);
 
+
+                if (Input.mouseScrollDelta.y != 0f) {
+                    currentAttackState = HandStates.Transition;
+                    nextAttackState = HandStates.Spoon;
+                    flashlightOn = false;
+                }
                 break;
             case HandStates.Transition:
                 if (currentAttackState != lastAttackState) {
+                    if (lastAttackState == HandStates.Flashlight) {
+                        refrences.Flashlight.SetActive(false);
+                    }
 
                     lastAttackState = currentAttackState;
+                }
+                spoonEffectTime = Mathf.Clamp(spoonEffectTime + (nextAttackState == HandStates.Spoon ? Time.deltaTime/spoonTransitionTime : -Time.deltaTime/spoonTransitionTime), 0f, 1f);
+                refrences.SpoonRenderer.material.SetFloat("SpoonEffectTime", spoonEffectTime);
+
+                if (spoonEffectTime == 1f || spoonEffectTime == 0f) {
+                    currentAttackState = nextAttackState;
                 }
                 break;
             case HandStates.None:
@@ -382,7 +412,7 @@ public class MainCharacterControls : MonoBehaviour {
         //Debug.DrawRay(playerCollider.bounds.min + Vector3.right * playerCollider.bounds.size.x, Vector3.down * groundDetectionDistance);
         //Debug.Log("Checking ground!" + (minGroundRay.collider != null || maxGroundRay.centroid != null).ToString());
         return minGroundRay.collider != null || maxGroundRay.collider != null;
-        
+
     }
     void UpdateAnimator() {
         playerAnimator.SetBool("Running", playerCurrentState == PlayerStates.Moving);
