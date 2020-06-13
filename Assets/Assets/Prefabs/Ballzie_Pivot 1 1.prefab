@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 2053861994322867166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 35.083057, y: -1.7806515, z: 1.2172527}
-  m_LocalScale: {x: 0.5547166, y: 0.5547166, z: 0.5547166}
+  m_LocalScale: {x: 0.44905624, y: 0.44905624, z: 0.44905624}
   m_Children:
   - {fileID: 6624011876101423634}
   m_Father: {fileID: 0}
@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e61a5be6c6eb9a4380b8e6b04b5db5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollider: {fileID: 0}
   IsFlying: 0
   targets:
   - targetsTransform: {fileID: 0}
@@ -57,10 +58,13 @@ MonoBehaviour:
   coloredRenderer: {fileID: 6624011875435580137}
   coloredStunnedRenderer: {fileID: 6127678185102782886}
   normalSpeed: 3.2
+  numOfLives: 3
   timeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1
   detectionDistance: 4.4
+  distanceToAttack: 0
+  rechargeTime: 3
 --- !u!50 &6127678184574799156
 Rigidbody2D:
   serializedVersion: 4
