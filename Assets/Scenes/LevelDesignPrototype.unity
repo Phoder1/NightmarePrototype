@@ -2130,12 +2130,12 @@ PrefabInstance:
     - target: {fileID: 2512948591055976012, guid: ebf7de6467e1a904297006cde3bb60ef,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21.24
+      value: -8.49
       objectReference: {fileID: 0}
     - target: {fileID: 2512948591055976012, guid: ebf7de6467e1a904297006cde3bb60ef,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: -2.59
       objectReference: {fileID: 0}
     - target: {fileID: 2512948591055976012, guid: ebf7de6467e1a904297006cde3bb60ef,
         type: 3}
@@ -2206,6 +2206,36 @@ PrefabInstance:
         type: 3}
       propertyPath: ShoulderMinDegree
       value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512948591208482836, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.026259474
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512948591208482836, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9996552
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512948591208482836, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -3.009
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512948591208482836, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 4766144093811830886, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4766144093811830886, guid: ebf7de6467e1a904297006cde3bb60ef,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.32
       objectReference: {fileID: 0}
     - target: {fileID: 6300919189682485838, guid: ebf7de6467e1a904297006cde3bb60ef,
         type: 3}
@@ -7813,6 +7843,11 @@ PrefabInstance:
         type: 3}
       propertyPath: targets.Array.data[1].maxIdleTime
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7379969454408932174, guid: ab1d05cc87bfeff4c923cf88607cd671,
+        type: 3}
+      propertyPath: detectionDistance
+      value: 3.52
       objectReference: {fileID: 0}
     - target: {fileID: 7379969454408932177, guid: ab1d05cc87bfeff4c923cf88607cd671,
         type: 3}
