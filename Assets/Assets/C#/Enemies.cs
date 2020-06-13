@@ -247,6 +247,7 @@ public class Enemies : MonoBehaviour {
             ////////////////////////////////////////////////////
             case States.Hit:
                 if (currentState != lastState) {
+                    darkAnimator.SetTrigger("IsHit");
                     hitDirection = transform.position - playerTransform.position;
                     hitTime = Time.timeSinceLevelLoad;
                     hitMoveSpeed = hitForce;
