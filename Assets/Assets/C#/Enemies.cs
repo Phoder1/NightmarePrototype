@@ -238,6 +238,12 @@ public class Enemies : MonoBehaviour {
                 if (Time.timeSinceLevelLoad >= attackTime + rechargeTime) {
                     currentState = States.Chase;
                 }
+                else if (wasHit && !isStillBeingHit) {
+                    currentState = States.Hit;
+                    life--;
+                    wasHit = false;
+
+                }
 
                 break;
 
