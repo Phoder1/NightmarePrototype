@@ -14,8 +14,6 @@ public class Enemies : MonoBehaviour {
     }
 
     [SerializeField]
-    Collider2D playerCollider;
-    [SerializeField]
     bool IsFlying = false;
     [SerializeField]
     Target[] targets;
@@ -27,6 +25,9 @@ public class Enemies : MonoBehaviour {
     SpriteRenderer coloredRenderer;
     [SerializeField]
     SpriteRenderer coloredStunnedRenderer;
+    [SerializeField]
+    GameObject stunnedMask;
+
     Material darkMaterial;
     [SerializeField]
     float normalSpeed;
@@ -93,6 +94,7 @@ public class Enemies : MonoBehaviour {
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
         life = numOfLives;
+        stunnedMask.SetActive(false);
     }
 
     // Update is called once per frame
@@ -140,10 +142,10 @@ public class Enemies : MonoBehaviour {
                 if (Vector3.Distance(transform.position, playerTransform.position) <= detectionDistance) {
                     currentState = States.Chase;
                 }
-                if (Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
+                else if (Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
                     currentState = States.Attack;
                 }
-                if (wasHit && !isStillBeingHit) {
+                else if (wasHit && !isStillBeingHit) {
 
                     currentState = States.Hit;
                     life--;
@@ -160,6 +162,7 @@ public class Enemies : MonoBehaviour {
                     darkAnimator.SetBool("IsWalking", true);
                     coloredAnimator.SetBool("IsWalking", true);
                     lastState = currentState;
+                    isIdle = false;
                 }
                 Chase();
                 Debug.DrawLine(transform.position, transform.position + transform.right * distanceToAttack);
@@ -169,15 +172,8 @@ public class Enemies : MonoBehaviour {
                 else if (Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
                     currentState = States.Attack;
                 }
-                if (wasHit && !isStillBeingHit) {
-
-                    if (life == 0) {
-                        currentState = States.Transition;
-                        nextState = States.Stunned;
-                    }
-                    else {
-                        currentState = States.Hit;
-                    }
+                else if (wasHit && !isStillBeingHit) {
+                    currentState = States.Hit;
                     life--;
                     wasHit = false;
 
@@ -188,11 +184,13 @@ public class Enemies : MonoBehaviour {
             case States.Stunned:
                 if (currentState != lastState) {
                     timeWhenStunned = Time.timeSinceLevelLoad;
-
+                    stunnedMask.SetActive(true);
                     lastState = currentState;
                 }
                 Stunned();
+                wasHit = false;
                 if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit) {
+                    stunnedMask.SetActive(false);
                     currentState = States.Transition;
                     nextState = States.Patrol;
                     life = numOfLives;
@@ -216,7 +214,9 @@ public class Enemies : MonoBehaviour {
                     lastState = currentState;
                 }
                 UpdateEffect();
+                wasHit = false;
                 if (animationTime == 1f || animationTime == 0f) {
+                    
                     currentState = nextState;
                 }
                 break;
@@ -232,6 +232,7 @@ public class Enemies : MonoBehaviour {
                     lastState = currentState;
                 }
 
+                wasHit = false;
 
 
                 if (Time.timeSinceLevelLoad >= attackTime + rechargeTime) {
@@ -247,6 +248,7 @@ public class Enemies : MonoBehaviour {
             ////////////////////////////////////////////////////
             case States.Hit:
                 if (currentState != lastState) {
+                    darkAnimator.SetBool("IsWalking", false);
                     darkAnimator.SetTrigger("IsHit");
                     hitDirection = transform.position - playerTransform.position;
                     hitTime = Time.timeSinceLevelLoad;
@@ -355,7 +357,10 @@ public class Enemies : MonoBehaviour {
                 isBeingLit = true;
             }
             if (contacts[i].collider.tag == "Spoon") {
-                wasHit = true;
+                if (currentState == States.Chase || currentState == States.Patrol) {
+                    wasHit = true;
+                }
+
                 isStillBeingHit = true;
             }
         }

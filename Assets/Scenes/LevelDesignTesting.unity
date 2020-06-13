@@ -3695,11 +3695,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
         type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1450231024}
-    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
-        type: 3}
       propertyPath: targets.Array.data[0].targetsTransform
       value: 
       objectReference: {fileID: 1970202564}
@@ -3713,26 +3708,6 @@ PrefabInstance:
       propertyPath: areaLimits
       value: 
       objectReference: {fileID: 582665579}
-    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
-        type: 3}
-      propertyPath: distanceToAttack
-      value: 1.45
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
-        type: 3}
-      propertyPath: hitForce
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
-        type: 3}
-      propertyPath: hitStopForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6088668976848944290, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f,
-        type: 3}
-      propertyPath: hitStunTime
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4bc0ffaa626218d47b1a3ab21ff6c59f, type: 3}
 --- !u!1 &922160857
@@ -3909,11 +3884,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3564074200777950419, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
         type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1450231024}
-    - target: {fileID: 3564074200777950419, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
-        type: 3}
       propertyPath: targets.Array.data[0].targetsTransform
       value: 
       objectReference: {fileID: 1226000720}
@@ -3932,26 +3902,6 @@ PrefabInstance:
       propertyPath: areaLimits
       value: 
       objectReference: {fileID: 1736082692}
-    - target: {fileID: 3564074200777950419, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
-        type: 3}
-      propertyPath: distanceToAttack
-      value: 1.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564074200777950419, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
-        type: 3}
-      propertyPath: hitForce
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564074200777950419, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
-        type: 3}
-      propertyPath: hitStopForce
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3564074200777950419, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
-        type: 3}
-      propertyPath: hitStunTime
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3564074200777950422, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
         type: 3}
       propertyPath: m_Name
@@ -5449,12 +5399,6 @@ Transform:
   m_Father: {fileID: 595245615}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1450231024 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 3796286370110260332, guid: ebf7de6467e1a904297006cde3bb60ef,
-    type: 3}
-  m_PrefabInstance: {fileID: 619221857}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1470258953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7537,11 +7481,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 358144605}
     m_Modifications:
-    - target: {fileID: 105464034861857365, guid: cec9f5e687ef5d048897c0b530fd4554,
-        type: 3}
-      propertyPath: playerCollider
-      value: 
-      objectReference: {fileID: 1450231024}
     - target: {fileID: 105464034861857365, guid: cec9f5e687ef5d048897c0b530fd4554,
         type: 3}
       propertyPath: targets.Array.data[0].targetsTransform
