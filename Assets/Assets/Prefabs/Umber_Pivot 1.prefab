@@ -164,12 +164,15 @@ MonoBehaviour:
   coloredStunnedRenderer: {fileID: 846503446720376522}
   normalSpeed: 3
   numOfLives: 3
-  timeToStun: 3
+  lightTimeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1.5
   detectionDistance: 3.47
-  distanceToAttack: 0
+  distanceToAttack: 1.13
   rechargeTime: 3
+  hitForce: 7
+  hitStopForce: 10
+  hitStunTime: 1
 --- !u!50 &3564074200777950418
 Rigidbody2D:
   serializedVersion: 4
