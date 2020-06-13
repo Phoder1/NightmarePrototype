@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class Enemies : MonoBehaviour {
-    enum States { Patrol, Chase, Stunned, Transition, Attack, None };
+    enum States { Patrol, Chase, Stunned, Transition, Attack, Hit, None };
 
     [Serializable]
     class Target {
@@ -13,7 +13,8 @@ public class Enemies : MonoBehaviour {
         internal float maxIdleTime;
     }
 
-
+    [SerializeField]
+    Collider2D playerCollider;
     [SerializeField]
     bool IsFlying = false;
     [SerializeField]
@@ -32,7 +33,7 @@ public class Enemies : MonoBehaviour {
     [SerializeField]
     int numOfLives = 3;
     [SerializeField]
-    float timeToStun = 3f;
+    float lightTimeToStun = 3f;
     [SerializeField]
     float maxTimeStunned = 5f;
     [SerializeField]
@@ -41,6 +42,14 @@ public class Enemies : MonoBehaviour {
     float detectionDistance;
     [SerializeField]
     float distanceToAttack;
+    [SerializeField]
+    float rechargeTime = 3f;
+    [SerializeField]
+    float hitForce;
+    [SerializeField]
+    float hitStopForce;
+    [SerializeField]
+    float hitStunTime;
 
     Collider2D lightMaskCollider;
 
@@ -49,7 +58,7 @@ public class Enemies : MonoBehaviour {
     States currentState = States.Patrol;
     States nextState = States.None;
 
-
+    float attackTime = 0f;
 
     float animationTime = 0f;
     bool isBeingLit;
@@ -65,6 +74,10 @@ public class Enemies : MonoBehaviour {
     float startIdleTime = 0f;
     bool isIdle = false;
     float timeWhenStunned;
+    float hitTime = 0f;
+    float hitMoveSpeed = 0f;
+    Vector3 hitDirection = Vector3.zero;
+
 
     const float ATTACK_EXTRA_RANGE = 0.5f;
     const float BLINK_TIME = 2f;
@@ -89,7 +102,7 @@ public class Enemies : MonoBehaviour {
     }
 
     private void UpdateEffect() {
-        if(nextState == States.Stunned) {
+        if (nextState == States.Stunned) {
             animationTime = Mathf.Clamp(animationTime + (Time.deltaTime / BLINK_TIME), 0f, 1f);
         }
         else {
@@ -104,27 +117,19 @@ public class Enemies : MonoBehaviour {
             darkAnimator.SetBool("IsWalking", false);
             coloredAnimator.SetBool("IsWalking", false);
         }
-        litTime = Mathf.Clamp(litTime + Time.deltaTime * (isBeingLit ? 1 : -1), 0f, timeToStun);
+        litTime = Mathf.Clamp(litTime + Time.deltaTime * (isBeingLit ? 1 : -1), 0f, lightTimeToStun);
 
-        if (litTime >= timeToStun && currentState != States.Stunned && currentState != States.Transition) {
+        if (litTime >= lightTimeToStun && currentState != States.Stunned && currentState != States.Transition) {
             currentState = States.Transition;
             nextState = States.Stunned;
-            
+
         }
     }
 
     private void StateMachine() {
-        if (wasHit && !isStillBeingHit) {
-            life--;
-            if (life == 0) {
-                currentState = States.Transition;
-                nextState = States.Stunned;
-            }
 
-            wasHit = false;
-
-        }
         switch (currentState) {
+            ////////////////////////////////////////////////////
             case States.Patrol:
                 if (currentState != lastState) {
                     isIdle = false;
@@ -135,20 +140,51 @@ public class Enemies : MonoBehaviour {
                 if (Vector3.Distance(transform.position, playerTransform.position) <= detectionDistance) {
                     currentState = States.Chase;
                 }
+                if (Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
+                    currentState = States.Attack;
+                }
+                if (wasHit && !isStillBeingHit) {
+
+                    currentState = States.Hit;
+                    life--;
+                    wasHit = false;
+                }
+
+
+
                 break;
+
+            ////////////////////////////////////////
             case States.Chase:
                 if (currentState != lastState) {
-
+                    darkAnimator.SetBool("IsWalking", true);
+                    coloredAnimator.SetBool("IsWalking", true);
                     lastState = currentState;
                 }
                 Chase();
+                Debug.DrawLine(transform.position, transform.position + transform.right * distanceToAttack);
                 if (Vector3.Distance(transform.position, playerTransform.position) > detectionDistance) {
                     currentState = States.Patrol;
-                }else if(Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
+                }
+                else if (Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
                     currentState = States.Attack;
                 }
+                if (wasHit && !isStillBeingHit) {
 
+                    if (life == 0) {
+                        currentState = States.Transition;
+                        nextState = States.Stunned;
+                    }
+                    else {
+                        currentState = States.Hit;
+                    }
+                    life--;
+                    wasHit = false;
+
+                }
                 break;
+
+            ///////////////////////////////////////
             case States.Stunned:
                 if (currentState != lastState) {
                     timeWhenStunned = Time.timeSinceLevelLoad;
@@ -163,6 +199,7 @@ public class Enemies : MonoBehaviour {
                 }
                 break;
 
+            ////////////////////////////////////////////////////
             case States.Transition:
                 if (currentState != lastState) {
                     darkAnimator.SetBool("IsWalking", false);
@@ -183,17 +220,59 @@ public class Enemies : MonoBehaviour {
                     currentState = nextState;
                 }
                 break;
+
+            ////////////////////////////////////////////////////
             case States.Attack:
                 if (currentState != lastState) {
-
-
+                    darkAnimator.SetBool("IsWalking", false);
+                    coloredAnimator.SetBool("IsWalking", false);
+                    MainCharacterControls.mainCharacter.WasHit(gameObject);
+                    attackTime = Time.timeSinceLevelLoad;
 
                     lastState = currentState;
                 }
 
 
+
+                if (Time.timeSinceLevelLoad >= attackTime + rechargeTime) {
+                    currentState = States.Chase;
+                }
+
                 break;
+
+            ////////////////////////////////////////////////////
             case States.None:
+                break;
+
+            ////////////////////////////////////////////////////
+            case States.Hit:
+                if (currentState != lastState) {
+                    hitDirection = transform.position - playerTransform.position;
+                    hitTime = Time.timeSinceLevelLoad;
+                    hitMoveSpeed = hitForce;
+
+                    lastState = currentState;
+                }
+                hitDirection.z = 0f;
+                if (!IsFlying) {
+                    hitDirection.y = 0f;
+                }
+
+                hitMoveSpeed = Mathf.Max(hitMoveSpeed - hitStopForce * Time.deltaTime, 0f);
+                transform.position += hitDirection * hitMoveSpeed * Time.deltaTime;
+
+                if (life == 0 && hitMoveSpeed == 0f) {
+                    currentState = States.Transition;
+                    nextState = States.Stunned;
+                    life = numOfLives;
+                }
+                else if (Time.timeSinceLevelLoad >= hitTime + hitStunTime) {
+                    currentState = States.Chase;
+
+                }
+
+
+
                 break;
         }
     }
@@ -246,7 +325,7 @@ public class Enemies : MonoBehaviour {
             startIdleTime = Time.timeSinceLevelLoad;
             isIdle = true;
         }
-        else if(!isIdle){
+        else if (!isIdle) {
             darkAnimator.SetBool("IsWalking", true);
             coloredAnimator.SetBool("IsWalking", true);
         }
@@ -254,7 +333,7 @@ public class Enemies : MonoBehaviour {
             darkAnimator.SetBool("IsWalking", false);
             coloredAnimator.SetBool("IsWalking", false);
         }
-        
+
 
 
 
@@ -274,10 +353,9 @@ public class Enemies : MonoBehaviour {
             if (contacts[i].collider == lightMaskCollider) {
                 isBeingLit = true;
             }
-            if(contacts[i].collider.tag == "Spoon") {
+            if (contacts[i].collider.tag == "Spoon") {
                 wasHit = true;
                 isStillBeingHit = true;
-                Debug.Log(wasHit);
             }
         }
     }
@@ -287,15 +365,14 @@ public class Enemies : MonoBehaviour {
         isStillBeingHit = false;
     }
 
-    private void OnDrawGizmos() {
 
+    private void OnDrawGizmos() {
         Gizmos.DrawWireCube(transform.position, darkRenderer.bounds.size);
         Gizmos.DrawWireCube(areaLimits.transform.position + (Vector3)areaLimits.offset, areaLimits.bounds.size);
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionDistance);
-        Gizmos.color = Color.red;   
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, distanceToAttack);
-        Gizmos.DrawWireSphere(transform.position + transform.right* distanceToAttack/2, distanceToAttack/2 + ATTACK_EXTRA_RANGE);
 
     }
 }

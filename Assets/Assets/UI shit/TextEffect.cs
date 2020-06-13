@@ -2,14 +2,8 @@
 using UnityEngine.UI;
 
 public class TextEffect : MonoBehaviour {
-
-    private float nextActionTime = 1f;
-    private float blinkTimeStart;
     [SerializeField]
     private float effectSpeed = 6f;
-    [SerializeField]
-    private float period = 2.5f;
-    private int IsBlink = 0;
 
     float effectTime;
     Material material;

@@ -382,6 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e61a5be6c6eb9a4380b8e6b04b5db5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCollider: {fileID: 0}
   IsFlying: 0
   targets:
   - targetsTransform: {fileID: 0}
@@ -393,10 +394,13 @@ MonoBehaviour:
   coloredRenderer: {fileID: 1073217234443045918}
   coloredStunnedRenderer: {fileID: 242661201}
   normalSpeed: 3.2
+  numOfLives: 3
   timeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1
   detectionDistance: 4.4
+  distanceToAttack: 2
+  rechargeTime: 3
 --- !u!50 &805129155
 Rigidbody2D:
   serializedVersion: 4

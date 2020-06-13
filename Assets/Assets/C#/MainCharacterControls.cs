@@ -57,6 +57,10 @@ public class MainCharacterControls : MonoBehaviour {
 
     [SerializeField]
     float attackDuration = 1f;
+    [SerializeField]
+    float stunTime = 1f;
+    [SerializeField]
+    int healthCount = 3;
 
     [SerializeField]
     float minFlashlightOnTime = 1f;
@@ -80,7 +84,7 @@ public class MainCharacterControls : MonoBehaviour {
 
 
     //State machine
-    enum PlayerStates { Idle, Moving, Jump, Falling, Flashlight, None };
+    enum PlayerStates { Idle, Moving, Jump, Falling, Hit, None };
     PlayerStates playerCurrentState = PlayerStates.Idle;
     PlayerStates playerLastState = PlayerStates.None;
 
@@ -93,12 +97,18 @@ public class MainCharacterControls : MonoBehaviour {
     float timeSinceFlashlightOn = 0f;
     float currentFlashlightChargeTime;
     float spoonEffectTime;
+    float hitTime = 0f;
+    int HP;
+    float pushSpeedX = 0f;
+    GameObject hittingMonster;
+
 
     const float spoonTransitionTime = 0.5f;
     const float SHOULDER_RETURN_SPEED = 5f;
     const float GROUNDCHECK_RATIO = 0.06f;
     const float FALL_ANIMATION_SPEED = 0.5f;
-
+    const float PUSH_FORCE = 6f;
+    const float PUSH_STOP_FORCE = 9f;
 
 
     private void Awake() {
@@ -126,10 +136,12 @@ public class MainCharacterControls : MonoBehaviour {
         spoonCollider.enabled = false;
         spoonAnimator.speed = 1 / attackDuration;
         refrences.ShoulderAnimator.speed = 1 / attackDuration;
+        HP = healthCount;
     }
 
     private void FixedUpdate() {
-        Movement();
+            Movement();
+        
     }
     // Update is called once per frame
     void Update() {
@@ -166,6 +178,8 @@ public class MainCharacterControls : MonoBehaviour {
 
 
                 break;
+
+
             case HandStates.Flashlight:
                 if (currentAttackState != lastAttackState) {
                     refrences.Flashlight.SetActive(true);
@@ -205,6 +219,8 @@ public class MainCharacterControls : MonoBehaviour {
                     flashlightOn = false;
                 }
                 break;
+
+
             case HandStates.Transition:
                 if (currentAttackState != lastAttackState) {
                     if (lastAttackState == HandStates.Flashlight) {
@@ -320,7 +336,7 @@ public class MainCharacterControls : MonoBehaviour {
 
                 //State end condition
                 if (Isgrounded()) {
-                    
+
                     playerCurrentState = PlayerStates.Idle;
                 }
 
@@ -329,13 +345,36 @@ public class MainCharacterControls : MonoBehaviour {
 
 
                 break;
+            //////////////////////////////////////////////////
+            case PlayerStates.Hit:
+                if (playerCurrentState != playerLastState) {
+                    hitTime = Time.timeSinceLevelLoad;
+                    HP--;
+                    pushSpeedX = Mathf.Sign(transform.position.x - hittingMonster.transform.position.x) * PUSH_FORCE;
 
+                    playerLastState = playerCurrentState;
+                }
+
+                if(Time.timeSinceLevelLoad >= hitTime + stunTime) {
+                    playerCurrentState = PlayerStates.Idle;
+                }
+
+                break;
+            case PlayerStates.None:
+                break;
         }
     }
 
     private void Movement() {
+        if(playerCurrentState != PlayerStates.Hit) {
+            velocityX = MoveVelocity * Input.GetAxis("Horizontal");
+        }
+        else if(pushSpeedX != 0f){
+            velocityX = pushSpeedX;
+            pushSpeedX = Mathf.Clamp(pushSpeedX - Mathf.Sign(pushSpeedX) * PUSH_STOP_FORCE * Time.deltaTime,Mathf.Min(0f,pushSpeedX),Mathf.Max(0f,pushSpeedX));
 
-        velocityX = MoveVelocity * Input.GetAxis("Horizontal");
+        }
+        
         if (velocityX < 0) {
             refrences.PlayerPivot.localRotation = Quaternion.Euler(transform.localRotation.x, 180, transform.localRotation.z);
         }
@@ -425,7 +464,11 @@ public class MainCharacterControls : MonoBehaviour {
     }
 
 
-
+    public void WasHit(GameObject enemy) {
+        hittingMonster = enemy;
+        playerCurrentState = PlayerStates.Hit;
+        Debug.Log("Was hit!");
+    }
     bool Isgrounded() {
         Vector3 minPoint = refrences.PlayerCollider.bounds.min + Vector3.right * GROUNDCHECK_RATIO * refrences.PlayerCollider.bounds.size.x;
         Vector3 maxPoint = refrences.PlayerCollider.bounds.min + Vector3.right * refrences.PlayerCollider.bounds.size.x - Vector3.right * (GROUNDCHECK_RATIO * refrences.PlayerCollider.bounds.size.x);
@@ -433,7 +476,7 @@ public class MainCharacterControls : MonoBehaviour {
         RaycastHit2D maxGroundRay = Physics2D.Raycast(maxPoint, Vector3.down, GROUND_DETECTION_DISTANCE, refrences.GroundLayerMask);
         Debug.DrawRay(maxPoint , Vector3.down * GROUND_DETECTION_DISTANCE);
         Debug.DrawRay(minPoint, Vector3.down * GROUND_DETECTION_DISTANCE);
-        Debug.Log("Checking ground!" + (minGroundRay.collider != null || maxGroundRay.centroid != null).ToString());
+        //Debug.Log("Checking ground!" + (minGroundRay.collider != null || maxGroundRay.centroid != null).ToString());
         return minGroundRay.collider != null || maxGroundRay.collider != null;
 
     }

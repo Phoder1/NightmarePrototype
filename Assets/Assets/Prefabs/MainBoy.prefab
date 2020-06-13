@@ -449,9 +449,9 @@ GameObject:
   - component: {fileID: 2512948591055976013}
   - component: {fileID: 2512948591055976015}
   - component: {fileID: 3796286370110260332}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MainBoy
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -495,7 +495,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 256
     PlayerCollider: {fileID: 3796286370110260332}
-    PlayerPivot: {fileID: 0}
+    PlayerPivot: {fileID: 3630223407453672405}
   MouseSensetivity: 300
   ShoulderMaxDegree: 20
   ShoulderMinDegree: -40
@@ -567,7 +567,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.07485151}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -580,7 +580,7 @@ BoxCollider2D:
   m_AutoTiling: 1
   serializedVersion: 2
   m_Size: {x: 1.325412, y: 4.814991}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.02
 --- !u!1 &2512948591208482827
 GameObject:
   m_ObjectHideFlags: 0
