@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
 
 
     private float volume = 1f;
+    private int HP = 3;
     private void Awake() {
         if (gameManager != null && gameManager != this) {
             Destroy(this.gameObject);
@@ -24,11 +25,14 @@ public class GameManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(volume);
+        
     }
 
 
     public void ChangeVolume(float _volume) {
         volume = _volume;
+    }
+    public void LoseLife() {
+        HP--;
     }
 }

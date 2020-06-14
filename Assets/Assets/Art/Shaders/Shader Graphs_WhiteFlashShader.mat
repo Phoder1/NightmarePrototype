@@ -50,7 +50,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - BatteryLife: 0
-    - DissolveIntensity: 0
+    - DissolveIntensity: 0.5198241
     - FlashIntensity: 0
     - Respawn: 1
     - Vector1_3B8424D2: 0
