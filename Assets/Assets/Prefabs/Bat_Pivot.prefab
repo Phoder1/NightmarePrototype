@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 527decb927bd8da41859f7fa87884aad, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 8.71, y: 10.17}
@@ -166,7 +166,7 @@ MonoBehaviour:
   lightTimeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1.5
-  detectionDistance: 3.47
+  detectionDistance: 5.4
   distanceToAttack: 1.13
   rechargeTime: 3
   hitForce: 7
@@ -292,7 +292,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 8222cde59c07a5c48b7b9d3d1c6c8aa5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 7.01, y: 9.17}
@@ -473,7 +473,7 @@ SpriteRenderer:
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 8222cde59c07a5c48b7b9d3d1c6c8aa5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 7.01, y: 9.17}

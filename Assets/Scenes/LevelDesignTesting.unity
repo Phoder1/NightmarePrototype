@@ -3804,11 +3804,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 760373882}
     m_Modifications:
-    - target: {fileID: 1159805486865494040, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 7f9867cfe726de0468d5d1be4eb0c989, type: 2}
     - target: {fileID: 3564074200777950417, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3888,16 +3883,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Umber_Pivot 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5755526122848200484, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.041
-      objectReference: {fileID: 0}
-    - target: {fileID: 7038266948199967479, guid: 073b5f8f0ed3b354cb91a3a548c40dba,
-        type: 3}
-      propertyPath: m_MaskInteraction
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 073b5f8f0ed3b354cb91a3a548c40dba, type: 3}
@@ -7613,16 +7598,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1101044386090608093, guid: 076a47074bc14f9469233a61b427ef8c,
-        type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1504383270918142735, guid: 076a47074bc14f9469233a61b427ef8c,
-        type: 3}
-      propertyPath: m_FlipX
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3326440905815478547, guid: 076a47074bc14f9469233a61b427ef8c,
         type: 3}
       propertyPath: m_Name
@@ -7698,10 +7673,10 @@ PrefabInstance:
       propertyPath: areaLimits
       value: 
       objectReference: {fileID: 1604264507}
-    - target: {fileID: 9147713013386592050, guid: 076a47074bc14f9469233a61b427ef8c,
+    - target: {fileID: 3326440905815478550, guid: 076a47074bc14f9469233a61b427ef8c,
         type: 3}
-      propertyPath: m_FlipX
-      value: 0
+      propertyPath: detectionDistance
+      value: 3.53
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 076a47074bc14f9469233a61b427ef8c, type: 3}
@@ -7712,11 +7687,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3963567708136543938, guid: 9844a29cf61b61c4891cef041317ebff,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7901681752259351826, guid: 9844a29cf61b61c4891cef041317ebff,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7771,11 +7741,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7901681752259351827, guid: 9844a29cf61b61c4891cef041317ebff,
-        type: 3}
-      propertyPath: resetSceneDelay
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7901681752259351837, guid: 9844a29cf61b61c4891cef041317ebff,
         type: 3}
