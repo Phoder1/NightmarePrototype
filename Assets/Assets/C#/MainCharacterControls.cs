@@ -109,6 +109,7 @@ public class MainCharacterControls : MonoBehaviour {
     const float FALL_ANIMATION_SPEED = 0.5f;
     const float PUSH_FORCE = 6f;
     const float PUSH_STOP_FORCE = 9f;
+    const float BATTERY_CHARGE_TIME = 5f;
 
 
     private void Awake() {
@@ -468,6 +469,10 @@ public class MainCharacterControls : MonoBehaviour {
         hittingMonster = enemy;
         playerCurrentState = PlayerStates.Hit;
         Debug.Log("Was hit!");
+    }
+
+    public void CollectedBattery() {
+        Debug.Log("Battery!");
     }
     bool Isgrounded() {
         Vector3 minPoint = refrences.PlayerCollider.bounds.min + Vector3.right * GROUNDCHECK_RATIO * refrences.PlayerCollider.bounds.size.x;

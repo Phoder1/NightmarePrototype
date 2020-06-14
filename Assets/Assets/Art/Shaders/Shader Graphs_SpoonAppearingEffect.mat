@@ -35,5 +35,5 @@ Material:
     m_Floats:
     - DissolveIntensity: 0
     - Respawn: 0
-    - SpoonEffectTime: 0
+    - SpoonEffectTime: 0.9
     m_Colors: []
