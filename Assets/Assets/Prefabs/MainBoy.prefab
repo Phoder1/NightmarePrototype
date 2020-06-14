@@ -503,6 +503,8 @@ MonoBehaviour:
   Gravity: 30
   JumpForce: 15
   attackDuration: 1
+  stunTime: 1
+  healthCount: 3
   minFlashlightOnTime: 0.25
   maxFlashlightChargeTime: 10
 --- !u!212 &2512948591055976015
