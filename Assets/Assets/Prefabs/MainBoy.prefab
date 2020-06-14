@@ -133,7 +133,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552594165}
   m_LocalRotation: {x: -0, y: -0, z: 0.23072773, w: 0.9730184}
-  m_LocalPosition: {x: 19.01, y: 9.52, z: 3.1078944}
+  m_LocalPosition: {x: 19.01, y: 9.52, z: 0}
   m_LocalScale: {x: 12.6458435, y: 6.7102494, z: 0.190067}
   m_Children: []
   m_Father: {fileID: 2512948589516347207}
@@ -178,7 +178,7 @@ SpriteRenderer:
   m_SortingLayerID: 1559361811
   m_SortingLayer: -2
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: 955a69a26e2f4f64183a9bf542ef45d6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e5204cc1398e4a441bd570db50d6eab5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -264,8 +264,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2512948589516347206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.87, y: -0.44, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 20.66, y: 10.37, z: 0}
+  m_LocalScale: {x: 0.29664597, y: 0.29664597, z: 0.29664597}
   m_Children:
   - {fileID: 7267547370940750204}
   - {fileID: 1552594166}
@@ -507,6 +507,7 @@ MonoBehaviour:
   healthCount: 3
   minFlashlightOnTime: 0.2
   maxFlashlightChargeTime: 10
+  resetSceneDelay: 2
 --- !u!212 &2512948591055976015
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -761,8 +762,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4031956567427752515}
   m_LocalRotation: {x: -0, y: -0, z: 0.23072773, w: 0.9730184}
-  m_LocalPosition: {x: 19.01, y: 9.52, z: 3.1078944}
-  m_LocalScale: {x: 12.6458435, y: 6.298074, z: 0.190067}
+  m_LocalPosition: {x: 19.01, y: 9.52, z: 0}
+  m_LocalScale: {x: 12.6458435, y: 6.6003323, z: 0.190067}
   m_Children: []
   m_Father: {fileID: 2512948589516347207}
   m_RootOrder: 0
@@ -806,7 +807,7 @@ SpriteMask:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 955a69a26e2f4f64183a9bf542ef45d6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e5204cc1398e4a441bd570db50d6eab5, type: 3}
   m_MaskAlphaCutoff: 0
   m_FrontSortingLayerID: 0
   m_BackSortingLayerID: 0
