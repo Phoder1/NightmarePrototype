@@ -7772,7 +7772,7 @@ PrefabInstance:
     - target: {fileID: 8632966221972781552, guid: e431f735bb7ea734cae1ddcf2e0336df,
         type: 3}
       propertyPath: m_Name
-      value: Battary
+      value: Battery
       objectReference: {fileID: 0}
     - target: {fileID: 8632966221972781553, guid: e431f735bb7ea734cae1ddcf2e0336df,
         type: 3}

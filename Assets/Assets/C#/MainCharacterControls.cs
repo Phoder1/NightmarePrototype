@@ -109,6 +109,7 @@ public class MainCharacterControls : MonoBehaviour {
     const float FALL_ANIMATION_SPEED = 0.5f;
     const float PUSH_FORCE = 6f;
     const float PUSH_STOP_FORCE = 9f;
+    const float BATTERY_CHARGE_TIME = 5f;
 
 
     private void Awake() {
