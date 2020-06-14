@@ -469,6 +469,10 @@ public class MainCharacterControls : MonoBehaviour {
         playerCurrentState = PlayerStates.Hit;
         Debug.Log("Was hit!");
     }
+
+    public void CollectedBattery() {
+
+    }
     bool Isgrounded() {
         Vector3 minPoint = refrences.PlayerCollider.bounds.min + Vector3.right * GROUNDCHECK_RATIO * refrences.PlayerCollider.bounds.size.x;
         Vector3 maxPoint = refrences.PlayerCollider.bounds.min + Vector3.right * refrences.PlayerCollider.bounds.size.x - Vector3.right * (GROUNDCHECK_RATIO * refrences.PlayerCollider.bounds.size.x);
