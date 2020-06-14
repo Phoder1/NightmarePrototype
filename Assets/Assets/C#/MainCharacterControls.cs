@@ -136,7 +136,6 @@ public class MainCharacterControls : MonoBehaviour {
         spoonCollider.enabled = false;
         spoonAnimator.speed = 1 / attackDuration;
         refrences.ShoulderAnimator.speed = 1 / attackDuration;
-        HP = healthCount;
     }
 
     private void FixedUpdate() {
@@ -349,7 +348,7 @@ public class MainCharacterControls : MonoBehaviour {
             case PlayerStates.Hit:
                 if (playerCurrentState != playerLastState) {
                     hitTime = Time.timeSinceLevelLoad;
-                    HP--;
+                    GameManager.gameManager.LoseLife();
                     pushSpeedX = Mathf.Sign(transform.position.x - hittingMonster.transform.position.x) * PUSH_FORCE;
 
                     playerLastState = playerCurrentState;
