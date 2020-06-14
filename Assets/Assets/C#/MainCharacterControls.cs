@@ -471,7 +471,7 @@ public class MainCharacterControls : MonoBehaviour {
     }
 
     public void CollectedBattery() {
-
+        Debug.Log("Battery!");
     }
     bool Isgrounded() {
         Vector3 minPoint = refrences.PlayerCollider.bounds.min + Vector3.right * GROUNDCHECK_RATIO * refrences.PlayerCollider.bounds.size.x;

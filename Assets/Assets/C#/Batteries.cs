@@ -29,7 +29,6 @@ public class Batteries : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(IsActive + " ,playerTransform: " + Vector3.Distance(playerTransform.position, transform.position));
         if (Vector3.Distance(playerTransform.position, transform.position) <= detectionDistance && IsActive) {
             MainCharacterControls.mainCharacter.CollectedBattery();
             IsActive = false;

@@ -7705,21 +7705,6 @@ PrefabInstance:
       propertyPath: areaLimits
       value: 
       objectReference: {fileID: 1604264507}
-    - target: {fileID: 7379969454408932174, guid: ab1d05cc87bfeff4c923cf88607cd671,
-        type: 3}
-      propertyPath: targets.Array.data[0].maxIdleTime
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379969454408932174, guid: ab1d05cc87bfeff4c923cf88607cd671,
-        type: 3}
-      propertyPath: targets.Array.data[1].maxIdleTime
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379969454408932174, guid: ab1d05cc87bfeff4c923cf88607cd671,
-        type: 3}
-      propertyPath: detectionDistance
-      value: 3.49
-      objectReference: {fileID: 0}
     - target: {fileID: 7379969454408932177, guid: ab1d05cc87bfeff4c923cf88607cd671,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7774,31 +7759,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379969454707996038, guid: ab1d05cc87bfeff4c923cf88607cd671,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: b42f0188e76b3024b86edbd59f637236, type: 2}
-    - target: {fileID: 7379969454707996039, guid: ab1d05cc87bfeff4c923cf88607cd671,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379969455218705824, guid: ab1d05cc87bfeff4c923cf88607cd671,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: b42f0188e76b3024b86edbd59f637236, type: 2}
-    - target: {fileID: 7379969455218705825, guid: ab1d05cc87bfeff4c923cf88607cd671,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7379969455218705827, guid: ab1d05cc87bfeff4c923cf88607cd671,
-        type: 3}
-      propertyPath: m_MaskInteraction
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab1d05cc87bfeff4c923cf88607cd671, type: 3}
