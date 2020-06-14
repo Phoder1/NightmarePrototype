@@ -232,8 +232,6 @@ public class Enemies : MonoBehaviour {
                     lastState = currentState;
                 }
 
-                wasHit = false;
-
 
                 if (Time.timeSinceLevelLoad >= attackTime + rechargeTime) {
                     currentState = States.Chase;
