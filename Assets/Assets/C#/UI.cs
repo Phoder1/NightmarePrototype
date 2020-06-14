@@ -6,7 +6,7 @@ public class UI : MonoBehaviour
 {
     public static UI ui;
 
-    GameObject[] healthIcons;
+    public GameObject[] healthIcons;
 
     private void Awake() {
         if (ui != null && ui != this) {
@@ -21,6 +21,9 @@ public class UI : MonoBehaviour
     {
 
         healthIcons = new GameObject[transform.childCount];
+        for (int i = 0; i < transform.childCount; i++) {
+            healthIcons[i] = transform.GetChild(i).gameObject;
+        }
     }
 
     // Update is called once per frame

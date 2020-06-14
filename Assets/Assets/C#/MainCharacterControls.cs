@@ -30,6 +30,7 @@ public class MainCharacterControls : MonoBehaviour {
         internal Collider2D PlayerCollider;
         [SerializeField]
         internal Transform PlayerPivot;
+        
 
     }
     [SerializeField]
@@ -67,6 +68,9 @@ public class MainCharacterControls : MonoBehaviour {
     [SerializeField]
     float maxFlashlightChargeTime = 5f;
 
+    [SerializeField]
+    float resetSceneDelay = 2f;
+
     //General Variables
     Animator playerAnimator;
     SpriteRenderer playerRenderer;
@@ -74,6 +78,8 @@ public class MainCharacterControls : MonoBehaviour {
     Collider2D spoonCollider;
     Animator spoonAnimator;
     public static MainCharacterControls mainCharacter;
+    float deathTime;
+
 
     //Movement variables
     float velocityY = 0f;
@@ -84,7 +90,7 @@ public class MainCharacterControls : MonoBehaviour {
 
 
     //State machine
-    enum PlayerStates { Idle, Moving, Jump, Falling, Hit, None };
+    enum PlayerStates { Idle, Moving, Jump, Falling, Hit, Dead, None };
     PlayerStates playerCurrentState = PlayerStates.Idle;
     PlayerStates playerLastState = PlayerStates.None;
 
@@ -112,13 +118,7 @@ public class MainCharacterControls : MonoBehaviour {
 
 
     private void Awake() {
-        if (mainCharacter != null && mainCharacter != this) {
-            Destroy(this.gameObject);
-        }
-        else {
-            mainCharacter = this;
-        }
-
+        mainCharacter = this;
     }
 
 
@@ -144,7 +144,6 @@ public class MainCharacterControls : MonoBehaviour {
     }
     // Update is called once per frame
     void Update() {
-        UpdateVariables();
         Statemachine();
         AttackCheck();
         UpdateAnimator();
@@ -354,18 +353,33 @@ public class MainCharacterControls : MonoBehaviour {
                     playerLastState = playerCurrentState;
                 }
 
-                if(Time.timeSinceLevelLoad >= hitTime + stunTime) {
+                if (Time.timeSinceLevelLoad >= hitTime + stunTime) {
                     playerCurrentState = PlayerStates.Idle;
                 }
 
                 break;
             case PlayerStates.None:
                 break;
+
+            /////////////////////////////////////////////////////////////
+            case PlayerStates.Dead:
+                if (playerCurrentState != playerLastState) {
+
+                    playerLastState = playerCurrentState;
+                }
+
+
+                if(Time.timeSinceLevelLoad >= deathTime + resetSceneDelay) {
+                    GameManager.gameManager.ResetScene();
+                }
+
+
+                break;
         }
     }
 
     private void Movement() {
-        if(playerCurrentState != PlayerStates.Hit) {
+        if(playerCurrentState != PlayerStates.Hit && playerCurrentState != PlayerStates.Dead) {
             velocityX = MoveVelocity * Input.GetAxis("Horizontal");
         }
         else if(pushSpeedX != 0f){
@@ -459,9 +473,11 @@ public class MainCharacterControls : MonoBehaviour {
 
     }
 
-    private void UpdateVariables() {
+    public void Dead() {
+        playerCurrentState = PlayerStates.Dead;
+        refrences.ShoulderTransform.gameObject.SetActive(false);
+        deathTime = Time.timeSinceLevelLoad;
     }
-
 
     public void WasHit(GameObject enemy) {
         hittingMonster = enemy;
@@ -488,6 +504,7 @@ public class MainCharacterControls : MonoBehaviour {
         playerAnimator.SetBool("Running", playerCurrentState == PlayerStates.Moving);
         playerAnimator.SetBool("IsJump", playerCurrentState == PlayerStates.Jump);
         playerAnimator.SetBool("IsFalling", playerCurrentState == PlayerStates.Falling);
+        playerAnimator.SetBool("IsDead", playerCurrentState == PlayerStates.Dead);
     }
 
     private void OnDrawGizmos() {
