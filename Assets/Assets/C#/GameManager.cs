@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         HP = fullHP;
+        
     }
 
     // Update is called once per frame
@@ -41,11 +42,15 @@ public class GameManager : MonoBehaviour {
     }
     public void LoseLife() {
         HP--;
-        UI.ui.healthIcons[HP].SetActive(false);
-        if(HP <= 0) {
-            MainCharacterControls.mainCharacter.Dead();
-            Debug.Log("DEAD");
-            
+        if (HP >= 0) {
+            UI.ui.healthIcons[HP].SetActive(false);
+
+
+            if (HP == 0) {
+                MainCharacterControls.mainCharacter.Dead();
+                Debug.Log("DEAD");
+
+            }
         }
     }
 }
