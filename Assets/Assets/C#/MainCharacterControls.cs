@@ -480,8 +480,11 @@ public class MainCharacterControls : MonoBehaviour {
     }
 
     public void WasHit(GameObject enemy) {
-        hittingMonster = enemy;
-        playerCurrentState = PlayerStates.Hit;
+        if(playerCurrentState != PlayerStates.Dead && playerCurrentState != PlayerStates.Hit && playerCurrentState != PlayerStates.None) {
+            playerCurrentState = PlayerStates.Hit;
+            hittingMonster = enemy;
+        }
+        
         Debug.Log("Was hit!");
     }
 
