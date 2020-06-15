@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
     public static GameManager gameManager;
-
+    [SerializeField]
+    int fullHP = 3;
 
     private float volume = 1f;
-    private int HP = 3;
+    private int HP;
     private void Awake() {
         if (gameManager != null && gameManager != this) {
             Destroy(this.gameObject);
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour {
     }
     // Start is called before the first frame update
     void Start() {
-
+        HP = fullHP;
     }
 
     // Update is called once per frame
@@ -30,8 +31,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void ResetScene() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        HP = fullHP;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         
+
     }
     public void ChangeVolume(float _volume) {
         volume = _volume;
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour {
         if(HP <= 0) {
             MainCharacterControls.mainCharacter.Dead();
             Debug.Log("DEAD");
+            
         }
     }
 }
