@@ -28,8 +28,7 @@ public class MainCharacterControls : MonoBehaviour {
         internal LayerMask GroundLayerMask;
         [SerializeField]
         internal Collider2D PlayerCollider;
-        [SerializeField]
-        internal Transform PlayerPivot;
+
         
 
     }
@@ -46,22 +45,15 @@ public class MainCharacterControls : MonoBehaviour {
     [SerializeField]
     int ShoulderMinDegree;
 
-    [SerializeField]
-    float MoveVelocity;
 
-    [SerializeField]
-    float Gravity;
     
     const float GROUND_DETECTION_DISTANCE=0.1f;
-    [SerializeField]
-    float JumpForce = 0f;
+    
 
     [SerializeField]
     float attackDuration = 1f;
     [SerializeField]
     float stunTime = 1f;
-    [SerializeField]
-    int healthCount = 3;
 
     [SerializeField]
     float minFlashlightOnTime = 1f;
@@ -72,6 +64,7 @@ public class MainCharacterControls : MonoBehaviour {
     float resetSceneDelay = 2f;
 
     //General Variables
+    PlayerMovement playerMovement;
     Animator playerAnimator;
     SpriteRenderer playerRenderer;
     SpriteRenderer spoonRenderer;
@@ -81,20 +74,15 @@ public class MainCharacterControls : MonoBehaviour {
     float deathTime;
 
 
-    //Movement variables
-    float velocityY = 0f;
-    float velocityX = 0f;
-    float shoulderDegree;
-    GameObject[] Platforms;
-    GameObject[] Obstacles;
+
 
 
     //State machine
-    enum PlayerStates { Idle, Moving, Jump, Falling, Hit, Dead, None };
-    PlayerStates playerCurrentState = PlayerStates.Idle;
+    internal enum PlayerStates { Idle, Moving, Jump, Falling, Hit, Dead, None };
+    internal PlayerStates playerCurrentState = PlayerStates.Idle;
     PlayerStates playerLastState = PlayerStates.None;
 
-
+    float shoulderDegree;
     enum HandStates { Spoon, Flashlight, Transition, None };
     HandStates lastAttackState = HandStates.None;
     HandStates currentAttackState = HandStates.Flashlight;
@@ -104,17 +92,14 @@ public class MainCharacterControls : MonoBehaviour {
     float currentFlashlightChargeTime;
     float spoonEffectTime;
     float hitTime = 0f;
-    int HP;
-    float pushSpeedX = 0f;
     GameObject hittingMonster;
 
 
     const float spoonTransitionTime = 0.5f;
-    const float SHOULDER_RETURN_SPEED = 5f;
+    
     const float GROUNDCHECK_RATIO = 0.06f;
-    const float FALL_ANIMATION_SPEED = 0.5f;
-    const float PUSH_FORCE = 6f;
-    const float PUSH_STOP_FORCE = 9f;
+   
+
 
 
     private void Awake() {
@@ -124,9 +109,8 @@ public class MainCharacterControls : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        playerMovement = GetComponent<PlayerMovement>();
         playerAnimator = GetComponentInChildren<Animator>();
-        Platforms = GameObject.FindGameObjectsWithTag("Platforms");
-        Obstacles = GameObject.FindGameObjectsWithTag("Obstacles");
         playerRenderer = GetComponentInChildren<SpriteRenderer>();
         Cursor.lockState = CursorLockMode.Locked;
         currentFlashlightChargeTime = maxFlashlightChargeTime;
@@ -138,17 +122,12 @@ public class MainCharacterControls : MonoBehaviour {
         refrences.ShoulderAnimator.speed = 1 / attackDuration;
     }
 
-    private void FixedUpdate() {
-            Movement();
-        
-    }
     // Update is called once per frame
     void Update() {
         Statemachine();
         AttackCheck();
         UpdateAnimator();
-        //Debug.Log("Player state: " + playerCurrentState + " ,Attack state: " + currentAttackState);
-
+        Debug.Log(playerCurrentState);
     }
 
     private void AttackCheck() {
@@ -303,17 +282,16 @@ public class MainCharacterControls : MonoBehaviour {
             case PlayerStates.Jump:
                 //State enter action
                 if (playerCurrentState != playerLastState) {
-                    velocityY += JumpForce;
                     playerLastState = playerCurrentState;
                 }
 
                 //State end condition
 
-                if (Isgrounded() && velocityY <= 0f) {
+                if (Isgrounded() && playerMovement.velocityY <= 0f) {
                     playerCurrentState = PlayerStates.Idle;
                     //Debug.Log("Landed");
                 }
-                else if (velocityY < 0) {
+                else if (playerMovement.velocityY < 0) {
                     playerCurrentState = PlayerStates.Falling;
                 }
 
@@ -348,7 +326,7 @@ public class MainCharacterControls : MonoBehaviour {
                 if (playerCurrentState != playerLastState) {
                     hitTime = Time.timeSinceLevelLoad;
                     GameManager.gameManager.LoseLife();
-                    pushSpeedX = Mathf.Sign(transform.position.x - hittingMonster.transform.position.x) * PUSH_FORCE;
+                    playerMovement.Push(hittingMonster.transform.position);
 
                     playerLastState = playerCurrentState;
                 }
@@ -378,100 +356,6 @@ public class MainCharacterControls : MonoBehaviour {
         }
     }
 
-    private void Movement() {
-        if(playerCurrentState != PlayerStates.Hit && playerCurrentState != PlayerStates.Dead) {
-            velocityX = MoveVelocity * Input.GetAxis("Horizontal");
-        }
-        else if(pushSpeedX != 0f){
-            velocityX = pushSpeedX;
-            pushSpeedX = Mathf.Clamp(pushSpeedX - Mathf.Sign(pushSpeedX) * PUSH_STOP_FORCE * Time.deltaTime,Mathf.Min(0f,pushSpeedX),Mathf.Max(0f,pushSpeedX));
-
-        }
-        
-        if (velocityX < 0) {
-            refrences.PlayerPivot.localRotation = Quaternion.Euler(transform.localRotation.x, 180, transform.localRotation.z);
-        }
-        else if (velocityX > 0) {
-            refrences.PlayerPivot.localRotation = Quaternion.Euler(transform.localRotation.x, 0, transform.localRotation.z);
-        }
-            velocityY -= Gravity * Time.deltaTime;
-        
-        Vector3 movement = (Vector3.up * velocityY * Time.deltaTime) + (Vector3.right * velocityX * Time.deltaTime);
-        Vector2 playerMaxCorner = refrences.PlayerCollider.bounds.max;
-        Vector2 playerMinCorner = refrences.PlayerCollider.bounds.min;
-        Debug.DrawRay(playerMinCorner, Vector3.right * refrences.PlayerCollider.bounds.size.x, Color.red, Time.deltaTime);
-        //Debug.Log(playerRenderer.bounds.extents.x);
-
-        for (int i = 0; i < Platforms.Length; i++) {
-            Collider2D platformCollider = Platforms[i].GetComponent<Collider2D>();
-            //Debug.Log("Player min: " + playerMinCorner.y + " , Next pos: " + playerMinCorner.y + movement.y + " ,Platform height: " + platformCollider.bounds.max.y);
-            if (velocityY <= 0f && (Mathf.Approximately(playerMinCorner.y, platformCollider.bounds.max.y)
-                || playerMinCorner.y >= platformCollider.bounds.max.y)
-                && playerMinCorner.y + movement.y <= platformCollider.bounds.max.y
-                && playerMinCorner.x < platformCollider.bounds.max.x
-                && playerMaxCorner.x > platformCollider.bounds.min.x
-                &&!(Input.GetAxis("Vertical") == -1f && Input.GetKey("space"))) {
-
-
-                movement.y = platformCollider.bounds.max.y - playerMinCorner.y;
-                velocityY = 0f;
-            }
-        }
-        for (int i = 0; i < Obstacles.Length; i++) {
-            Collider2D obstacleCollider = Obstacles[i].GetComponent<Collider2D>();
-
-            //Up
-            if ((Mathf.Approximately(playerMinCorner.y, obstacleCollider.bounds.max.y)
-                || playerMinCorner.y >= obstacleCollider.bounds.max.y)
-                && playerMinCorner.y + movement.y <= obstacleCollider.bounds.max.y
-                && playerMinCorner.x < obstacleCollider.bounds.max.x
-                && playerMaxCorner.x > obstacleCollider.bounds.min.x) {
-
-                movement.y = obstacleCollider.bounds.max.y - playerMinCorner.y;
-                //Debug.Log("Up!");
-                velocityY = 0f;
-            }
-            //Down
-            if ((Mathf.Approximately(playerMaxCorner.y, obstacleCollider.bounds.min.y)
-                || playerMaxCorner.y <= obstacleCollider.bounds.min.y)
-                && playerMaxCorner.y + movement.y >= obstacleCollider.bounds.min.y
-                && playerMinCorner.x < obstacleCollider.bounds.max.x
-                && playerMaxCorner.x > obstacleCollider.bounds.min.x) {
-
-                movement.y = obstacleCollider.bounds.min.y - playerMaxCorner.y;
-                //Debug.Log("Down!");
-                velocityY = 0f;
-            }
-            //Right
-            if ((Mathf.Approximately(playerMinCorner.x, obstacleCollider.bounds.max.x)
-                || playerMinCorner.x >= obstacleCollider.bounds.max.x)
-                && playerMinCorner.x + movement.x <= obstacleCollider.bounds.max.x
-                && playerMinCorner.y < obstacleCollider.bounds.max.y
-                && playerMaxCorner.y > obstacleCollider.bounds.min.y) {
-
-                movement.x = obstacleCollider.bounds.max.x - playerMinCorner.x;
-                //Debug.Log("Right!");
-                velocityX = 0f;
-            }
-            //Left
-            if ((Mathf.Approximately(playerMaxCorner.x, obstacleCollider.bounds.min.x)
-                || playerMaxCorner.x <= obstacleCollider.bounds.min.x)
-                && playerMaxCorner.x + movement.x >= obstacleCollider.bounds.min.x
-                && playerMinCorner.y < obstacleCollider.bounds.max.y
-                && playerMaxCorner.y > obstacleCollider.bounds.min.y) {
-
-                movement.x = obstacleCollider.bounds.min.x - playerMaxCorner.x;
-                //Debug.Log("Left!");
-                velocityX = 0f;
-            }
-
-
-
-        }
-
-        transform.position += movement;
-
-    }
 
     public void Dead() {
         playerCurrentState = PlayerStates.Dead;
