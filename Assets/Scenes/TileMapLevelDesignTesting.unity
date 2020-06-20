@@ -470,6 +470,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4982968426484096711, guid: 177ddb149cccb224986ec1fa0971e1fa,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.08077443
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982968426484096711, guid: 177ddb149cccb224986ec1fa0971e1fa,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4.8268366
+      objectReference: {fileID: 0}
+    - target: {fileID: 5164336723388975071, guid: 177ddb149cccb224986ec1fa0971e1fa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.63
+      objectReference: {fileID: 0}
     - target: {fileID: 6005506504536599783, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -508,7 +523,7 @@ PrefabInstance:
     - target: {fileID: 6005506504536599783, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6005506504536599783, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
@@ -530,7 +545,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainBoyTilemapSupported
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6005506504536599778, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}
 --- !u!1 &1237737924
 GameObject:
@@ -7156,7 +7172,7 @@ Transform:
   - {fileID: 193787173}
   - {fileID: 812750677}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1916230708 stripped
 GameObject:
