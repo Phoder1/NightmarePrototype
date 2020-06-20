@@ -57,9 +57,12 @@ TagManager:
   - name: MainBoy
     uniqueID: 1559361811
     locked: 0
-  - name: Battaries
+  - name: Batteries
     uniqueID: 2765787733
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Darkness
+    uniqueID: 3411548151
     locked: 0
