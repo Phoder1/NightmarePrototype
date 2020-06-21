@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(Controller2D))]
 public class MainCharacterControls : MonoBehaviour {
 
 
@@ -72,7 +74,7 @@ public class MainCharacterControls : MonoBehaviour {
     Animator spoonAnimator;
     public static MainCharacterControls mainCharacter;
     float deathTime;
-
+    Controller2D controller;
 
 
 
@@ -109,7 +111,7 @@ public class MainCharacterControls : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        playerMovement = GetComponent<PlayerMovement>();
+        controller = GetComponent<Controller2D>();
         playerAnimator = GetComponentInChildren<Animator>();
         playerRenderer = GetComponentInChildren<SpriteRenderer>();
         Cursor.lockState = CursorLockMode.Locked;
@@ -233,7 +235,7 @@ public class MainCharacterControls : MonoBehaviour {
                 }
 
                 //State end condition
-                if (Isgrounded()) {
+                if (controller.IsGrounded()) {
                     if (Input.GetKeyDown("space") && Input.GetAxis("Vertical") != -1f) {
                         playerCurrentState = PlayerStates.Jump;
                     }
@@ -260,7 +262,7 @@ public class MainCharacterControls : MonoBehaviour {
                 }
 
                 //State end condition
-                if (Isgrounded()) {
+                if (controller.IsGrounded()) {
                     if (Input.GetKeyDown("space") && Input.GetAxis("Vertical") != -1f) {
                         playerCurrentState = PlayerStates.Jump;
                     }
@@ -287,11 +289,11 @@ public class MainCharacterControls : MonoBehaviour {
 
                 //State end condition
 
-                if (Isgrounded() && playerMovement.velocityY <= 0f) {
+                if (controller.IsGrounded() && controller._velocity.y <= 0f) {
                     playerCurrentState = PlayerStates.Idle;
                     //Debug.Log("Landed");
                 }
-                else if (playerMovement.velocityY < 0) {
+                else if (controller._velocity.y < 0f) {
                     playerCurrentState = PlayerStates.Falling;
                 }
 
@@ -311,7 +313,7 @@ public class MainCharacterControls : MonoBehaviour {
                 }
 
                 //State end condition
-                if (Isgrounded()) {
+                if (controller.IsGrounded()) {
 
                     playerCurrentState = PlayerStates.Idle;
                 }
@@ -326,7 +328,7 @@ public class MainCharacterControls : MonoBehaviour {
                 if (playerCurrentState != playerLastState) {
                     hitTime = Time.timeSinceLevelLoad;
                     GameManager.gameManager.LoseLife();
-                    playerMovement.Push(hittingMonster.transform.position);
+                    //playerMovement.Push(hittingMonster.transform.position);
 
                     playerLastState = playerCurrentState;
                 }

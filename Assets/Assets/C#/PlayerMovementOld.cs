@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovementOld : MonoBehaviour {
 
     [SerializeField]
     CharacterController2D controller;
