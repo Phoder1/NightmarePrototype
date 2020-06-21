@@ -429,8 +429,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a49032436f3b54aafff7bcd6852a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 4
+  jumpHeight: 3
   timeToJumpApex: 0.4
+  moveSpeed: 5
 --- !u!114 &5206735977299328471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +457,7 @@ MonoBehaviour:
       m_Bits: 256
     PlayerCollider: {fileID: 6787731620096757750}
   MouseSensetivity: 300
-  ShoulderMaxDegree: 20
+  ShoulderMaxDegree: 35
   ShoulderMinDegree: -30
   attackDuration: 0.5
   stunTime: 1
