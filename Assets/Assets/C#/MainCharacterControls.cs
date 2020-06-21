@@ -328,7 +328,7 @@ public class MainCharacterControls : MonoBehaviour {
                 if (playerCurrentState != playerLastState) {
                     hitTime = Time.timeSinceLevelLoad;
                     GameManager.gameManager.LoseLife();
-                    //playerMovement.Push(hittingMonster.transform.position);
+                    playerMovement.Push(hittingMonster.transform.position);
 
                     playerLastState = playerCurrentState;
                 }

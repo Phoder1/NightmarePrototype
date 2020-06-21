@@ -36,7 +36,7 @@ public class Controller2D : MonoBehaviour {
 			VerticalCollisions ();
 		}
 
-		transform.Translate (_velocity);
+		transform.Translate (_velocity,Space.World);
 	}
 
 	void HorizontalCollisions() {

@@ -45,9 +45,14 @@ public class PlayerMovement : MonoBehaviour {
         velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (controller.collisions.below) ? accelerationTimeGrounded : accelerationTimeAirborne);
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        if (controller._velocity.x > 0) {
+            transform.rotation = Quaternion.Euler(Vector3.up * 0f);
+        }else if(controller._velocity.x < 0) {
+            transform.rotation = Quaternion.Euler(Vector3.up * -180f);
+        }
     }
 
-    internal void Push() {
+    internal void Push(Vector3 monsterPos) {
 
     }
 }
