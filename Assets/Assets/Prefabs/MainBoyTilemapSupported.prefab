@@ -430,8 +430,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a49032436f3b54aafff7bcd6852a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 5206735977581725762}
   jumpHeight: 3
   timeToJumpApex: 0.4
+  rollDistance: 4
+  rollTime: 0.3
+  rollCD: 1
   moveSpeed: 5
   accelerationTimeAirborne: 0.3
   accelerationTimeGrounded: 0.115
