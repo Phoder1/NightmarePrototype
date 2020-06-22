@@ -1,32 +1,36 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class WallShader : MonoBehaviour
-{
+[RequireComponent(typeof(Collider2D))]
+public class DissapearingWall : MonoBehaviour {
+    [SerializeField]
+    Renderer wallRenderer;
+    [SerializeField]
+    string shaderPropertyName = "EffectTime";
     [SerializeField]
     float timeToLight = 2f;
+
     Material material;
     Collider2D lightMaskCollider;
     bool isBeingLit = false;
     float EffectTime = 0f;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         lightMaskCollider = GameObject.FindGameObjectWithTag("LightconeMask").GetComponent<Collider2D>();
-        material = GetComponentInChildren<SpriteRenderer>().material;
-        material.SetFloat("EffectTime", EffectTime);
+        material = wallRenderer.material;
+        material.SetFloat(shaderPropertyName, EffectTime);
     }
 
     // Update is called once per frame
     void Update() {
-        
+        //Debug.Log(isBeingLit);
         if (isBeingLit) {
             Debug.Log("beingLit");
-            EffectTime = Mathf.Min(EffectTime + Time.deltaTime / timeToLight,1f);
-            material.SetFloat("EffectTime", EffectTime);
+            EffectTime = Mathf.Min(EffectTime + Time.deltaTime / timeToLight, 1f);
+            material.SetFloat(shaderPropertyName, EffectTime);
         }
-        if(EffectTime == 1f) {
+        if (EffectTime == 1f) {
             gameObject.SetActive(false);
         }
     }

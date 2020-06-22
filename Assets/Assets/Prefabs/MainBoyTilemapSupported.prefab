@@ -114,8 +114,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   visibleTargets: []
-  meshResolution: 0.5
-  edgeResolveIterations: 8
+  meshResolution: 0.2
+  edgeResolveIterations: 6
   edgeDstThreshold: 0.4
   edgeRevealDst: 2.74
   eyesHeight: 0.6
@@ -412,9 +412,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4fbcdfe8af19e47ac35e6ed24b4961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionMask:
+  obstacleMask:
     serializedVersion: 2
     m_Bits: 256
+  platformMask:
+    serializedVersion: 2
+    m_Bits: 4096
   horizontalRayCount: 4
   verticalRayCount: 4
   groundCheckDistance: 0.2
@@ -431,11 +434,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5206735977581725762}
-  jumpHeight: 3
-  timeToJumpApex: 0.4
+  jumpHeight: 6
+  timeToJumpApex: 0.6
   rollDistance: 4
   rollTime: 0.3
   rollCD: 1
+  rollColliderHeight: 0.5
   moveSpeed: 5
   accelerationTimeAirborne: 0.3
   accelerationTimeGrounded: 0.115
@@ -535,7 +539,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.10839045}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -869,9 +873,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7682511654379274092}
   - component: {fileID: 7682511654379274093}
+  - component: {fileID: 370726186}
   m_Layer: 0
   m_Name: Lightcone Sprite
-  m_TagString: Untagged
+  m_TagString: LightconeMask
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -940,3 +945,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!60 &370726186
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7682511654379274095}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 15.67, y: 8.86}
+    newSize: {x: 3.26, y: 1.84}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 7.8344207, y: 4.4305844}
+      - {x: -7.804208, y: 0.0016087075}
+      - {x: 7.8354125, y: -4.430545}

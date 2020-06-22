@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour {
     float rollTime = 0.3f;
     [SerializeField]
     float rollCD = 1f;
+    [Tooltip("The ratio of the height if the collider, relative to it's usual height")]
+    [SerializeField]
+    float rollColliderHeight = 0.5f;
     [SerializeField]
     float moveSpeed = 6;
     [SerializeField]
@@ -42,6 +45,8 @@ public class PlayerMovement : MonoBehaviour {
     float velocityXSmoothing;
     //Controls
     Vector2 input;
+    Vector3 initScale;
+    Transform pivot;
 
     bool _space;
     bool space {
@@ -73,6 +78,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Start() {
         controller = GetComponent<Controller2D>();
+        pivot = transform.GetChild(0);
 
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
@@ -81,6 +87,7 @@ public class PlayerMovement : MonoBehaviour {
         rollVelocity = rollBreakingAcceleration * rollTime;
 
         Debug.Log("Breaking: " + rollBreakingAcceleration + " ,Velocity: " + rollVelocity);
+        initScale = pivot.transform.localScale;
 
         //print ("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
     }
@@ -97,9 +104,10 @@ public class PlayerMovement : MonoBehaviour {
         if (currentMoveState == MovementStates.Normal) {
             input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
-        if (input.x != 0 && shift && controller.IsGrounded() && currentMoveState != MovementStates.Roll && Time.timeSinceLevelLoad >= lastRollTime + rollCD) {
+        if (shift && input.x != 0  && controller.IsGrounded() && currentMoveState != MovementStates.Roll && Time.timeSinceLevelLoad >= lastRollTime + rollCD) {
             TrySwitchState(MovementStates.Roll);
             currentRollVelocity = input.x * rollVelocity;
+            controller.colliderHeight = rollColliderHeight;
         }
 
 
@@ -117,6 +125,7 @@ public class PlayerMovement : MonoBehaviour {
             currentRollVelocity = input.x * Mathf.Max(Mathf.Abs(currentRollVelocity) - rollBreakingAcceleration * Time.deltaTime, 0f);
             if (currentRollVelocity == 0f) {
                 currentMoveState = MovementStates.Normal;
+                controller.colliderHeight = 1f;
             }
 
         }
@@ -126,10 +135,10 @@ public class PlayerMovement : MonoBehaviour {
             velocity.x = 0;
         }
         else if (controller._velocity.x > 0) {
-            transform.rotation = Quaternion.Euler(Vector3.up * 0f);
+           pivot.transform.localScale = new Vector3(initScale.x,initScale.y,initScale.z);
         }
         else if (controller._velocity.x < 0) {
-            transform.rotation = Quaternion.Euler(Vector3.up * -180f);
+            pivot.transform.localScale = new Vector3(-initScale.x, initScale.y, initScale.z);
         }
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);

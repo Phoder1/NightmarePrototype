@@ -127,7 +127,7 @@ public class MainCharacterControls : MonoBehaviour {
         Statemachine();
         AttackCheck();
         UpdateAnimator();
-        Debug.Log(playerCurrentState);
+        //Debug.Log(playerCurrentState);
     }
 
     private void AttackCheck() {
