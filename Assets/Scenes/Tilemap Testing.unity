@@ -520,12 +520,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1218683141 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5206735977581725762, guid: 177ddb149cccb224986ec1fa0971e1fa,
-    type: 3}
-  m_PrefabInstance: {fileID: 6682983901512183071}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1399582990
 GameObject:
   m_ObjectHideFlags: 0
@@ -25050,21 +25044,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5206735977299328468, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 1218683141}
-    - target: {fileID: 5206735977299328468, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: rollTime
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5206735977299328468, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: rollDistance
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 5206735977299328470, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
       propertyPath: m_LocalPosition.x
