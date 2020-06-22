@@ -67,8 +67,7 @@ public class MainCharacterControls : MonoBehaviour {
 
     //General Variables
     PlayerMovement playerMovement;
-    Animator playerAnimator;
-    SpriteRenderer playerRenderer;
+    Animator playerAnimator;    
     SpriteRenderer spoonRenderer;
     Collider2D spoonCollider;
     Animator spoonAnimator;
@@ -113,7 +112,6 @@ public class MainCharacterControls : MonoBehaviour {
     void Start() {
         controller = GetComponent<Controller2D>();
         playerAnimator = GetComponentInChildren<Animator>();
-        playerRenderer = GetComponentInChildren<SpriteRenderer>();
         Cursor.lockState = CursorLockMode.Locked;
         currentFlashlightChargeTime = maxFlashlightChargeTime;
         spoonRenderer = refrences.Spoon.GetComponent<SpriteRenderer>();

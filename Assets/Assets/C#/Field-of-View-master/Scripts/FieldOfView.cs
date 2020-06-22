@@ -16,23 +16,23 @@ public class FieldOfView : MonoBehaviour {
 	public float meshResolution;
 	public int edgeResolveIterations;
     public float edgeDstThreshold;
+    [Tooltip("How much ground to reveal below the character eyes.")]
     [SerializeField]
     float edgeRevealDst = 0.1f;
+    [Tooltip("Eyes height compared to the center of the character.")]
+    [SerializeField]
+    float eyesHeight = 0.6f;
 
 	public MeshFilter viewMeshFilter;
 	Mesh viewMesh;
 
-	void Start() {
-		viewMesh = new Mesh ();
-		viewMesh.name = "View Mesh";
-		viewMeshFilter.mesh = viewMesh;
-	}
+    void Start() {
+        viewMesh = new Mesh();
+        viewMesh.name = "View Mesh";
+        viewMeshFilter.mesh = viewMesh;
+    }
 
-	void LateUpdate() {
-		DrawFieldOfView ();
-	}
-
-	void DrawFieldOfView() {
+	internal void DrawFieldOfView() {
 		int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
 		float stepAngleSize = viewAngle / stepCount;
 		List<Vector3> viewPoints = new List<Vector3> ();
@@ -67,8 +67,11 @@ public class FieldOfView : MonoBehaviour {
 
 		vertices [0] = Vector3.zero;
 		for (int i = 0; i < vertexCount - 1; i++) {
-            //vertices [i + 1] = transform.InverseTransformPoint(viewPoints [i]) + Vector3.Normalize(transform.InverseTransformPoint(viewPoints[i]) - transform.position)*edgeDstThreshold;
             vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
+            if(vertices[i+1].y < eyesHeight) {
+                vertices[i + 1] += Vector3.down * edgeRevealDst;
+            }
+            //vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
 
             if (i < vertexCount - 2) {
 				triangles [i * 3] = 0;

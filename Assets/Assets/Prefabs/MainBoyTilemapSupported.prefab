@@ -114,10 +114,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   visibleTargets: []
-  meshResolution: 0.4
-  edgeResolveIterations: 6
+  meshResolution: 0.5
+  edgeResolveIterations: 8
   edgeDstThreshold: 0.4
-  edgeRevealDst: 0
+  edgeRevealDst: 2.74
+  eyesHeight: 0.6
   viewMeshFilter: {fileID: 1951697530642426145}
 --- !u!33 &1951697530642426145
 MeshFilter:
@@ -432,6 +433,9 @@ MonoBehaviour:
   jumpHeight: 3
   timeToJumpApex: 0.4
   moveSpeed: 5
+  accelerationTimeAirborne: 0.3
+  accelerationTimeGrounded: 0.115
+  FOV: {fileID: 1951697530642426144}
 --- !u!114 &5206735977299328471
 MonoBehaviour:
   m_ObjectHideFlags: 0
