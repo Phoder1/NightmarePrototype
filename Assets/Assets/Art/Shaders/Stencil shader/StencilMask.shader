@@ -12,7 +12,7 @@
 		ZWrite Off
         LOD 100
 
-		Stencil{
+				Stencil{
 		Ref 1
 		Pass Replace
 }

@@ -7,13 +7,13 @@
     SubShader
     {
         Tags { "RenderType" = "Transparent" "Queue" = "Transparent"}
+		Blend SrcAlpha OneMinusSrcAlpha
         LOD 100
 
-		Stencil {
+				Stencil {
 		Ref 1
-		Comp NotEqual
+		Comp notequal
 }
-
         Pass
         {
             CGPROGRAM

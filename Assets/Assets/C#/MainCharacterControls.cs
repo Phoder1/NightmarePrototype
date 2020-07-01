@@ -110,6 +110,8 @@ public class MainCharacterControls : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
+        playerMovement = GetComponent<PlayerMovement>();
+        playerMovement = GetComponent<PlayerMovement>();
         controller = GetComponent<Controller2D>();
         playerAnimator = GetComponentInChildren<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
@@ -228,7 +230,7 @@ public class MainCharacterControls : MonoBehaviour {
             case PlayerStates.Idle:
                 //State enter action
                 if (playerCurrentState != playerLastState) {
-
+                    playerMovement.currentMoveState = PlayerMovement.MovementStates.Normal;
                     playerLastState = playerCurrentState;
                 }
 
@@ -326,12 +328,13 @@ public class MainCharacterControls : MonoBehaviour {
                 if (playerCurrentState != playerLastState) {
                     hitTime = Time.timeSinceLevelLoad;
                     GameManager.gameManager.LoseLife();
-                    playerMovement.Push(hittingMonster.transform.position);
-
+                    playerMovement.hittingMonster = hittingMonster.transform.position;
+                    playerMovement.TrySwitchState(PlayerMovement.MovementStates.Push);
                     playerLastState = playerCurrentState;
                 }
 
                 if (Time.timeSinceLevelLoad >= hitTime + stunTime) {
+                    
                     playerCurrentState = PlayerStates.Idle;
                 }
 
@@ -342,7 +345,7 @@ public class MainCharacterControls : MonoBehaviour {
             /////////////////////////////////////////////////////////////
             case PlayerStates.Dead:
                 if (playerCurrentState != playerLastState) {
-
+                    
                     playerLastState = playerCurrentState;
                 }
 
@@ -359,6 +362,7 @@ public class MainCharacterControls : MonoBehaviour {
 
     public void Dead() {
         playerCurrentState = PlayerStates.Dead;
+        playerMovement.TrySwitchState(PlayerMovement.MovementStates.Dead);
         refrences.ShoulderTransform.gameObject.SetActive(false);
         deathTime = Time.timeSinceLevelLoad;
     }

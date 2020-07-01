@@ -70,13 +70,14 @@ public class FieldOfView : MonoBehaviour {
 		for (int i = 0; i < vertexCount - 1; i++) {
             vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i].point);
             //Debug.DrawLine(viewPoints[i].point, viewPoints[i].normal);
-            if (vertices[i + 1].y <= eyesHeight && viewPoints[i].normal == Vector2.up) {
+            if (vertices[i + 1].y <= eyesHeight && viewPoints[i].normal.y > 0) {
                 vertices[i + 1] += Vector3.down * edgeRevealDst;
             }
-            else if (viewPoints[i].normal.x == -1 || viewPoints[i].normal.x == 1) {
-                Debug.DrawLine(viewPoints[i].point, viewPoints[i].point + Vector3.Normalize(Quaternion.Euler(0f, 0f, Vector3.Angle(viewPoints[i].normal,-vertices[i+1])) * viewPoints[i].normal));
+            if (viewPoints[i].normal.x != 0) {
+                
                 //Debug.Log(Vector3.Angle(vertices[i + 1], viewPoints[i].normal));
-                vertices[i + 1] -= (Vector3)viewPoints[i].normal * Mathf.Lerp(edgeRevealDst, 0f, Vector3.Angle(viewPoints[i].normal, -vertices[i + 1]) / 90);
+                //vertices[i + 1] -= (Vector3)viewPoints[i].normal * Mathf.Lerp(edgeRevealDst, 0f, Vector3.Angle(viewPoints[i].normal, -vertices[i + 1]) / 90);
+                vertices[i + 1] -= Vector3.right* viewPoints[i].normal.x * edgeRevealDst;
             }
 
 

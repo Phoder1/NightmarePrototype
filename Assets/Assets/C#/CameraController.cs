@@ -25,6 +25,7 @@ public class CameraController : MonoBehaviour {
         cam = GetComponent<Camera>();
         camExtents = cam.ScreenToWorldPoint(cam.pixelRect.max) - transform.position;
 
+
         
         if (minPoint.GetComponent<SpriteRenderer>() != null) {
             boundsMin = minPoint.GetComponent<SpriteRenderer>().bounds.min;
@@ -48,6 +49,7 @@ public class CameraController : MonoBehaviour {
 
 
         playerTransform = MainCharacterControls.mainCharacter.transform;
+        transform.position = Vector3.Scale(playerTransform.position,new Vector3(1f,1f,0f));
 
     }
 
