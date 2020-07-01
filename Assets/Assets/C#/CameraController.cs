@@ -49,7 +49,7 @@ public class CameraController : MonoBehaviour {
 
 
         playerTransform = MainCharacterControls.mainCharacter.transform;
-        transform.position = Vector3.Scale(playerTransform.position,new Vector3(1f,1f,0f));
+        transform.position = new Vector3 (playerTransform.position.x, playerTransform.position.y,transform.position.z);
 
     }
 
