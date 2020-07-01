@@ -43,7 +43,7 @@ public class Controller2D : MonoBehaviour {
         colliderHeight = _colliderHeight;
 	}
 
-	public void Move(Vector3 velocity) {
+	public Vector3 Move(Vector3 velocity) {
         _velocity = velocity;
 		UpdateRaycastOrigins ();
 		collisions.Reset ();
@@ -56,6 +56,7 @@ public class Controller2D : MonoBehaviour {
 		}
 
 		transform.Translate (_velocity,Space.World);
+        return _velocity;
 	}
 
 	void HorizontalCollisions() {
@@ -95,7 +96,7 @@ public class Controller2D : MonoBehaviour {
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, layers);
             if(hit.collider != null) {
                 overlap = hit.collider.OverlapPoint(rayOrigin + Vector2.up*skinWidth);
-                Debug.Log(overlap);
+                //Debug.Log(overlap);
             }
             
 

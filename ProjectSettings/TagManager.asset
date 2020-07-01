@@ -48,21 +48,21 @@ TagManager:
   - name: Platforms
     uniqueID: 3008518549
     locked: 0
+  - name: MainBoy
+    uniqueID: 1559361811
+    locked: 0
   - name: Fog of war
     uniqueID: 380431677
     locked: 0
   - name: Enemies
-    uniqueID: 1256705155
-    locked: 0
-  - name: MainBoy
-    uniqueID: 1559361811
-    locked: 0
-  - name: Batteries
-    uniqueID: 2765787733
+    uniqueID: 3158185915
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: Darkness
     uniqueID: 3411548151
+    locked: 0
+  - name: Batteries
+    uniqueID: 2765787733
     locked: 0
