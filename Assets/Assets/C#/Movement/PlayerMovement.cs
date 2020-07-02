@@ -88,6 +88,11 @@ public class PlayerMovement : MonoBehaviour {
 
     Vector3 frameVelocity;
 
+    float dropTime = 0f;
+    const float dropDuration = 0.25f;
+    bool droppingPlatform = false;
+    
+
     void Start() {
         mainCharacter = MainCharacterControls.mainCharacter;
         playerAnimator = GetComponentInChildren<Animator>();
@@ -161,7 +166,7 @@ public class PlayerMovement : MonoBehaviour {
 
 
         if (currentMoveState == MovementStates.Normal) {
-            jump = space && controller.IsGrounded();
+            jump = space && controller.IsGrounded() && Input.GetAxisRaw("Vertical") != -1;
             if (jump) {
                 velocity.y = jumpVelocity;
             }
@@ -191,7 +196,15 @@ public class PlayerMovement : MonoBehaviour {
         }
 
         velocity.y += gravity * Time.deltaTime;
-        frameVelocity = controller.Move(velocity * Time.deltaTime);
+        if (Input.GetAxisRaw("Vertical") == -1 && space && !droppingPlatform) {
+            droppingPlatform = true;
+            dropTime = Time.timeSinceLevelLoad;
+        }
+        if (Time.timeSinceLevelLoad >= dropTime + dropDuration) {
+            droppingPlatform = false;
+        }
+        frameVelocity = controller.Move(velocity * Time.deltaTime, !droppingPlatform);
+        Debug.Log(droppingPlatform);
 
 
         if (animator != null) {

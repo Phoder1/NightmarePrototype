@@ -43,7 +43,7 @@ public class Controller2D : MonoBehaviour {
         colliderHeight = _colliderHeight;
 	}
 
-	public Vector3 Move(Vector3 velocity) {
+	public Vector3 Move(Vector3 velocity, bool collisionY) {
         _velocity = velocity;
 		UpdateRaycastOrigins ();
 		collisions.Reset ();
@@ -52,14 +52,18 @@ public class Controller2D : MonoBehaviour {
 			HorizontalCollisions ();
 		}
 		if (velocity.y != 0) {
-			VerticalCollisions ();
+			VerticalCollisions (collisionY);
 		}
 
 		transform.Translate (_velocity,Space.World);
         return _velocity;
 	}
 
-	void HorizontalCollisions() {
+    public Vector3 Move(Vector3 velocity) {
+        return Move(velocity, true);
+    }
+
+        void HorizontalCollisions() {
 		float directionX = Mathf.Sign (_velocity.x);
 		float rayLength = Mathf.Abs (_velocity.x) + skinWidth;
 		
@@ -80,12 +84,12 @@ public class Controller2D : MonoBehaviour {
 		}
 	}
 
-	void VerticalCollisions() {
+	void VerticalCollisions(bool _collisionY) {
 		float directionY = Mathf.Sign (_velocity.y);
         float rayLength = Mathf.Abs(_velocity.y) + skinWidth;
         bool overlap = false;
         LayerMask layers = obstacleMask;
-        if ((directionY == -1)) {
+        if ((directionY == -1) && _collisionY) {
             layers = obstacleMask + platformMask;
         }
         for (int i = 0; i < verticalRayCount && !overlap; i ++) {
