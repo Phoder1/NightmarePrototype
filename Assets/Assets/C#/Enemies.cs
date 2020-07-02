@@ -145,7 +145,7 @@ public class Enemies : MonoBehaviour {
                 else if (Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
                     currentState = States.Attack;
                 }
-                else if (wasHit && !isStillBeingHit) {
+                else if (wasHit) {
 
                     currentState = States.Hit;
                     life--;
@@ -172,7 +172,7 @@ public class Enemies : MonoBehaviour {
                 else if (Vector3.Distance(transform.position, playerTransform.position) <= distanceToAttack) {
                     currentState = States.Attack;
                 }
-                else if (wasHit && !isStillBeingHit) {
+                else if (wasHit) {
                     currentState = States.Hit;
                     life--;
                     wasHit = false;
@@ -236,7 +236,7 @@ public class Enemies : MonoBehaviour {
                 if (Time.timeSinceLevelLoad >= attackTime + rechargeTime) {
                     currentState = States.Chase;
                 }
-                else if (wasHit && !isStillBeingHit) {
+                else if (wasHit) {
                     currentState = States.Hit;
                     life--;
                     wasHit = false;
@@ -361,7 +361,7 @@ public class Enemies : MonoBehaviour {
                 isBeingLit = true;
             }
             if (contacts[i].collider.tag == "Spoon") {
-                if (currentState == States.Chase || currentState == States.Patrol) {
+                if (currentState == States.Chase || currentState == States.Patrol && isStillBeingHit == false) {
                     wasHit = true;
                 }
 

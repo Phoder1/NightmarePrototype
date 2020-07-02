@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 
 public class Collectibles : MonoBehaviour {
-    enum CollectibleTypes { Battery, Key, Health }
+    internal enum CollectibleTypes { Battery, Key, Health }
 
     [SerializeField]
-    CollectibleTypes collectibleType = CollectibleTypes.Battery;
+    internal CollectibleTypes collectibleType = CollectibleTypes.Battery;
     [SerializeField]
-    Sprite batterySprite;
+    internal Sprite batterySprite;
     [SerializeField]
-    Sprite keySprite;
+    internal Sprite keySprite;
     [SerializeField]
-    Sprite healthSprite;
+    internal Sprite healthSprite;
     [SerializeField]
     float detectionDistance = 1f;
     [SerializeField]
@@ -74,7 +74,7 @@ public class Collectibles : MonoBehaviour {
             InTransition = true;
             effectTime = 0f;
             pickupTime = Time.timeSinceLevelLoad;
-            
+
         }
         else if (!IsActive && Respawn && Time.timeSinceLevelLoad >= pickupTime + respawnTime) {
             InTransition = true;
