@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour {
     private float volume = 1f;
     private int HP;
 
-    private int numberOfKeys;
+    [HideInInspector]
+    public int numberOfKeys;
     private void Awake() {
         if (gameManager != null && gameManager != this) {
             Destroy(this.gameObject);
