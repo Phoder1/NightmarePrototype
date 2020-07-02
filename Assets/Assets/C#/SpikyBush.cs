@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SpikyBush : MonoBehaviour
-{    
+public class SpikyBush : MonoBehaviour {
     MainCharacterControls mainCharacter;
     CompositeCollider2D collider;
     Collider2D playerCollider;
@@ -20,7 +17,8 @@ public class SpikyBush : MonoBehaviour
         collision.GetContacts(contacts);
         for (int i = 0; i < collision.contactCount; i++) {
             if (contacts[i].collider == playerCollider) {
-                mainCharacter.WasHit(collider.bounds.ClosestPoint(mainCharacter.gameObject.transform.position));
+                Vector3 collidePoint = collider.bounds.ClosestPoint(mainCharacter.gameObject.transform.position);
+                mainCharacter.WasHit(collidePoint + (collidePoint - mainCharacter.gameObject.transform.position).normalized);
             }
         }
     }
