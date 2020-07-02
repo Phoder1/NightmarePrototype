@@ -26,7 +26,7 @@ public class Controller2D : MonoBehaviour {
             value = Mathf.Max(value, 0.1f);
 
             Debug.Log("Size: " + playerCollider.bounds.size + " ,Offset: " + playerCollider.offset);
-            playerCollider.offset = new Vector2(playerCollider.offset.x, (value -1)*initColliderSize.y/2    );
+            playerCollider.offset = new Vector2(playerCollider.offset.x, (value -1)*initColliderSize.y/2);
             playerCollider.size = new Vector2(playerCollider.size.x, value*initColliderSize.y);
             CalculateRaySpacing();
             _colliderHeight = value;

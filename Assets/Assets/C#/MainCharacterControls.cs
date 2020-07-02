@@ -93,7 +93,7 @@ public class MainCharacterControls : MonoBehaviour {
     float currentFlashlightChargeTime;
     float spoonEffectTime;
     float hitTime = 0f;
-    GameObject hittingMonster;
+    Vector3 hittingMonster;
 
 
     const float spoonTransitionTime = 0.5f;
@@ -328,7 +328,7 @@ public class MainCharacterControls : MonoBehaviour {
                 if (playerCurrentState != playerLastState) {
                     hitTime = Time.timeSinceLevelLoad;
                     GameManager.gameManager.LoseLife();
-                    playerMovement.hittingMonster = hittingMonster.transform.position;
+                    playerMovement.hittingMonster = hittingMonster;
                     playerMovement.TrySwitchState(PlayerMovement.MovementStates.Push);
                     playerLastState = playerCurrentState;
                 }
@@ -367,10 +367,10 @@ public class MainCharacterControls : MonoBehaviour {
         deathTime = Time.timeSinceLevelLoad;
     }
 
-    public void WasHit(GameObject enemy) {
+    public void WasHit(Vector3 enemyPos) {
         if(playerCurrentState != PlayerStates.Dead && playerCurrentState != PlayerStates.Hit && playerCurrentState != PlayerStates.None) {
             playerCurrentState = PlayerStates.Hit;
-            hittingMonster = enemy;
+            hittingMonster = enemyPos;
         }
         
         Debug.Log("Was hit!");

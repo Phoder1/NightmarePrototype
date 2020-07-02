@@ -226,7 +226,7 @@ public class Enemies : MonoBehaviour {
                 if (currentState != lastState) {
                     darkAnimator.SetBool("IsWalking", false);
                     coloredAnimator.SetBool("IsWalking", false);
-                    MainCharacterControls.mainCharacter.WasHit(gameObject);
+                    MainCharacterControls.mainCharacter.WasHit(transform.position);
                     attackTime = Time.timeSinceLevelLoad;
 
                     lastState = currentState;
