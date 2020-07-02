@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a0f11d44748704580d4f6a78a63c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthIcon: {fileID: 0}
-  keyIcon: {fileID: 0}
+  healthIcon: {fileID: 511968956485609598, guid: 94a571fb0922b2e43906d1145e56fd19,
+    type: 3}
+  keyIcon: {fileID: 2597156072416940459, guid: 8ab67ae4409bd7440807fa125768b404, type: 3}
   healthIcons: []
-  keyIcons: []
