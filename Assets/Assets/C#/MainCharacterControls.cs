@@ -56,6 +56,8 @@ public class MainCharacterControls : MonoBehaviour {
     float attackDuration = 1f;
     [SerializeField]
     internal float stunTime = 1f;
+    [SerializeField]
+    float immunityTime = 2f;
 
     [SerializeField]
     float minFlashlightOnTime = 1f;
@@ -374,7 +376,7 @@ public class MainCharacterControls : MonoBehaviour {
     }
 
     public void WasHit(Vector3 enemyPos) {
-        if(playerCurrentState != PlayerStates.Dead && playerCurrentState != PlayerStates.Hit && playerCurrentState != PlayerStates.None) {
+        if(playerCurrentState != PlayerStates.Dead && playerCurrentState != PlayerStates.Hit && playerCurrentState != PlayerStates.None && Time.timeSinceLevelLoad >= hitTime + stunTime + immunityTime) {
             playerCurrentState = PlayerStates.Hit;
             hittingMonster = enemyPos;
         }
