@@ -87,6 +87,7 @@ public class Collectibles : MonoBehaviour {
             InTransition = effectTime != 1f && effectTime != 0f;
             gameObject.SetActive(Respawn || InTransition);
         }
+        
 
 
     }

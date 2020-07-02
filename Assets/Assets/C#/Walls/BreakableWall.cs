@@ -16,6 +16,8 @@ public class BreakableWall : MonoBehaviour
     Material material;
     int hp;
 
+    float hitTime = 0f;
+    const float hitDelay = 0.5f;
     bool isStillBeingHit = false;
     bool lostHP = true;
     // Start is called before the first frame update
@@ -54,8 +56,9 @@ public class BreakableWall : MonoBehaviour
         collision.GetContacts(contacts);
         for (int i = 0; i < collision.contactCount; i++) {
             if (contacts[i].collider.tag == "Spoon") {
-                if(!isStillBeingHit) {
+                if(!isStillBeingHit && Time.timeSinceLevelLoad >= hitTime + hitDelay) {
                     lostHP = false;
+                    hitTime = Time.timeSinceLevelLoad;
                 }
                 
                 isStillBeingHit = true;
