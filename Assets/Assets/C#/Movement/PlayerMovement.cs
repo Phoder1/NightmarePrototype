@@ -130,13 +130,11 @@ public class PlayerMovement : MonoBehaviour {
         ApplyMove();
         ResetKeys();
         if (FOV != null && frameVelocity.magnitude > 0.01f) {
-            Debug.Log("FOV Update: " + frameVelocity + ", " + frameVelocity.magnitude);
             FOV.DrawFieldOfView();
         }
         playerAnimator.SetBool("Running", !(frameVelocity.x > -0.01f && frameVelocity.x < 0.01f) && mainCharacter.playerCurrentState == MainCharacterControls.PlayerStates.Moving);
         playerAnimator.SetBool("IsJump", frameVelocity.y > 0.01f);
         playerAnimator.SetBool("IsFalling", frameVelocity.y < -0.01f);
-        Debug.Log(frameVelocity.y);
         targetVelocityX = 0f;
     }
 
