@@ -265,8 +265,13 @@ public class Enemies : MonoBehaviour {
                     hitDirection.y = 0f;
                 }
 
+                Vector2 minPoint = areaLimits.bounds.min + darkRenderer.bounds.extents;
+                Vector3 maxPoint = areaLimits.bounds.max - darkRenderer.bounds.extents;
                 hitMoveSpeed = Mathf.Max(hitMoveSpeed - hitStopForce * Time.deltaTime, 0f);
                 transform.position += hitDirection * hitMoveSpeed * Time.deltaTime;
+                Vector2 nextPos = new Vector3(Mathf.Clamp(transform.position.x, minPoint.x, maxPoint.x), Mathf.Clamp(transform.position.y, minPoint.y, maxPoint.y), transform.position.z);
+                transform.position = nextPos;
+                
 
                 if (life == 0 && hitMoveSpeed == 0f) {
                     currentState = States.Transition;
