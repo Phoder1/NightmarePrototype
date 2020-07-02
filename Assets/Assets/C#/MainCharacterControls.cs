@@ -55,7 +55,7 @@ public class MainCharacterControls : MonoBehaviour {
     [SerializeField]
     float attackDuration = 1f;
     [SerializeField]
-    float stunTime = 1f;
+    internal float stunTime = 1f;
 
     [SerializeField]
     float minFlashlightOnTime = 1f;
@@ -392,9 +392,6 @@ public class MainCharacterControls : MonoBehaviour {
 
     }
     void UpdateAnimator() {
-        playerAnimator.SetBool("Running", playerCurrentState == PlayerStates.Moving);
-        playerAnimator.SetBool("IsJump", playerCurrentState == PlayerStates.Jump);
-        playerAnimator.SetBool("IsFalling", playerCurrentState == PlayerStates.Falling);
         playerAnimator.SetBool("IsDead", playerCurrentState == PlayerStates.Dead);
     }
 
