@@ -82,6 +82,7 @@ public class MainCharacterControls : MonoBehaviour {
     float deathTime;
     Controller2D controller;
     Vector3 initCircleScale;
+    float circleClosingSpeed;
     
 
 
@@ -132,6 +133,9 @@ public class MainCharacterControls : MonoBehaviour {
         spoonAnimator.speed = 1 / attackDuration;
         refrences.ShoulderAnimator.speed = 1 / attackDuration;
         initCircleScale = circleTransform.localScale;
+        Debug.Log(initCircleScale);
+        circleTransform.localScale = Vector3.one;
+        circleClosingSpeed = (1 - initCircleScale.x) / deathClosingCircleTime;
     }
 
     // Update is called once per frame
@@ -359,7 +363,8 @@ public class MainCharacterControls : MonoBehaviour {
                     playerLastState = playerCurrentState;
                 }
 
-
+                circleTransform.localScale -= Vector3.one * circleClosingSpeed * Time.deltaTime;
+    
                 if(Time.timeSinceLevelLoad >= deathTime + resetSceneDelay) {
                     GameManager.gameManager.ResetScene();
                 }

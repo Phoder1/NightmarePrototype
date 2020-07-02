@@ -2672,6 +2672,12 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!4 &1454790746 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 712438793, guid: 177ddb149cccb224986ec1fa0971e1fa,
+    type: 3}
+  m_PrefabInstance: {fileID: 6682983901512183071}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1889343546 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3104614292066993438, guid: c136a6f00116e1a41b4d2dfff9007183,
@@ -2832,7 +2838,7 @@ PrefabInstance:
     - target: {fileID: 2935684466193871390, guid: a5fcdf20ba93f5e459e2cc1c7c5ea73c,
         type: 3}
       propertyPath: m_SortingLayer
-      value: -4
+      value: -5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5fcdf20ba93f5e459e2cc1c7c5ea73c, type: 3}
@@ -3096,6 +3102,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1915074047, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}
+      propertyPath: m_Name
+      value: Lightcone Mask
+      objectReference: {fileID: 0}
+    - target: {fileID: 1915074050, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}
+      propertyPath: m_Color.a
+      value: 0.003921569
+      objectReference: {fileID: 0}
     - target: {fileID: 5206735977299328470, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3151,10 +3165,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5206735977299328471, guid: 177ddb149cccb224986ec1fa0971e1fa,
+        type: 3}
+      propertyPath: circleTransform
+      value: 
+      objectReference: {fileID: 1454790746}
     - target: {fileID: 5206735977299328473, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
       propertyPath: m_Name
       value: MainBoyTilemapSupported
+      objectReference: {fileID: 0}
+    - target: {fileID: 7682511654379274093, guid: 177ddb149cccb224986ec1fa0971e1fa,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.46666667
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}
