@@ -171,15 +171,18 @@ public class PlayerMovement : MonoBehaviour {
                 velocity.y = jumpVelocity;
             }
             targetVelocityX = moveDirection.x * moveSpeed;
+            controller.colliderHeight = 1f;
         }
         else if (currentMoveState == MovementStates.Roll) {
             targetVelocityX = currentRollVelocity;
             currentRollVelocity = moveDirection.x * Mathf.Max(Mathf.Abs(currentRollVelocity) + rollBreakingAcceleration * Time.deltaTime, 0f);
             if (currentRollVelocity == 0f) {
                 currentMoveState = MovementStates.Normal;
-                controller.colliderHeight = 1f;
+                
             }
 
+        }else {
+            controller.colliderHeight = 1f;
         }
     }
 

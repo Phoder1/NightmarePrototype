@@ -296,12 +296,14 @@ public class Enemies : MonoBehaviour {
 
     }
     private void Patrol() {
-        Vector3 targetPos = MoveTowards(targets[currentTarget].targetsTransform.position);
-        if (isIdle && Time.timeSinceLevelLoad >= startIdleTime + targets[currentTarget].maxIdleTime) {
-            isIdle = false;
-            currentTarget++;
-            if (currentTarget >= targets.Length) {
-                currentTarget = 0;
+        if(targets.Length > 0) {
+            Vector3 targetPos = MoveTowards(targets[currentTarget].targetsTransform.position);
+            if (isIdle && Time.timeSinceLevelLoad >= startIdleTime + targets[currentTarget].maxIdleTime) {
+                isIdle = false;
+                currentTarget++;
+                if (currentTarget >= targets.Length) {
+                    currentTarget = 0;
+                }
             }
         }
     }
@@ -378,7 +380,9 @@ public class Enemies : MonoBehaviour {
 
     private void OnDrawGizmos() {
         Gizmos.DrawWireCube(transform.position, darkRenderer.bounds.size);
-        Gizmos.DrawWireCube(areaLimits.transform.position + (Vector3)areaLimits.offset, areaLimits.bounds.size);
+        if(areaLimits != null) {
+            Gizmos.DrawWireCube(areaLimits.transform.position + (Vector3)areaLimits.offset, areaLimits.bounds.size);
+        }
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, detectionDistance);
         Gizmos.color = Color.red;

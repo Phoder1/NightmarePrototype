@@ -65,6 +65,11 @@ public class MainCharacterControls : MonoBehaviour {
     [SerializeField]
     float resetSceneDelay = 2f;
 
+    [SerializeField]
+    float deathClosingCircleTime;
+    [SerializeField]
+    Transform circleTransform;
+
     //General Variables
     PlayerMovement playerMovement;
     Animator playerAnimator;    
@@ -74,6 +79,7 @@ public class MainCharacterControls : MonoBehaviour {
     public static MainCharacterControls mainCharacter;
     float deathTime;
     Controller2D controller;
+    
 
 
 
