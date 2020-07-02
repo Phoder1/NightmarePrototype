@@ -45,14 +45,17 @@ TagManager:
   - name: Background
     uniqueID: 461219499
     locked: 0
-  - name: MainBoy
-    uniqueID: 1559361811
+  - name: Lightcone mask
+    uniqueID: 936648313
     locked: 0
   - name: Colored Backfround
     uniqueID: 88775839
     locked: 0
   - name: Platforms
     uniqueID: 3008518549
+    locked: 0
+  - name: MainBoy
+    uniqueID: 1559361811
     locked: 0
   - name: Collectibles
     uniqueID: 2765787733

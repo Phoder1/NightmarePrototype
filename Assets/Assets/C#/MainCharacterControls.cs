@@ -81,6 +81,7 @@ public class MainCharacterControls : MonoBehaviour {
     public static MainCharacterControls mainCharacter;
     float deathTime;
     Controller2D controller;
+    Vector3 initCircleScale;
     
 
 
@@ -130,6 +131,7 @@ public class MainCharacterControls : MonoBehaviour {
         spoonCollider.enabled = false;
         spoonAnimator.speed = 1 / attackDuration;
         refrences.ShoulderAnimator.speed = 1 / attackDuration;
+        initCircleScale = circleTransform.localScale;
     }
 
     // Update is called once per frame
