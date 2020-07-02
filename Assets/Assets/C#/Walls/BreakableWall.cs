@@ -8,7 +8,7 @@ public class BreakableWall : MonoBehaviour
     [SerializeField]
     int fullHP = 3;
     [SerializeField]
-    string shaderPropertyName = "EffectTime";
+    string shaderPropertyName = "DissolveIntensity";
 
     float effectTime = 0f;
 
@@ -37,8 +37,10 @@ public class BreakableWall : MonoBehaviour
     }
 
     private void DealDamage() {
+        
         hp--;
-        effectTime = Mathf.Clamp(effectTime - Mathf.Ceil((1 / fullHP) / 0.1f)*0.1f,0f,1f);
+        effectTime = Mathf.Clamp(effectTime + Mathf.Ceil((1f / (fullHP+1.5f)) / 0.1f)*0.1f,0f,1f);
+        Debug.Log(Mathf.Ceil((1f / fullHP) / 0.1f) * 0.1f + " , " + effectTime);
         if(hp == 0) {
             Destroy(gameObject);
         }
