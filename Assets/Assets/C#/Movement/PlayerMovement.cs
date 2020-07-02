@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Controller2D))]
 public class PlayerMovement : MonoBehaviour {
@@ -40,7 +39,7 @@ public class PlayerMovement : MonoBehaviour {
     [Header("Push")]
     [SerializeField]
     float pushDistance = 3;
-    [SerializeField]
+
     float pushTime = 0.3f;
 
 
@@ -70,7 +69,7 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 velocity;
     float velocityXSmoothing;
     //Controls
-    Vector2 input;
+    Vector2 moveDirection;
     Vector3 initScale;
     Transform pivot;
 
@@ -81,6 +80,7 @@ public class PlayerMovement : MonoBehaviour {
     const float MIN_ANIM_SPEED = 0.1f;
 
     MainCharacterControls mainCharacter;
+    Animator playerAnimator;
 
     internal Vector3 hittingMonster;
 
@@ -89,22 +89,27 @@ public class PlayerMovement : MonoBehaviour {
     Vector3 frameVelocity;
 
     void Start() {
+        mainCharacter = MainCharacterControls.mainCharacter;
+        playerAnimator = GetComponentInChildren<Animator>();
         controller = GetComponent<Controller2D>();
         pivot = transform.GetChild(0);
 
         gravity = -(2 * jumpHeight) / Mathf.Pow(timeToJumpApex, 2);
         jumpVelocity = Mathf.Abs(gravity) * timeToJumpApex;
 
-        rollBreakingAcceleration = (2 * rollDistance) / Mathf.Pow(rollTime, 2);
-        rollVelocity = rollBreakingAcceleration * rollTime;
+        rollVelocity = (2 * rollDistance) / rollTime;
+        rollBreakingAcceleration = -(rollVelocity / rollTime);
 
-        pushBreakingAcceleration = (2 * pushDistance) / Mathf.Pow(pushTime, 2);
-        pushVelocity = pushBreakingAcceleration * pushTime;
+        pushTime = mainCharacter.stunTime * 0.8f;
+
+        pushVelocity = (2 * pushDistance) / pushTime;
+        pushBreakingAcceleration = -(pushVelocity/pushTime);
+        
 
         Debug.Log("Breaking: " + rollBreakingAcceleration + " ,Velocity: " + rollVelocity);
         initScale = pivot.transform.localScale;
 
-        mainCharacter = MainCharacterControls.mainCharacter;
+        
         //print ("Gravity: " + gravity + "  Jump Velocity: " + jumpVelocity);
     }
     private void Update() {
@@ -114,20 +119,24 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        Debug.Log(currentMoveState);
+        //Debug.Log(currentMoveState);
         if (currentMoveState != MovementStates.Dead && currentMoveState != MovementStates.Push) {
             Move();
         }
-        else if (currentMoveState == MovementStates.Push) {
+        else {
             Push();
         }
 
         ApplyMove();
         ResetKeys();
         if (FOV != null && frameVelocity.magnitude > 0.01f) {
-            Debug.Log("FOV Update: " + frameVelocity +", " + frameVelocity.magnitude);
+            Debug.Log("FOV Update: " + frameVelocity + ", " + frameVelocity.magnitude);
             FOV.DrawFieldOfView();
         }
+        playerAnimator.SetBool("Running", !(frameVelocity.x > -0.01f && frameVelocity.x < 0.01f) && mainCharacter.playerCurrentState == MainCharacterControls.PlayerStates.Moving);
+        playerAnimator.SetBool("IsJump", frameVelocity.y > 0.01f);
+        playerAnimator.SetBool("IsFalling", frameVelocity.y < -0.01f);
+        Debug.Log(frameVelocity.y);
         targetVelocityX = 0f;
     }
 
@@ -142,27 +151,27 @@ public class PlayerMovement : MonoBehaviour {
             velocity.y = 0;
         }
         if (currentMoveState == MovementStates.Normal) {
-            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         }
-        if (shift && input.x != 0 && controller.IsGrounded() && currentMoveState != MovementStates.Roll && Time.timeSinceLevelLoad >= lastRollTime + rollCD) {
+        if (shift && moveDirection.x != 0 && controller.IsGrounded() && currentMoveState != MovementStates.Roll && Time.timeSinceLevelLoad >= lastRollTime + rollCD) {
             TrySwitchState(MovementStates.Roll);
-            currentRollVelocity = input.x * rollVelocity;
+            currentRollVelocity = moveDirection.x * rollVelocity;
             controller.colliderHeight = rollColliderHeight;
         }
 
 
 
-        
+
         if (currentMoveState == MovementStates.Normal) {
             jump = space && controller.IsGrounded();
             if (jump) {
                 velocity.y = jumpVelocity;
             }
-            targetVelocityX = input.x * moveSpeed;
+            targetVelocityX = moveDirection.x * moveSpeed;
         }
         else if (currentMoveState == MovementStates.Roll) {
             targetVelocityX = currentRollVelocity;
-            currentRollVelocity = input.x * Mathf.Max(Mathf.Abs(currentRollVelocity) - rollBreakingAcceleration * Time.deltaTime, 0f);
+            currentRollVelocity = moveDirection.x * Mathf.Max(Mathf.Abs(currentRollVelocity) + rollBreakingAcceleration * Time.deltaTime, 0f);
             if (currentRollVelocity == 0f) {
                 currentMoveState = MovementStates.Normal;
                 controller.colliderHeight = 1f;
@@ -172,19 +181,20 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void ApplyMove() {
-        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (currentMoveState == MovementStates.Dead? accelerationTimeDead :(controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirborne)), float.MaxValue, Time.fixedDeltaTime);
+        velocity.x = Mathf.SmoothDamp(velocity.x, targetVelocityX, ref velocityXSmoothing, (currentMoveState == MovementStates.Dead ? accelerationTimeDead : (controller.collisions.below ? accelerationTimeGrounded : accelerationTimeAirborne)), float.MaxValue, Time.fixedDeltaTime);
         if (controller.collisions.left || controller.collisions.right) {
             velocity.x = 0;
         }
-        else if (controller._velocity.x > 0) {
+        else if (((currentMoveState != MovementStates.Dead && currentMoveState != MovementStates.Push) ? controller._velocity.x :   hittingMonster.x-transform.position.x) > 0) {
             pivot.transform.localScale = new Vector3(initScale.x, initScale.y, initScale.z);
         }
-        else if (controller._velocity.x < 0) {
+        else if (((currentMoveState != MovementStates.Dead && currentMoveState != MovementStates.Push) ? controller._velocity.x : hittingMonster.x - transform.position.x  ) < 0) {
             pivot.transform.localScale = new Vector3(-initScale.x, initScale.y, initScale.z);
         }
+
         velocity.y += gravity * Time.deltaTime;
         frameVelocity = controller.Move(velocity * Time.deltaTime);
-        
+
 
         if (animator != null) {
             if (controller.IsGrounded() && currentMoveState != MovementStates.Dead) {
@@ -197,11 +207,10 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     internal void Push() {
+        Debug.Log("Pushed");
+        moveDirection.x = Mathf.Sign(transform.position.x - hittingMonster.x);
         targetVelocityX = currentPushVelocity;
-        currentPushVelocity = input.x * Mathf.Max(Mathf.Abs(currentPushVelocity) - pushBreakingAcceleration * Time.deltaTime, 0f);
-        if (currentPushVelocity == 0f) {
-            currentMoveState = MovementStates.Normal;
-        }
+        currentPushVelocity = moveDirection.x * Mathf.Max(Mathf.Abs(currentPushVelocity) + pushBreakingAcceleration * Time.deltaTime, 0f);
     }
 
     internal void TrySwitchState(MovementStates targetState) {
@@ -254,16 +263,19 @@ public class PlayerMovement : MonoBehaviour {
             }
 
             //code to run when switching
-            if(currentMoveState == targetState) {
+            if (currentMoveState == targetState) {
                 switch (currentMoveState) {
                     case MovementStates.Normal:
                         break;
                     case MovementStates.Roll:
                         break;
                     case MovementStates.Push:
+                        velocity.x = 0f;
                         currentPushVelocity = Mathf.Sign(transform.position.x - hittingMonster.x) * pushVelocity;
                         break;
                     case MovementStates.Dead:
+                        velocity.x = 0;
+                        currentPushVelocity = Mathf.Sign(transform.position.x - hittingMonster.x) * pushVelocity;
                         break;
                 }
             }
