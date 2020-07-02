@@ -10,6 +10,9 @@ public class DissapearingWall : MonoBehaviour {
     string shaderPropertyName = "EffectTime";
     [SerializeField]
     float timeToLight = 2f;
+    [SerializeField]
+    [Range(0f, 1f)]
+    float animationDisappearTimeRatio = 1f;
 
     Material material;
     Collider2D lightMaskCollider;
@@ -27,10 +30,10 @@ public class DissapearingWall : MonoBehaviour {
         //Debug.Log(isBeingLit);
         if (isBeingLit) {
             Debug.Log("beingLit");
-            EffectTime = Mathf.Min(EffectTime + Time.deltaTime / timeToLight, 1f);
+            EffectTime = Mathf.Min(EffectTime + Time.deltaTime / (timeToLight/animationDisappearTimeRatio), 1f);
             material.SetFloat(shaderPropertyName, EffectTime);
         }
-        if (EffectTime == 1f) {
+        if (EffectTime >= animationDisappearTimeRatio) {
             gameObject.SetActive(false);
         }
     }
