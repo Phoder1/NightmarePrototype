@@ -57,7 +57,7 @@ MonoBehaviour:
   darkRenderer: {fileID: 6624011877419716395}
   coloredRenderer: {fileID: 6624011875435580137}
   coloredStunnedRenderer: {fileID: 6127678185102782886}
-  stunnedMask: {fileID: 0}
+  stunnedMask: {fileID: 7664328871762187995}
   targetMaskScaleRatio: {x: 1, y: 1, z: 1}
   normalSpeed: 3.2
   numOfLives: 3
@@ -537,6 +537,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38515d90e90cea0498f51c5a2bed4a98, type: 3}
+--- !u!1 &7664328871762187995 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8446071001041404573, guid: 38515d90e90cea0498f51c5a2bed4a98,
+    type: 3}
+  m_PrefabInstance: {fileID: 2263993758010496070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7664328871762187994 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8446071001041404572, guid: 38515d90e90cea0498f51c5a2bed4a98,
