@@ -126,8 +126,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 623230550}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.416342, y: -4.596942, z: 0}
-  m_LocalScale: {x: 1.8027223, y: 1.8027223, z: 1.8027223}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1433483361841006241}
   m_RootOrder: 1
@@ -432,7 +432,7 @@ GameObject:
   m_Layer: 0
   m_Name: Granny_Pivot
   m_TagString: Untagged
-  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -465,19 +465,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsFlying: 0
-  targets: []
+  targets:
+  - targetsTransform: {fileID: 0}
+    maxIdleTime: 1.5
+  - targetsTransform: {fileID: 0}
+    maxIdleTime: 2
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 1073217232451045852}
   coloredRenderer: {fileID: 1073217234443045918}
   coloredStunnedRenderer: {fileID: 242661201}
   stunnedMask: {fileID: 623230550}
-  targetMaskScaleRatio: {x: 1, y: 1, z: 1}
+  targetMaskScaleRatio: {x: 1.2, y: 1.2, z: 1}
   normalSpeed: 3.2
   numOfLives: 3
   lightTimeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1
-  detectionDistance: 4.4
+  detectionDistance: 5.39
   distanceToAttack: 1.45
   rechargeTime: 3
   hitForce: 5
