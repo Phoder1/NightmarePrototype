@@ -129,7 +129,7 @@ Transform:
   m_GameObject: {fileID: 3326440905815478547}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 23.82, y: 4.8665247, z: 19.782747}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.73681706, y: 0.73681706, z: 0.73681706}
   m_Children:
   - {fileID: 7445262373131214001}
   - {fileID: 6095921189931567724}
@@ -161,14 +161,14 @@ MonoBehaviour:
   coloredRenderer: {fileID: 9147713013386592050}
   coloredStunnedRenderer: {fileID: 1504383270918142735}
   stunnedMask: {fileID: 619101833861336370}
-  targetMaskScaleRatio: {x: 1, y: 1, z: 1}
+  targetMaskScaleRatio: {x: 1, y: 1.5, z: 1}
   normalSpeed: 3
   numOfLives: 3
   lightTimeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1.5
-  detectionDistance: 5.4
-  distanceToAttack: 1.13
+  detectionDistance: 5.77
+  distanceToAttack: 1.04
   rechargeTime: 3
   hitForce: 7
   hitStopForce: 10

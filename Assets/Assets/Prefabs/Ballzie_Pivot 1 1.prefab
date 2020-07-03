@@ -58,14 +58,14 @@ MonoBehaviour:
   coloredRenderer: {fileID: 6624011875435580137}
   coloredStunnedRenderer: {fileID: 6127678185102782886}
   stunnedMask: {fileID: 7664328871762187995}
-  targetMaskScaleRatio: {x: 1, y: 1, z: 1}
+  targetMaskScaleRatio: {x: 2, y: 2, z: 1}
   normalSpeed: 3.2
   numOfLives: 3
   lightTimeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1
-  detectionDistance: 4.4
-  distanceToAttack: 1.42
+  detectionDistance: 5.61
+  distanceToAttack: 2.17
   rechargeTime: 3
   hitForce: 4
   hitStopForce: 10

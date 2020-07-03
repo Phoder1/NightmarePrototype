@@ -129,7 +129,7 @@ Transform:
   m_GameObject: {fileID: 3564074200777950422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.601183, y: -3.5547118, z: 19.782747}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0641, y: 1.0641, z: 1.0641}
   m_Children:
   - {fileID: 8650610409388476788}
   - {fileID: 5460287981679091625}
@@ -156,8 +156,6 @@ MonoBehaviour:
     maxIdleTime: 2
   - targetsTransform: {fileID: 0}
     maxIdleTime: 2
-  - targetsTransform: {fileID: 0}
-    maxIdleTime: 1
   areaLimits: {fileID: 0}
   darkRenderer: {fileID: 1159805486865494040}
   coloredRenderer: {fileID: 7038266948199967479}
@@ -169,8 +167,8 @@ MonoBehaviour:
   lightTimeToStun: 3
   maxTimeStunned: 5
   flashlightSpeedDecrease: 1.5
-  detectionDistance: 3.47
-  distanceToAttack: 1.13
+  detectionDistance: 4.32
+  distanceToAttack: 1.55
   rechargeTime: 3
   hitForce: 7
   hitStopForce: 10
