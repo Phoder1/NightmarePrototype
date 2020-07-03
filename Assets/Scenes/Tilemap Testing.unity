@@ -3211,5 +3211,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainBoyTilemapSupported
       objectReference: {fileID: 0}
+    - target: {fileID: 7682511654379274093, guid: 177ddb149cccb224986ec1fa0971e1fa,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}

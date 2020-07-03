@@ -107,7 +107,7 @@ public class Enemies : MonoBehaviour {
     }
 
     private void UpdateEffect() {
-        
+
         if (nextState == States.Stunned) {
             animationTime = Mathf.Clamp(animationTime + (Time.deltaTime / BLINK_TIME), 0f, 1f);
             //stunnedMask.transform.localScale += targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME + maxTimeStunned));
@@ -132,11 +132,13 @@ public class Enemies : MonoBehaviour {
             nextState = States.Stunned;
 
         }
-        Debug.Log(stunnedMask.transform.localScale +" , " + (targetMaskScaleRatio * stunnedMaskScale));
-        if(((Time.timeSinceLevelLoad <= timeWhenStunned + maxTimeStunned * stunAnimationOverlapRatio && currentState == States.Stunned) || nextState == States.Stunned) && stunnedMask.transform.localScale.x < (targetMaskScaleRatio * stunnedMaskScale).x && stunnedMask.transform.localScale.y < (targetMaskScaleRatio * stunnedMaskScale).y) {
+        Debug.Log(stunnedMask.transform.localScale + " , " + (targetMaskScaleRatio * stunnedMaskScale));
+        if (((Time.timeSinceLevelLoad <= timeWhenStunned + maxTimeStunned * stunAnimationOverlapRatio && currentState == States.Stunned)
+            || (nextState == States.Stunned && currentState == States.Transition))
+            && (stunnedMask.transform.localScale.x < (targetMaskScaleRatio * stunnedMaskScale).x && stunnedMask.transform.localScale.y < (targetMaskScaleRatio * stunnedMaskScale).y)) {
             stunnedMask.transform.localScale += targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME + maxTimeStunned * stunAnimationOverlapRatio));
         }
-        else if((Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned * (1-stunAnimationOverlapRatio)) && stunnedMask.transform.localScale.x > 0 && stunnedMask.transform.localScale.y > 0) {
+        else if ((Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned * (1 - stunAnimationOverlapRatio)) && stunnedMask.transform.localScale.x > 0 && stunnedMask.transform.localScale.y > 0) {
             stunnedMask.transform.localScale -= targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME + maxTimeStunned * stunAnimationOverlapRatio));
         }
     }
@@ -197,7 +199,7 @@ public class Enemies : MonoBehaviour {
             case States.Stunned:
                 if (currentState != lastState) {
                     timeWhenStunned = Time.timeSinceLevelLoad;
-                    
+
                     lastState = currentState;
                 }
                 Stunned();
@@ -284,7 +286,7 @@ public class Enemies : MonoBehaviour {
                 transform.position += hitDirection * hitMoveSpeed * Time.deltaTime;
                 Vector2 nextPos = new Vector3(Mathf.Clamp(transform.position.x, minPoint.x, maxPoint.x), Mathf.Clamp(transform.position.y, minPoint.y, maxPoint.y), transform.position.z);
                 transform.position = nextPos;
-                
+
 
                 if (life == 0 && hitMoveSpeed == 0f) {
                     currentState = States.Transition;
@@ -304,7 +306,7 @@ public class Enemies : MonoBehaviour {
 
     private void Stunned() {
         //stunnedMask.transform.localScale += targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME + maxTimeStunned));
-        
+
     }
 
     private void Chase() {
@@ -315,7 +317,7 @@ public class Enemies : MonoBehaviour {
 
     }
     private void Patrol() {
-        if(targets.Length > 0) {
+        if (targets.Length > 0) {
             Vector3 targetPos = MoveTowards(targets[currentTarget].targetsTransform.position);
             if (isIdle && Time.timeSinceLevelLoad >= startIdleTime + targets[currentTarget].maxIdleTime) {
                 isIdle = false;
@@ -399,7 +401,7 @@ public class Enemies : MonoBehaviour {
 
     private void OnDrawGizmos() {
         Gizmos.DrawWireCube(transform.position, darkRenderer.bounds.size);
-        if(areaLimits != null) {
+        if (areaLimits != null) {
             Gizmos.DrawWireCube(areaLimits.transform.position + (Vector3)areaLimits.offset, areaLimits.bounds.size);
         }
         Gizmos.color = Color.blue;
