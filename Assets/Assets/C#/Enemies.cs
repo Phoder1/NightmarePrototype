@@ -85,6 +85,7 @@ public class Enemies : MonoBehaviour {
     const float ATTACK_EXTRA_RANGE = 0.5f;
     const float BLINK_TIME = 2f;
     const float MIN_WALKINGSPEED_RATIO = 0.2f;
+    const float stunAnimationOverlapRatio = 0.2f;
 
     // Start is called before the first frame update
     void Start() {
@@ -106,13 +107,14 @@ public class Enemies : MonoBehaviour {
     }
 
     private void UpdateEffect() {
+        
         if (nextState == States.Stunned) {
             animationTime = Mathf.Clamp(animationTime + (Time.deltaTime / BLINK_TIME), 0f, 1f);
-            stunnedMask.transform.localScale += targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / BLINK_TIME);
+            //stunnedMask.transform.localScale += targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME + maxTimeStunned));
         }
         else {
             animationTime = Mathf.Clamp(animationTime - (Time.deltaTime / BLINK_TIME), 0f, 1f);
-            stunnedMask.transform.localScale -= targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / BLINK_TIME);
+            //stunnedMask.transform.localScale -= targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME+maxTimeStunned));
         }
         darkMaterial.SetFloat("DissolveIntensity", animationTime);
     }
@@ -130,9 +132,12 @@ public class Enemies : MonoBehaviour {
             nextState = States.Stunned;
 
         }
-
-        if(nextState == States.Stunned || currentState == States.Stunned) {
-
+        Debug.Log(stunnedMask.transform.localScale +" , " + (targetMaskScaleRatio * stunnedMaskScale));
+        if(((Time.timeSinceLevelLoad <= timeWhenStunned + maxTimeStunned * stunAnimationOverlapRatio && currentState == States.Stunned) || nextState == States.Stunned) && stunnedMask.transform.localScale.x < (targetMaskScaleRatio * stunnedMaskScale).x && stunnedMask.transform.localScale.y < (targetMaskScaleRatio * stunnedMaskScale).y) {
+            stunnedMask.transform.localScale += targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME + maxTimeStunned * stunAnimationOverlapRatio));
+        }
+        else if((Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned * (1-stunAnimationOverlapRatio)) && stunnedMask.transform.localScale.x > 0 && stunnedMask.transform.localScale.y > 0) {
+            stunnedMask.transform.localScale -= targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME + maxTimeStunned * stunAnimationOverlapRatio));
         }
     }
 
@@ -197,7 +202,7 @@ public class Enemies : MonoBehaviour {
                 }
                 Stunned();
                 wasHit = false;
-                if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit) {
+                if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned) {
                     //stunnedMask.transform.localScale = Vector3.zero;
                     currentState = States.Transition;
                     nextState = States.Patrol;
@@ -213,6 +218,7 @@ public class Enemies : MonoBehaviour {
                     if (nextState == States.Stunned) {
                         darkMaterial.SetFloat("Respawn", 0f);
                         LeanTween.alpha(coloredStunnedRenderer.gameObject, 1f, BLINK_TIME).setEaseInCirc();
+
                     }
                     else {
                         darkMaterial.SetFloat("Respawn", 1f);
@@ -224,7 +230,6 @@ public class Enemies : MonoBehaviour {
                 UpdateEffect();
                 wasHit = false;
                 if (animationTime == 1f || animationTime == 0f) {
-                    
                     currentState = nextState;
                 }
                 break;
@@ -298,6 +303,7 @@ public class Enemies : MonoBehaviour {
     }
 
     private void Stunned() {
+        //stunnedMask.transform.localScale += targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / (BLINK_TIME + maxTimeStunned));
         
     }
 
