@@ -27,6 +27,8 @@ public class Enemies : MonoBehaviour {
     SpriteRenderer coloredStunnedRenderer;
     [SerializeField]
     GameObject stunnedMask;
+    [SerializeField]
+    Vector3 targetMaskScaleRatio = Vector3.one;
 
     Material darkMaterial;
     [SerializeField]
@@ -79,7 +81,7 @@ public class Enemies : MonoBehaviour {
     float hitMoveSpeed = 0f;
     Vector3 hitDirection = Vector3.zero;
 
-
+    const float stunnedMaskScale = 0.12345f;
     const float ATTACK_EXTRA_RANGE = 0.5f;
     const float BLINK_TIME = 2f;
     const float MIN_WALKINGSPEED_RATIO = 0.2f;
@@ -94,7 +96,7 @@ public class Enemies : MonoBehaviour {
         actualSpeed = normalSpeed;
         playerTransform = MainCharacterControls.mainCharacter.transform;
         life = numOfLives;
-        stunnedMask.SetActive(false);
+        stunnedMask.transform.localScale = Vector3.zero;
     }
 
     // Update is called once per frame
@@ -106,9 +108,11 @@ public class Enemies : MonoBehaviour {
     private void UpdateEffect() {
         if (nextState == States.Stunned) {
             animationTime = Mathf.Clamp(animationTime + (Time.deltaTime / BLINK_TIME), 0f, 1f);
+            stunnedMask.transform.localScale += targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / BLINK_TIME);
         }
         else {
             animationTime = Mathf.Clamp(animationTime - (Time.deltaTime / BLINK_TIME), 0f, 1f);
+            stunnedMask.transform.localScale -= targetMaskScaleRatio * stunnedMaskScale * (Time.deltaTime / BLINK_TIME);
         }
         darkMaterial.SetFloat("DissolveIntensity", animationTime);
     }
@@ -124,6 +128,10 @@ public class Enemies : MonoBehaviour {
         if (litTime >= lightTimeToStun && currentState != States.Stunned && currentState != States.Transition) {
             currentState = States.Transition;
             nextState = States.Stunned;
+
+        }
+
+        if(nextState == States.Stunned || currentState == States.Stunned) {
 
         }
     }
@@ -184,13 +192,13 @@ public class Enemies : MonoBehaviour {
             case States.Stunned:
                 if (currentState != lastState) {
                     timeWhenStunned = Time.timeSinceLevelLoad;
-                    stunnedMask.SetActive(true);
+                    
                     lastState = currentState;
                 }
                 Stunned();
                 wasHit = false;
                 if (Time.timeSinceLevelLoad >= timeWhenStunned + maxTimeStunned && !isBeingLit) {
-                    stunnedMask.SetActive(false);
+                    //stunnedMask.transform.localScale = Vector3.zero;
                     currentState = States.Transition;
                     nextState = States.Patrol;
                     life = numOfLives;
@@ -290,7 +298,7 @@ public class Enemies : MonoBehaviour {
     }
 
     private void Stunned() {
-
+        
     }
 
     private void Chase() {
