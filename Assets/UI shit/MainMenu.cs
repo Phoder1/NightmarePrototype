@@ -26,7 +26,7 @@ public class MainMenu : MonoBehaviour
     public void InvokeGame()
     {
         BGmaterial.SetFloat("DissolveIntensity", 0f);
-        SceneManager.LoadScene("LevelDesignPrototypeNew");
+        SceneManager.LoadScene(1);
     }
 
     public void QuitGame()

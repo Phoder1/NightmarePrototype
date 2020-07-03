@@ -38594,33 +38594,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 671941583, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 712438792, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951697530642426175, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5206735977299328468, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: jumpHeight
-      value: 3.4
-      objectReference: {fileID: 0}
     - target: {fileID: 5206735977299328470, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.06
+      value: -7.2
       objectReference: {fileID: 0}
     - target: {fileID: 5206735977299328470, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.5
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 5206735977299328470, guid: 177ddb149cccb224986ec1fa0971e1fa,
         type: 3}
@@ -38671,26 +38653,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MainBoyTilemapSupported
-      objectReference: {fileID: 0}
-    - target: {fileID: 5206735977299328473, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5436297057419947885, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: m_Offset.x
-      value: 0.17419422
-      objectReference: {fileID: 0}
-    - target: {fileID: 5436297057419947885, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: m_Offset.y
-      value: 0.0589754
-      objectReference: {fileID: 0}
-    - target: {fileID: 5436297057419947885, guid: 177ddb149cccb224986ec1fa0971e1fa,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 3.422049
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 177ddb149cccb224986ec1fa0971e1fa, type: 3}
